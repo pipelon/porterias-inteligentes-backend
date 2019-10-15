@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\HousingEstate;
+use app\models\Residents;
 
 /**
- * HousingEstateSearch represents the model behind the search form of `app\models\HousingEstate`.
+ * ResidentsSearch represents the model behind the search form of `app\models\Residents`.
  */
-class HousingEstateSearch extends HousingEstate
+class ResidentsSearch extends Residents
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class HousingEstateSearch extends HousingEstate
     public function rules()
     {
         return [
-            [['id', 'active'], 'integer'],
-            [['name', 'description', 'address', 'location', 'city', 'neighborhood', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'apartment_id', 'sex', 'document_type', 'active'], 'integer'],
+            [['name', 'document', 'email', 'phone', 'photo', 'tags', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class HousingEstateSearch extends HousingEstate
      */
     public function search($params)
     {
-        $query = HousingEstate::find();
+        $query = Residents::find();
 
         // add conditions that should always apply here
 
@@ -61,17 +61,20 @@ class HousingEstateSearch extends HousingEstate
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'apartment_id' => $this->apartment_id,
+            'sex' => $this->sex,
+            'document_type' => $this->document_type,
             'active' => $this->active,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'location', $this->location])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'neighborhood', $this->neighborhood])
+            ->andFilterWhere(['like', 'document', $this->document])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'photo', $this->photo])
+            ->andFilterWhere(['like', 'tags', $this->tags])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 

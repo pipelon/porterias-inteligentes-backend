@@ -4,21 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\HousingEstate */
+/* @var $model app\models\Blocks */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Housing Estates', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Bloques', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="housing-estate-view box box-primary">
+<div class="blocks-view box box-primary">
     <div class="box-header">
-        <?php if (\Yii::$app->user->can('/housing-estate/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/blocks/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/housing-estate/update') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/blocks/update') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> ' . 'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/housing-estate/delete') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/blocks/delete') || \Yii::$app->user->can('/*')) : ?>        
             <?=
             Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> ' . 'Borrar', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -36,19 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
-                'name',
-                'description',
-                'address',
-                'location',
-                'city',
-                'neighborhood',
                 [
-                    'attribute' => 'active',
+                    'attribute' => 'housing_estate_id',
                     'format' => 'raw',
-                    'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->active);
+                    'value' => function ($data) {            
+                        return $data->housingEstate->name;
                     },
                 ],
+                'name',
                 'created:datetime',
                 'created_by',
                 'modified:datetime',

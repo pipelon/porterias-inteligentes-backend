@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\HousingEstateSearch */
+/* @var $searchModel app\models\BlocksSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Unidades residenciales';
+$this->title = 'Bloques/Torres/Cuadras';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/housing-estate/view')) {
+if (\Yii::$app->user->can('/blocks/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/housing-estate/update')) {
+if (\Yii::$app->user->can('/blocks/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/housing-estate/delete')) {
+if (\Yii::$app->user->can('/blocks/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/blocks/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="housing-estate-index box box-primary">
+<div class="blocks-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/housing-estate/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear unidad residencial', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/blocks/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear bloque', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -39,15 +39,13 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
                 'name',
-                'address',
-                'neighborhood',
                 [
-                    'attribute' => 'active',
+                    'attribute' => 'housing_estate_id',
                     'format' => 'raw',
-                    'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->active);
+                    'value' => function ($data) {            
+                        return $data->housingEstate->name;
                     },
-                    'filter' => Yii::$app->utils->getFilterConditional()
+                    'filter' => yii\helpers\ArrayHelper::map(\app\models\HousingEstate::find()->orderBy('name ASC')->where(['housing_estate.active' => 1])->all(), 'id', 'name')
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',

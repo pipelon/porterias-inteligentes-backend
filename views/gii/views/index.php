@@ -33,14 +33,14 @@ if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($gene
 if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/*')) {
+if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-index box box-primary">
 <?= $generator->enablePjax ? "    <?php Pjax::begin(); ?>\n" : ''
 ?>    <div class="box-header with-border">
-    <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/create')) : <?= " ?>" ?> 
+    <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/create') || \Yii::$app->user->can('/*')) : <?= " ?>" ?> 
         <?= "<?= " ?>Html::a('<i class="flaticon-add" style="font-size: 20px"></i> '.<?= $generator->generateString('Crear ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-primary']) ?>
     <?= "<?php " ?> endif; <?= " ?>" ?> 
     </div>

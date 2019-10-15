@@ -4,21 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\HousingEstate */
+/* @var $model app\models\Residents */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Housing Estates', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Residentes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="housing-estate-view box box-primary">
+<div class="residents-view box box-primary">
     <div class="box-header">
-        <?php if (\Yii::$app->user->can('/housing-estate/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/residents/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/housing-estate/update') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/residents/update') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> ' . 'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/housing-estate/delete') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/residents/delete') || \Yii::$app->user->can('/*')) : ?>        
             <?=
             Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> ' . 'Borrar', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
@@ -36,12 +36,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
+                [
+                    'attribute' => 'apartment_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return '<b>' . $data->apartment->block->housingEstate->name . '</b>'
+                                . ' (' . $data->apartment->block->name . ')'
+                                . ' - ' . $data->apartment->name;
+                    },
+                ],
                 'name',
-                'description',
-                'address',
-                'location',
-                'city',
-                'neighborhood',
+                [
+                    'attribute' => 'sex',
+                    'value' => function ($data) {
+                        return Yii::$app->params['sex'][$data->sex];
+                    },
+                ],
+                [
+                    'attribute' => 'document_type',
+                    'value' => function ($data) {
+                        return Yii::$app->params['document_type'][$data->document_type];
+                    },
+                ],
+                'document:integer',
+                'email:email',
+                'phone',
+                'photo:image',
+                'tags:ntext',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',

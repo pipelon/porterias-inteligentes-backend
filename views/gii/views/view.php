@@ -23,15 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-view box box-primary">
     <div class="box-header">
-        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index')) : <?= " ?>" ?>
+        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
             <?= "<?= " ?>Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> '.<?= $generator->generateString('Volver') ?>, ['index'], ['class' => 'btn btn-default']) ?>
         <?= "<?php " ?> endif; <?= " ?>" ?> 
-        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/update')) : <?= " ?>" ?>
+        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/update') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
             <?= "<?= " ?>Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> '.<?= $generator->generateString('Actualizar') ?>, ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
         <?= "<?php " ?> endif; <?= " ?>" ?> 
-        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/delete')) : <?= " ?>" ?>
+        <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/delete') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
             <?= "<?= " ?>Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> '.<?= $generator->generateString('Borrar') ?>, ['delete', <?= $urlParams ?>], [        
                 'class' => 'btn btn-danger',

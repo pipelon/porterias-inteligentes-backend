@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\HousingEstateSearch */
+/* @var $searchModel app\models\ApartmentsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Unidades residenciales';
+$this->title = 'Apartamentos';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/housing-estate/view')) {
+if (\Yii::$app->user->can('/apartments/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/housing-estate/update')) {
+if (\Yii::$app->user->can('/apartments/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/housing-estate/delete')) {
+if (\Yii::$app->user->can('/apartments/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/apartments/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="housing-estate-index box box-primary">
+<div class="apartments-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/housing-estate/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear unidad residencial', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/apartments/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear apartamento', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -38,9 +38,26 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
+                [
+                    'attribute' => 'block_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->block->name . ' - ' . $data->block->housingEstate->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\Blocks::find()
+                                    ->joinWith('housingEstate')
+                                    ->select([
+                                        "id" => "blocks.id",
+                                        "unidad" => "housing_estate.name",
+                                        "bloque" => "blocks.name"
+                                    ])
+                                    ->where(['housing_estate.active' => 1])
+                                    ->all()
+                            , 'id', 'bloque', 'unidad')
+                ],
+                'floor',
                 'name',
-                'address',
-                'neighborhood',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',
@@ -49,6 +66,15 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => Yii::$app->utils->getFilterConditional()
                 ],
+                //'phone_number_1',
+                // 'phone_number_2',
+                // 'cellphone_number_1',
+                // 'cellphone_number_2',
+                // 'active',
+                // 'created',
+                // 'created_by',
+                // 'modified',
+                // 'modified_by',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

@@ -17,7 +17,7 @@ class Utils extends Component {
      * @author Felipe Echeverri <felipe.echeverri@ingeneo.com.co>
      * @copyright 2019 INGENEO S.A.S.
      * @link http://www.ingeneo.com.co 
-     * @param int $active
+     * @param int $condition
      * @return string
      */
     public function getConditional($condition) {
@@ -39,6 +39,6 @@ class Utils extends Component {
             '1' => 'SI',
             '0' => 'NO',
         ];
-    }   
+    }
 
 }

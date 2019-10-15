@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\HousingEstate */
+/* @var $model app\models\Blocks */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="housing-estate-form box box-primary">
+<div class="blocks-form box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/housing-estate/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/blocks/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
@@ -34,27 +34,18 @@ use yii\bootstrap\ActiveForm;
     <div class="box-body table-responsive">
 
         <div class="form-row">
-            <div class="row-field">
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+            <?php
+            $dataList = yii\helpers\ArrayHelper::map(\app\models\HousingEstate::find()->orderBy('name ASC')->where(['housing_estate.active' => 1])->all(), 'id', 'name');
+            ?>
+            <?=
+            $form->field($model, 'housing_estate_id')->dropDownList($dataList,
+                    ['prompt' => '- Seleccione una unidad residencial -']);
+            ?>
 
-                <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'neighborhood')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
-
-            </div>
         </div>
-
     </div>
     <div class="box-footer">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>

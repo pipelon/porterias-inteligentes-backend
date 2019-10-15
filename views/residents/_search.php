@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\HousingEstateSearch */
+/* @var $model app\models\ResidentsSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="housing-estate-search">
+<div class="residents-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,17 +17,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'apartment_id') ?>
+
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?= $form->field($model, 'sex') ?>
 
-    <?= $form->field($model, 'address') ?>
+    <?= $form->field($model, 'document_type') ?>
 
-    <?= $form->field($model, 'location') ?>
+    <?php // echo $form->field($model, 'document') ?>
 
-    <?php // echo $form->field($model, 'city') ?>
+    <?php // echo $form->field($model, 'email') ?>
 
-    <?php // echo $form->field($model, 'neighborhood') ?>
+    <?php // echo $form->field($model, 'phone') ?>
+
+    <?php // echo $form->field($model, 'photo') ?>
+
+    <?php // echo $form->field($model, 'tags') ?>
 
     <?php // echo $form->field($model, 'active') ?>
 

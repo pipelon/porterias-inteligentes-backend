@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\HousingEstateSearch */
+/* @var $searchModel app\models\ResidentsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Unidades residenciales';
+$this->title = 'Residentes';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/housing-estate/view')) {
+if (\Yii::$app->user->can('/residents/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/housing-estate/update')) {
+if (\Yii::$app->user->can('/residents/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/housing-estate/delete')) {
+if (\Yii::$app->user->can('/residents/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/residents/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="housing-estate-index box box-primary">
+<div class="residents-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/housing-estate/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear unidad residencial', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/residents/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear residente', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -38,9 +38,36 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
+                [
+                    'attribute' => 'photo',
+                    'format' => 'html',
+                    'value' => function($data) {
+                        return Html::img($data->photo, ['style' => 'width:50px']);
+                    },
+                    'filter' => false,
+                ],
                 'name',
-                'address',
-                'neighborhood',
+                [
+                    'attribute' => 'apartment_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return '<b>' . $data->apartment->block->housingEstate->name . '</b>'
+                                . ' (' . $data->apartment->block->name . ')'
+                                . ' - ' . $data->apartment->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\Apartments::find()
+                                    ->select([
+                                        "id" => "apartments.id",
+                                        "unidad" => "CONCAT(housing_estate.name, ' (', blocks.name, ')')",
+                                        "name" => "apartments.name"
+                                    ])
+                                    ->joinWith('block')
+                                    ->join('LEFT JOIN', 'housing_estate', 'blocks.housing_estate_id = housing_estate.id')
+                                    ->all()
+                            , 'id', 'name', 'unidad')
+                ],
+                'phone',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',
@@ -49,6 +76,10 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => Yii::$app->utils->getFilterConditional()
                 ],
+                // 'created',
+                // 'created_by',
+                // 'modified',
+                // 'modified_by',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,
