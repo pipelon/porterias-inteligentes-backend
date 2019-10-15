@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Residents;
-use app\models\ResidentsSearch;
+use app\models\Pets;
+use app\models\PetsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ResidentsController implements the CRUD actions for Residents model.
+ * PetsController implements the CRUD actions for Pets model.
  */
-class ResidentsController extends Controller {
-
+class PetsController extends Controller {
+    
     public $especial = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", "ñ", "Ñ", " ");
     public $wespecial = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", "n", "N", "-");
 
@@ -32,11 +32,11 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Lists all Residents models.
+     * Lists all Pets models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new ResidentsSearch();
+        $searchModel = new PetsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Displays a single Residents model.
+     * Displays a single Pets model.
      * @param integer $id
      * @return mixed
      */
@@ -57,12 +57,12 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Creates a new Residents model.
+     * Creates a new Pets model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new Residents();
+        $model = new Pets();
         $model->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post())) {
@@ -73,7 +73,6 @@ class ResidentsController extends Controller {
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
             }
-
 
             //RUTA DE ALMACENAJE LOCAL Y NOMBRE
             $ruta = 'archivos/' . date('YmdHis') . '-'
@@ -103,7 +102,7 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Updates an existing Residents model.
+     * Updates an existing Pets model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -144,7 +143,7 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Deletes an existing Residents model.
+     * Deletes an existing Pets model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -158,14 +157,14 @@ class ResidentsController extends Controller {
     }
 
     /**
-     * Finds the Residents model based on its primary key value.
+     * Finds the Pets model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Residents the loaded model
+     * @return Pets the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = Residents::findOne($id)) !== null) {
+        if (($model = Pets::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

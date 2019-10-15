@@ -158,3 +158,6 @@ a.desc:after {
 .select2-container .select2-selection--single .select2-selection__rendered {
     margin-top:0px !important;
 }
+.bootstrap-tagsinput{
+    width: 100%;
+}

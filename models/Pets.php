@@ -5,19 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "residents".
+ * This is the model class for table "pets".
  *
  * @property int $id ID
  * @property int $apartment_id Apartamento
  * @property string $name Nombre
- * @property int $sex Sexo
- * @property int $document_type Tipo de documento
- * @property string $document Documento
- * @property string $email Correo electrónico
- * @property string $phone Celular
- * @property string $photo Foto
- * @property string $tags Etiquetas
- * @property int $active Activo
+ * @property string $description Descripción
+ * @property string $photo Foto 
+ * @property int $type Tipo
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
@@ -25,15 +20,15 @@ use Yii;
  *
  * @property Apartments $apartment
  */
-class Residents extends BeforeModel {
-    
+class Pets extends BeforeModel {
+
     public $file;
 
     /**
      * {@inheritdoc}
      */
     public static function tableName() {
-        return 'residents';
+        return 'pets';
     }
 
     /**
@@ -41,24 +36,20 @@ class Residents extends BeforeModel {
      */
     public function rules() {
         return [
-            [['apartment_id', 'name', 'sex', 'document_type', 'document', 'email', 'tags'], 'required'],
+            [['apartment_id', 'name', 'type'], 'required'],
             [['file'], 'required', 'on' => 'create'],
-            [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
-            [['tags'], 'string'],
-            [['created', 'modified', 'file'], 'safe'],
-            [['name', 'email'], 'string', 'max' => 100],
-            [['photo'], 'string', 'max' => 255],
-            [['email'], 'email'],
-            [['document'], 'integer'],
-            [['phone'], 'integer'],
+            [['apartment_id', 'type'], 'integer'],
+            [['description'], 'string'],
+            [['created', 'modified'], 'safe'],
+            [['name', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['photo'], 'string', 'max' => 100],
             //file
             [
-                ['file'], 'file', 
+                ['file'], 'file',
                 'mimeTypes' => [
                     'image/*'
                 ]
             ],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['apartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Apartments::className(), 'targetAttribute' => ['apartment_id' => 'id']],
         ];
     }
@@ -71,15 +62,9 @@ class Residents extends BeforeModel {
             'id' => 'ID',
             'apartment_id' => 'Apartamento',
             'name' => 'Nombre',
-            'sex' => 'Sexo',
-            'document_type' => 'Tipo de documento',
-            'document' => 'Documento',
-            'email' => 'Correo electrónico',
-            'phone' => 'Celular',
+            'description' => 'Descripción',
             'photo' => 'Foto',
-            'tags' => 'Etiquetas',
-            'active' => 'Activo',
-            'file' => 'Foto',
+            'type' => 'Tipo',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

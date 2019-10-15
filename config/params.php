@@ -13,4 +13,11 @@ return [
         4 => 'Registro Civil',
         5 => 'Tarjeta de Identidad',
     ],
+    'pet_type' => [
+        1 => 'Perro',
+        2 => 'Gato',
+        3 => 'Pájaro',
+        4 => 'Pez',
+        5 => 'Roedor',
+    ],
 ];
