@@ -2,17 +2,16 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use kartik\select2\Select2;
 use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Residents */
+/* @var $model app\models\Administrators */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="residents-form box box-primary">
+<div class="administrators-form box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/residents/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/administrators/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
@@ -38,51 +37,27 @@ use kartik\file\FileInput;
         <div class="form-row">
             <div class="row-field">
                 <?php
-                $dataList = yii\helpers\ArrayHelper::map(
-                                \app\models\Apartments::find()
-                                        ->select([
-                                            "id" => "apartments.id",
-                                            "unidad" => "CONCAT(housing_estate.name, ' (', blocks.name, ')')",
-                                            "name" => "apartments.name"
-                                        ])
-                                        ->joinWith('block')
-                                        ->join('LEFT JOIN', 'housing_estate', 'blocks.housing_estate_id = housing_estate.id')
-                                        ->all()
-                                , 'id', 'name', 'unidad');
+                $dataList = yii\helpers\ArrayHelper::map(\app\models\HousingEstate::find()->orderBy('name ASC')->where(['housing_estate.active' => 1])->all(), 'id', 'name');
                 ?>
-
                 <?=
-                $form->field($model, 'apartment_id')->widget(Select2::classname(), [
-                    'data' => $dataList,
-                    'options' => ['placeholder' => '- Seleccione un apartamento -'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-                ?>                
+                $form->field($model, 'housing_estate_id')->dropDownList($dataList,
+                        ['prompt' => '- Seleccione una unidad residencial -']);
+                ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'sex')->dropDownList(Yii::$app->params['sex'], ['prompt' => '- Seleccione un sexo -']) ?>
-
-                <?= $form->field($model, 'document_type')->dropDownList(Yii::$app->params['document_type'], ['prompt' => '- Seleccione un tipo de documento -']) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'document')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'cellphone')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-                <?php //= $form->field($model, 'tags')->textarea(['rows' => 6]) ?>           
-                <?=
-                $form->field($model, 'tags')->widget(pudinglabs\tagsinput\TagsinputWidget::classname(), [
-                    'options' => [],
-                    'clientOptions' => [],
-                    'clientEvents' => []
-                ]);
-                ?>
+                <?= $form->field($model, 'startdate')->textInput() ?>
+
+                <?= $form->field($model, 'enddate')->textInput() ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
             </div>
             <div class="row-field">                
                 <?=
@@ -100,6 +75,9 @@ use kartik\file\FileInput;
                     </div>
                 <?php endif; ?>
             </div>
+
+
+
         </div>
     </div>
     <div class="box-footer">

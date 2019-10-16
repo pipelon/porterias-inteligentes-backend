@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\HousingEstate */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Housing Estates', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Unidades residenciales', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="housing-estate-view box box-primary">

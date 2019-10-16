@@ -6,13 +6,13 @@ use kartik\select2\Select2;
 use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Residents */
+/* @var $model app\models\Vehicles */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="residents-form box box-primary">
+<div class="vehicles-form box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/residents/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/vehicles/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
@@ -59,32 +59,17 @@ use kartik\file\FileInput;
                         'allowClear' => true
                     ],
                 ]);
-                ?>                
-
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'sex')->dropDownList(Yii::$app->params['sex'], ['prompt' => '- Seleccione un sexo -']) ?>
-
-                <?= $form->field($model, 'document_type')->dropDownList(Yii::$app->params['document_type'], ['prompt' => '- Seleccione un tipo de documento -']) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'document')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-                <?php //= $form->field($model, 'tags')->textarea(['rows' => 6]) ?>           
-                <?=
-                $form->field($model, 'tags')->widget(pudinglabs\tagsinput\TagsinputWidget::classname(), [
-                    'options' => [],
-                    'clientOptions' => [],
-                    'clientEvents' => []
-                ]);
                 ?>
+
+                <?= $form->field($model, 'type')->dropDownList(Yii::$app->params['vehicle_type'], ['prompt' => '- Seleccione un tipo de vehiculo -']) ?>                
+            </div>   
+            <div class="row-field">
+                <?= $form->field($model, 'license_plate')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
+
             </div>
-            <div class="row-field">                
+            <div class="row-field">
                 <?=
                 $form->field($model, 'file')->widget(FileInput::classname(), [
                     'pluginOptions' => [
@@ -93,7 +78,7 @@ use kartik\file\FileInput;
                     ],
                     'options' => ['accept' => 'image/*'],
                 ]);
-                ?>    
+                ?>
                 <?php if (!empty($model->photo)): ?>
                     <div class="form-group col-md-6">
                         <?= yii\bootstrap\Html::img($model->photo, ['style' => 'width:100px;']); ?>

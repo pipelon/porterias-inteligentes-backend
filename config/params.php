@@ -20,4 +20,11 @@ return [
         4 => 'Pez',
         5 => 'Roedor',
     ],
+    'vehicle_type' => [
+        1 => 'Carro',
+        2 => 'Moto',
+        3 => 'Bicicleta',
+        4 => 'Monopatín',
+        5 => 'Cuatrimoto',
+    ],
 ];

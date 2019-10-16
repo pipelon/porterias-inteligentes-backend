@@ -64,23 +64,25 @@ use kartik\file\FileInput;
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+                <?= $form->field($model, 'type')->dropDownList(Yii::$app->params['pet_type'], ['prompt' => '- Seleccione un tipo de mascota -']) ?>
 
-                <?php if (!empty($model->photo)): ?>
-                    <?= yii\bootstrap\Html::img($model->photo, ['style' => 'with:40px;']); ?>
-                <?php endif; ?>
+                <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+            </div>
+            <div class="row-field">                
                 <?=
                 $form->field($model, 'file')->widget(FileInput::classname(), [
                     'pluginOptions' => [
                         'showUpload' => false,
-                        'showPreview' => true
+                        'showPreview' => false
                     ],
                     'options' => ['accept' => 'image/*'],
                 ]);
-                ?>
-            </div>
-            <div class="row-field">
-                 <?= $form->field($model, 'type')->dropDownList(Yii::$app->params['pet_type'], ['prompt' => '- Seleccione un tipo de mascota -']) ?>
+                ?>    
+                <?php if (!empty($model->photo)): ?>
+                    <div class="form-group col-md-6">
+                        <?= yii\bootstrap\Html::img($model->photo, ['style' => 'width:100px;']); ?>
+                    </div>
+                <?php endif; ?>
             </div>
 
         </div>
