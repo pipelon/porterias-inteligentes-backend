@@ -42,11 +42,11 @@ class Administrators extends BeforeModel {
             [['housing_estate_id', 'name', 'cellphone', 'email', 'photo'], 'required'],
             [['housing_estate_id', 'active'], 'integer'],
             [['file'], 'required', 'on' => 'create'],
-            [['startdate', 'enddate'], 'safe'],
-            [['name', 'created', 'created_by', 'modified', 'modified_by'], 'string', 'max' => 45],
+            [['startdate', 'enddate', 'created', 'modified',], 'safe'],
+            [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['cellphone'], 'string', 'max' => 15],
             [['email'], 'string', 'max' => 100],
-            [['photo'], 'string', 'max' => 255],
+            [['photo', 'name'], 'string', 'max' => 255],
             //file
             [
                 ['file'], 'file',

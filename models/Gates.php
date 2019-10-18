@@ -39,7 +39,8 @@ class Gates extends BeforeModel {
             [['housing_estate_id', 'name', 'location'], 'required'],
             [['housing_estate_id', 'active'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['name', 'location', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['created_by', 'modified_by'], 'string', 'max' => 45],
+            [['name', 'location'], 'string', 'max' => 255],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
     }

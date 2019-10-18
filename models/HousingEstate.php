@@ -41,8 +41,8 @@ class HousingEstate extends BeforeModel {
             [['name', 'description', 'address', 'city', 'neighborhood'], 'required'],
             [['active'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['name', 'location', 'neighborhood'], 'string', 'max' => 100],
-            [['description', 'address'], 'string', 'max' => 255],
+            [['location', 'neighborhood'], 'string', 'max' => 100],
+            [['description', 'address', 'name'], 'string', 'max' => 255],
             [['city', 'created_by', 'modified_by'], 'string', 'max' => 45],
         ];
     }

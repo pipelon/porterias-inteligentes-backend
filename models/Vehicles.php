@@ -21,7 +21,7 @@ use Yii;
  * @property Apartments $apartment
  */
 class Vehicles extends BeforeModel {
-    
+
     public $file;
 
     /**
@@ -40,7 +40,7 @@ class Vehicles extends BeforeModel {
             [['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'type', 'active'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['photo'], 'string', 'max' => 100],
+            [['photo'], 'string', 'max' => 255],
             [['license_plate'], 'string', 'max' => 10],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
             //file

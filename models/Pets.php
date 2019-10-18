@@ -41,7 +41,8 @@ class Pets extends BeforeModel {
             [['apartment_id', 'type'], 'integer'],
             [['description'], 'string'],
             [['created', 'modified'], 'safe'],
-            [['name', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['created_by', 'modified_by'], 'string', 'max' => 45],
+            [['name'], 'string', 'max' => 255],
             [['photo'], 'string', 'max' => 100],
             //file
             [
