@@ -2,8 +2,7 @@
 SQLyog Community v8.71 
 MySQL - 5.7.26 : Database - porterias_inteligentes
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -24,16 +23,16 @@ DROP TABLE IF EXISTS `administrators`;
 CREATE TABLE `administrators` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
-  `name` varchar(45) NOT NULL COMMENT 'Nombres',
+  `name` varchar(255) NOT NULL COMMENT 'Nombres completos del administrador',
   `cellphone` varchar(15) NOT NULL COMMENT 'Número de celular',
   `email` varchar(100) NOT NULL COMMENT 'Correo electrónico',
   `startdate` date DEFAULT NULL COMMENT 'Fecha de inicio',
   `enddate` date DEFAULT NULL COMMENT 'Fecha fin',
   `photo` varchar(255) NOT NULL COMMENT 'Foto',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
-  `created` varchar(45) NOT NULL COMMENT 'Creado',
+  `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
-  `modified` varchar(45) NOT NULL COMMENT 'Modificado',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`),
   KEY `fk_administrators_housing_estate1_idx` (`housing_estate_id`),
@@ -42,15 +41,18 @@ CREATE TABLE `administrators` (
 
 /*Data for the table `administrators` */
 
+insert  into `administrators`(`id`,`housing_estate_id`,`name`,`cellphone`,`email`,`startdate`,`enddate`,`photo`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Dani Molina','3132343234','dany.molina@gmail.com','2019-10-01','2019-10-09','archivos/20191021185946-descarga.jpg',1,'2019-10-21 13:59:46','admin','2019-10-21 14:02:00','admin');
+
 /*Table structure for table `apartments` */
 
 DROP TABLE IF EXISTS `apartments`;
 
 CREATE TABLE `apartments` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `block_id` int(11) NOT NULL COMMENT 'Bloque',
+  `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
+  `block` varchar(45) DEFAULT NULL COMMENT 'Bloque',
   `floor` tinyint(4) NOT NULL COMMENT 'Piso',
-  `name` varchar(5) NOT NULL COMMENT 'Nombre',
+  `name` varchar(20) NOT NULL COMMENT 'Apartamento',
   `phone_number_1` varchar(15) NOT NULL COMMENT 'Teléfono #1',
   `phone_number_2` varchar(15) DEFAULT NULL COMMENT 'Teléfono #2',
   `cellphone_number_1` varchar(15) DEFAULT NULL COMMENT 'Celular #1',
@@ -61,11 +63,13 @@ CREATE TABLE `apartments` (
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`),
-  KEY `fk_apartments_blocks1_idx` (`block_id`),
-  CONSTRAINT `fk_apartments_blocks1` FOREIGN KEY (`block_id`) REFERENCES `blocks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  KEY `fk_apartments_housing_estate1_idx` (`housing_estate_id`),
+  CONSTRAINT `fk_apartments_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `apartments` */
+
+insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:32:26','admin','2019-10-21 14:32:26','admin'),(2,1,'1',2,'220','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2019-10-21 14:35:49','admin');
 
 /*Table structure for table `auth_assignment` */
 
@@ -137,24 +141,24 @@ CREATE TABLE `auth_rule` (
 
 /*Data for the table `auth_rule` */
 
-/*Table structure for table `blocks` */
+/*Table structure for table `cities` */
 
-DROP TABLE IF EXISTS `blocks`;
+DROP TABLE IF EXISTS `cities`;
 
-CREATE TABLE `blocks` (
+CREATE TABLE `cities` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
-  `created` datetime NOT NULL COMMENT 'Creado',
-  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
-  `modified` datetime NOT NULL COMMENT 'Modificado',
-  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
-  PRIMARY KEY (`id`),
-  KEY `fk_blocks_housing_estate1_idx` (`housing_estate_id`),
-  CONSTRAINT `fk_blocks_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `name` varchar(100) NOT NULL COMMENT 'Ciudad',
+  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `created` datetime DEFAULT NULL COMMENT 'Creado',
+  `created_by` varchar(45) DEFAULT NULL COMMENT 'Creado por',
+  `modified` datetime DEFAULT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) DEFAULT NULL COMMENT 'Modificado por',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
-/*Data for the table `blocks` */
+/*Data for the table `cities` */
+
+insert  into `cities`(`id`,`name`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Medellín',1,'2019-10-21 11:46:09','admin','2019-10-21 11:46:09','admin'),(2,'Bogotá',0,'2019-10-21 11:46:48','admin','2019-10-21 11:57:03','admin'),(3,'Envigado',1,'2019-10-21 11:47:00','admin','2019-10-21 11:47:00','admin'),(4,'Sabaneta',1,'2019-10-21 11:47:06','admin','2019-10-21 11:47:06','admin'),(5,'Bello',1,'2019-10-21 11:47:12','admin','2019-10-21 11:47:12','admin'),(6,'La estrella',1,'2019-10-21 11:47:20','admin','2019-10-21 11:47:20','admin');
 
 /*Table structure for table `fly_pass` */
 
@@ -163,7 +167,7 @@ DROP TABLE IF EXISTS `fly_pass`;
 CREATE TABLE `fly_pass` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `gate_id` int(11) NOT NULL COMMENT 'Puerta',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre del video portero',
   `code` varchar(45) NOT NULL COMMENT 'Código',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime DEFAULT NULL COMMENT 'Creado',
@@ -184,8 +188,8 @@ DROP TABLE IF EXISTS `gates`;
 CREATE TABLE `gates` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
-  `location` varchar(45) NOT NULL COMMENT 'Ubicación',
+  `name` varchar(255) NOT NULL COMMENT 'Puerta',
+  `location` varchar(255) NOT NULL COMMENT 'Ubicación',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
@@ -194,7 +198,7 @@ CREATE TABLE `gates` (
   PRIMARY KEY (`id`),
   KEY `fk_gates_housing_estate1_idx` (`housing_estate_id`),
   CONSTRAINT `fk_gates_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `gates` */
 
@@ -204,21 +208,25 @@ DROP TABLE IF EXISTS `housing_estate`;
 
 CREATE TABLE `housing_estate` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(100) NOT NULL COMMENT 'Nombre',
+  `name` varchar(200) NOT NULL COMMENT 'Nombre unidad residencial',
   `description` varchar(255) NOT NULL COMMENT 'Descripción',
+  `city_id` int(11) NOT NULL COMMENT 'Ciudad',
+  `location` varchar(100) NOT NULL COMMENT 'Ubicación',
   `address` varchar(255) NOT NULL COMMENT 'Dirección',
-  `location` varchar(100) DEFAULT NULL COMMENT 'Ubicación',
-  `city` varchar(45) NOT NULL COMMENT 'Ciudad',
   `neighborhood` varchar(100) NOT NULL COMMENT 'Barrio',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `fk_housing_estate_cities1_idx` (`city_id`),
+  CONSTRAINT `fk_housing_estate_cities1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `housing_estate` */
+
+insert  into `housing_estate`(`id`,`name`,`description`,`city_id`,`location`,`address`,`neighborhood`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Arroyo de los bernal','Unidd arroyo de los bernal',1,'6.188035248080734,-75.6648361930292','Calle 40 A sur # 24 B - 105','Poblado',1,'2019-10-21 12:09:48','admin','2019-10-21 16:28:02','admin');
 
 /*Table structure for table `menu` */
 
@@ -234,11 +242,11 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'U. residenciales',NULL,'/housing-estate/index',1,' flaticon-map-location'),(2,'Bloques',NULL,'/blocks/index',3,' flaticon-app'),(3,'Apartamentos',NULL,'/apartments/index',4,' fa-building'),(4,'Residentes',NULL,'/residents/index',5,' flaticon-users'),(5,'Mascotas',NULL,'/pets/index',6,' fa-paw\r\n'),(6,'Vehículos',NULL,'/vehicles/index',7,' fa-car'),(7,'Administradores',NULL,'/administrators/index',2,' flaticon-profile'),(8,'Puertas',NULL,'/gates/index',8,' flaticon-interface');
+insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'U. residenciales',NULL,'/housing-estate/index',1,' flaticon-map-location'),(2,'Ciudades',9,'/cities/index',2,' flaticon-placeholder-2'),(3,'Apartamentos',NULL,'/apartments/index',2,' fa-building'),(4,'Residentes',NULL,'/residents/index',3,' flaticon-users'),(5,'Mascotas',NULL,'/pets/index',4,' fa-paw\r\n'),(6,'Vehículos',NULL,'/vehicles/index',5,' fa-car'),(7,'Administradores',NULL,'/administrators/index',6,' flaticon-profile'),(8,'Puertas',NULL,'/gates/index',7,' flaticon-interface'),(9,'Configuración',NULL,NULL,8,' flaticon-cogwheel'),(10,'Usuarios',9,'/users/index',1,' flaticon-users'),(11,'Asignaciones',9,'/admin/assignment/index',3,' flaticon-user-ok');
 
 /*Table structure for table `migration` */
 
@@ -259,8 +267,8 @@ DROP TABLE IF EXISTS `opening_sensors`;
 CREATE TABLE `opening_sensors` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `gate_id` int(11) NOT NULL COMMENT 'Puerta',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
-  `description` varchar(45) NOT NULL COMMENT 'Descripción',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre',
+  `description` varchar(255) NOT NULL COMMENT 'Descripción',
   `code` varchar(45) NOT NULL COMMENT 'Código',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
@@ -281,9 +289,9 @@ DROP TABLE IF EXISTS `pets`;
 CREATE TABLE `pets` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `apartment_id` int(11) NOT NULL COMMENT 'Apartamento',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre de la mascota',
   `description` text COMMENT 'Descripción',
-  `photo` varchar(100) DEFAULT NULL COMMENT 'Foto\n',
+  `photo` varchar(255) DEFAULT NULL COMMENT 'Foto\n',
   `type` tinyint(4) NOT NULL COMMENT 'Tipo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
@@ -292,9 +300,11 @@ CREATE TABLE `pets` (
   PRIMARY KEY (`id`),
   KEY `fk_pets_apartments1_idx` (`apartment_id`),
   CONSTRAINT `fk_pets_apartments1` FOREIGN KEY (`apartment_id`) REFERENCES `apartments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `pets` */
+
+insert  into `pets`(`id`,`apartment_id`,`name`,`description`,`photo`,`type`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Pipo','Perro negro','archivos/20191021194644-descarga.jpg',1,'2019-10-21 14:46:44','admin','2019-10-21 14:46:44','admin');
 
 /*Table structure for table `residents` */
 
@@ -303,7 +313,7 @@ DROP TABLE IF EXISTS `residents`;
 CREATE TABLE `residents` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `apartment_id` int(11) NOT NULL COMMENT 'Apartamento',
-  `name` varchar(100) NOT NULL COMMENT 'Nombre',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre',
   `sex` tinyint(4) NOT NULL COMMENT 'Sexo',
   `document_type` tinyint(4) NOT NULL COMMENT 'Tipo de documento',
   `document` varchar(20) NOT NULL COMMENT 'Documento',
@@ -320,9 +330,11 @@ CREATE TABLE `residents` (
   KEY `fk_residents_apartments1_idx` (`apartment_id`),
   FULLTEXT KEY `name` (`name`,`tags`,`phone`),
   CONSTRAINT `fk_residents_apartments1` FOREIGN KEY (`apartment_id`) REFERENCES `apartments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `residents` */
+
+insert  into `residents`(`id`,`apartment_id`,`name`,`sex`,`document_type`,`document`,`email`,`phone`,`photo`,`tags`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Felipe Echeverri',1,1,'98766496','pipe.echeverri.1@gmail.com','3136600674','archivos/20191021194039-descarga.jpg','hola,bien,o ,no',1,'2019-10-21 14:40:39','admin','2019-10-21 14:40:39','admin');
 
 /*Table structure for table `security_cameras` */
 
@@ -330,15 +342,15 @@ DROP TABLE IF EXISTS `security_cameras`;
 
 CREATE TABLE `security_cameras` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
-  `description` varchar(45) NOT NULL COMMENT 'Descripción',
+  `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre de la cámara',
+  `description` varchar(255) NOT NULL COMMENT 'Descripción',
   `code` varchar(45) NOT NULL COMMENT 'Código',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
-  `housing_estate_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_security_cameras_housing_estate1_idx` (`housing_estate_id`),
   CONSTRAINT `fk_security_cameras_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -375,7 +387,7 @@ DROP TABLE IF EXISTS `vehicles`;
 CREATE TABLE `vehicles` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `apartment_id` int(11) NOT NULL COMMENT 'Apartamento',
-  `photo` varchar(100) NOT NULL COMMENT 'Foto',
+  `photo` varchar(255) NOT NULL COMMENT 'Foto',
   `license_plate` varchar(10) NOT NULL COMMENT 'Placa',
   `type` tinyint(4) NOT NULL COMMENT 'Tipo',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
@@ -390,6 +402,8 @@ CREATE TABLE `vehicles` (
 
 /*Data for the table `vehicles` */
 
+insert  into `vehicles`(`id`,`apartment_id`,`photo`,`license_plate`,`type`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'archivos/20191021194603-descarga.jpg','DFV185',1,1,'2019-10-21 14:46:03','admin','2019-10-21 14:46:03','admin');
+
 /*Table structure for table `video_doorman` */
 
 DROP TABLE IF EXISTS `video_doorman`;
@@ -397,7 +411,7 @@ DROP TABLE IF EXISTS `video_doorman`;
 CREATE TABLE `video_doorman` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `gate_id` int(11) NOT NULL COMMENT 'Prueta',
-  `name` varchar(45) NOT NULL COMMENT 'Nombre',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre',
   `code` varchar(45) NOT NULL COMMENT 'Código',
   `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
@@ -410,20 +424,6 @@ CREATE TABLE `video_doorman` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `video_doorman` */
-
-/* Trigger structure for table `housing_estate` */
-
-DELIMITER $$
-
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tr_ai_housing_estate` */$$
-
-/*!50003 CREATE */ /*!50003 TRIGGER `tr_ai_housing_estate` AFTER INSERT ON `housing_estate` FOR EACH ROW BEGIN
-	INSERT INTO `blocks` (`housing_estate_id`, `name`, `created`, `created_by`, `modified`, `modified_by`)
-	VALUES(new.id, 'SIN BLOQUE', NOW(), 'system', NOW(), 'system');
-    END */$$
-
-
-DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

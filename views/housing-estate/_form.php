@@ -83,9 +83,13 @@ use yii\bootstrap\ActiveForm;
     <?php ActiveForm::end(); ?>
 </div>
 <?php
-$temp = explode(",", $model->location);
-$lat = $temp[0];
-$lng = $temp[1];
+$lat = 6.230833;
+$lng = -75.590553;
+if (isset($model->location)) {
+    $temp = explode(",", $model->location);
+    $lat = $temp[0];
+    $lng = $temp[1];
+}
 ?>
 <script type="text/javascript">
 
