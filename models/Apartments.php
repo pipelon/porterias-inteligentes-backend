@@ -8,9 +8,10 @@ use Yii;
  * This is the model class for table "apartments".
  *
  * @property int $id ID
- * @property int $block_id Bloque
+ * @property int $housing_estate_id Unidad residencial
+ * @property string $block Bloque
  * @property int $floor Piso
- * @property string $name Nombre
+ * @property string $name Apartamento
  * @property string $phone_number_1 Teléfono #1
  * @property string $phone_number_2 Teléfono #2
  * @property string $cellphone_number_1 Celular #1
@@ -21,14 +22,13 @@ use Yii;
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  *
- * @property Blocks $block
+ * @property HousingEstate $housingEstate
  * @property Pets[] $pets
  * @property Residents[] $residents
  * @property Vehicles[] $vehicles
  */
 class Apartments extends BeforeModel {
     
-    public $bloque;
     public $unidad;
 
     /**
@@ -43,13 +43,13 @@ class Apartments extends BeforeModel {
      */
     public function rules() {
         return [
-            [['block_id', 'floor', 'name', 'phone_number_1'], 'required'],
-            [['block_id', 'floor', 'active'], 'integer'],
+            [['housing_estate_id', 'floor', 'name', 'phone_number_1'], 'required'],
+            [['housing_estate_id', 'floor', 'active'], 'integer'],
             [['created', 'modified', 'unidad'], 'safe'],
-            [['name'], 'string', 'max' => 5],
+            [['block', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['name'], 'string', 'max' => 20],
             [['phone_number_1', 'phone_number_2', 'cellphone_number_1', 'cellphone_number_2'], 'string', 'max' => 15],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
-            [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Blocks::className(), 'targetAttribute' => ['block_id' => 'id']],
+            [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
     }
 
@@ -59,9 +59,10 @@ class Apartments extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'block_id' => 'Bloque/Torre/Cuadra',
+            'housing_estate_id' => 'Unidad residencial',
+            'block' => 'Bloque',
             'floor' => 'Piso',
-            'name' => 'Nombre',
+            'name' => 'Apartamento',
             'phone_number_1' => 'Teléfono #1',
             'phone_number_2' => 'Teléfono #2',
             'cellphone_number_1' => 'Celular #1',
@@ -77,8 +78,8 @@ class Apartments extends BeforeModel {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBlock() {
-        return $this->hasOne(Blocks::className(), ['id' => 'block_id']);
+    public function getHousingEstate() {
+        return $this->hasOne(HousingEstate::className(), ['id' => 'housing_estate_id']);
     }
 
     /**

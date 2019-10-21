@@ -18,8 +18,8 @@ class ApartmentsSearch extends Apartments
     public function rules()
     {
         return [
-            [['id', 'block_id', 'floor', 'active'], 'integer'],
-            [['name', 'phone_number_1', 'phone_number_2', 'cellphone_number_1', 'cellphone_number_2', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'housing_estate_id', 'floor', 'active'], 'integer'],
+            [['block', 'name', 'phone_number_1', 'phone_number_2', 'cellphone_number_1', 'cellphone_number_2', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -61,14 +61,15 @@ class ApartmentsSearch extends Apartments
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'block_id' => $this->block_id,
+            'housing_estate_id' => $this->housing_estate_id,
             'floor' => $this->floor,
             'active' => $this->active,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'block', $this->block])
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'phone_number_1', $this->phone_number_1])
             ->andFilterWhere(['like', 'phone_number_2', $this->phone_number_2])
             ->andFilterWhere(['like', 'cellphone_number_1', $this->cellphone_number_1])

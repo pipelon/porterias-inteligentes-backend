@@ -26,7 +26,7 @@ use Yii;
  * @property Apartments $apartment
  */
 class Residents extends BeforeModel {
-    
+
     public $file;
 
     /**
@@ -45,20 +45,20 @@ class Residents extends BeforeModel {
             [['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
             [['tags'], 'string'],
-            [['created', 'modified', 'file'], 'safe'],
+            [['created', 'modified'], 'safe'],
+            [['name', 'photo'], 'string', 'max' => 255],
+            [['document'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
-            [['photo', 'name'], 'string', 'max' => 255],
             [['email'], 'email'],
-            [['document'], 'integer'],
-            [['phone'], 'integer'],
+            [['phone', 'created_by', 'modified_by'], 'string', 'max' => 45],
             //file
             [
-                ['file'], 'file', 
+                ['file'], 'file',
                 'mimeTypes' => [
                     'image/*'
-                ]
+                ],
+                'maxSize' => Yii::$app->params['maxSize'] * 1024
             ],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['apartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Apartments::className(), 'targetAttribute' => ['apartment_id' => 'id']],
         ];
     }
@@ -70,7 +70,7 @@ class Residents extends BeforeModel {
         return [
             'id' => 'ID',
             'apartment_id' => 'Apartamento',
-            'name' => 'Nombre',
+            'name' => 'Nombres completos',
             'sex' => 'Sexo',
             'document_type' => 'Tipo de documento',
             'document' => 'Documento',
@@ -79,7 +79,6 @@ class Residents extends BeforeModel {
             'photo' => 'Foto',
             'tags' => 'Etiquetas',
             'active' => 'Activo',
-            'file' => 'Foto',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Blocks;
-use app\models\BlocksSearch;
+use app\models\Cities;
+use app\models\CitiesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BlocksController implements the CRUD actions for Blocks model.
+ * CitiesController implements the CRUD actions for Cities model.
  */
-class BlocksController extends Controller
+class CitiesController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class BlocksController extends Controller
     }
 
     /**
-     * Lists all Blocks models.
+     * Lists all Cities models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new BlocksSearch();
+        $searchModel = new CitiesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class BlocksController extends Controller
     }
 
     /**
-     * Displays a single Blocks model.
+     * Displays a single Cities model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class BlocksController extends Controller
     }
 
     /**
-     * Creates a new Blocks model.
+     * Creates a new Cities model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Blocks();
+        $model = new Cities();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class BlocksController extends Controller
     }
 
     /**
-     * Updates an existing Blocks model.
+     * Updates an existing Cities model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class BlocksController extends Controller
     }
 
     /**
-     * Deletes an existing Blocks model.
+     * Deletes an existing Cities model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class BlocksController extends Controller
     }
 
     /**
-     * Finds the Blocks model based on its primary key value.
+     * Finds the Cities model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Blocks the loaded model
+     * @return Cities the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Blocks::findOne($id)) !== null) {
+        if (($model = Cities::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

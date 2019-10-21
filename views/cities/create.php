@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Blocks */
+/* @var $model app\models\Cities */
 
-$this->title = 'Crear Bloque';
-$this->params['breadcrumbs'][] = ['label' => 'Bloques', 'url' => ['index']];
+$this->title = 'Crear ciudad';
+$this->params['breadcrumbs'][] = ['label' => 'Ciudades', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="blocks-create">
+<div class="cities-create">
 
     <?= $this->render('_form', [
     'model' => $model,

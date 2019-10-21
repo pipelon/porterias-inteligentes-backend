@@ -37,8 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'apartment_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return '<b>' . $data->apartment->block->housingEstate->name . '</b>'
-                                . ' (' . $data->apartment->block->name . ')'
+                        return '<b>' . $data->apartment->housingEstate->name . '</b>'
                                 . ' - ' . $data->apartment->name;
                     },
                 ],

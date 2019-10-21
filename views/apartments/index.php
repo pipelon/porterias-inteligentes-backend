@@ -39,22 +39,16 @@ if (\Yii::$app->user->can('/apartments/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
                 [
-                    'attribute' => 'block_id',
+                    'attribute' => 'housing_estate_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->block->name . ' - ' . $data->block->housingEstate->name;
+                        return $data->housingEstate->name;
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
-                            \app\models\Blocks::find()
-                                    ->joinWith('housingEstate')
-                                    ->select([
-                                        "id" => "blocks.id",
-                                        "unidad" => "housing_estate.name",
-                                        "bloque" => "blocks.name"
-                                    ])
-                                    ->where(['housing_estate.active' => 1])
+                            \app\models\HousingEstate::find()                                    
+                                    ->where(['active' => 1])
                                     ->all()
-                            , 'id', 'bloque', 'unidad')
+                            , 'id', 'name')
                 ],
                 'floor',
                 'name',

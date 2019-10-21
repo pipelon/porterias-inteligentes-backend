@@ -21,7 +21,7 @@ use Yii;
  * @property Apartments $apartment
  */
 class Vehicles extends BeforeModel {
-
+    
     public $file;
 
     /**
@@ -36,7 +36,7 @@ class Vehicles extends BeforeModel {
      */
     public function rules() {
         return [
-            [['apartment_id', 'photo', 'license_plate', 'type'], 'required'],
+            [['apartment_id', 'license_plate', 'type'], 'required'],
             [['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'type', 'active'], 'integer'],
             [['created', 'modified'], 'safe'],
@@ -48,7 +48,8 @@ class Vehicles extends BeforeModel {
                 ['file'], 'file',
                 'mimeTypes' => [
                     'image/*'
-                ]
+                ],
+                'maxSize' => Yii::$app->params['maxSize'] * 1024
             ],
             [['apartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Apartments::className(), 'targetAttribute' => ['apartment_id' => 'id']],
         ];

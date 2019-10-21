@@ -5,19 +5,20 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Blocks;
+use app\models\Cities;
 
 /**
- * BlocksSearch represents the model behind the search form of `app\models\Blocks`.
+ * CitiesSearch represents the model behind the search form of `app\models\Cities`.
  */
-class BlocksSearch extends Blocks {
-
+class CitiesSearch extends Cities
+{
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['id', 'housing_estate_id'], 'integer'],
+            [['id', 'active'], 'integer'],
             [['name', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
@@ -25,7 +26,8 @@ class BlocksSearch extends Blocks {
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,8 +39,9 @@ class BlocksSearch extends Blocks {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
-        $query = Blocks::find();
+    public function search($params)
+    {
+        $query = Cities::find();
 
         // add conditions that should always apply here
 
@@ -58,16 +61,15 @@ class BlocksSearch extends Blocks {
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'housing_estate_id' => $this->housing_estate_id,
+            'active' => $this->active,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-                ->andFilterWhere(['like', 'created_by', $this->created_by])
-                ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+            ->andFilterWhere(['like', 'created_by', $this->created_by])
+            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;
     }
-
 }

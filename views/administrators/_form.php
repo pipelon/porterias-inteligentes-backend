@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\file\FileInput;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Administrators */
@@ -52,9 +53,25 @@ use kartik\file\FileInput;
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'startdate')->textInput() ?>
+                <?=
+                $form->field($model, 'startdate')->widget(DatePicker::classname(), [
+                    'options' => ['placeholder' => 'Seleccione...'],
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                    ]
+                ]);
+                ?>               
 
-                <?= $form->field($model, 'enddate')->textInput() ?>
+                <?=
+                $form->field($model, 'enddate')->widget(DatePicker::classname(), [
+                    'options' => ['placeholder' => 'Seleccione...'],
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                    ]
+                ]);
+                ?>
             </div>
             <div class="row-field">
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
@@ -69,11 +86,11 @@ use kartik\file\FileInput;
                     'options' => ['accept' => 'image/*'],
                 ]);
                 ?>    
-                <?php if (!empty($model->photo)): ?>
+                    <?php if (!empty($model->photo)): ?>
                     <div class="form-group col-md-6">
-                        <?= yii\bootstrap\Html::img($model->photo, ['style' => 'width:100px;']); ?>
+                    <?= yii\bootstrap\Html::img($model->photo, ['style' => 'width:100px;']); ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
 
 
@@ -81,7 +98,7 @@ use kartik\file\FileInput;
         </div>
     </div>
     <div class="box-footer">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 </div>

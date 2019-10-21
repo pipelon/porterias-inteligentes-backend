@@ -39,6 +39,19 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
                 'name',
+                [
+                    'attribute' => 'city_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->city->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\Cities::find()
+                                    ->where(['active' => 1])
+                                    ->orderBy('name ASC')
+                                    ->all()
+                            , 'id', 'name')
+                ],
                 'address',
                 'neighborhood',
                 [

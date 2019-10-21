@@ -42,11 +42,10 @@ use kartik\file\FileInput;
                                 \app\models\Apartments::find()
                                         ->select([
                                             "id" => "apartments.id",
-                                            "unidad" => "CONCAT(housing_estate.name, ' (', blocks.name, ')')",
+                                            "unidad" => "housing_estate.name",
                                             "name" => "apartments.name"
                                         ])
-                                        ->joinWith('block')
-                                        ->join('LEFT JOIN', 'housing_estate', 'blocks.housing_estate_id = housing_estate.id')
+                                        ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
                                         ->all()
                                 , 'id', 'name', 'unidad');
                 ?>

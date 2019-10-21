@@ -65,15 +65,15 @@ class AdministratorsSearch extends Administrators
             'startdate' => $this->startdate,
             'enddate' => $this->enddate,
             'active' => $this->active,
+            'created' => $this->created,
+            'modified' => $this->modified,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'cellphone', $this->cellphone])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'photo', $this->photo])
-            ->andFilterWhere(['like', 'created', $this->created])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified', $this->modified])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;

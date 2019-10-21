@@ -15,6 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (\Yii::$app->user->can('/apartments/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
+        <?php if (\Yii::$app->user->can('/administrators/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear apartamento', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?> 
         <?php if (\Yii::$app->user->can('/apartments/update') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> ' . 'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
@@ -37,10 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'id',
                 [
-                    'attribute' => 'block_id',
+                    'attribute' => 'housing_estate_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return '<b>' . $data->block->housingEstate->name . '</b>' . ' (' . $data->block->name . ')';
+                        return $data->housingEstate->name;
                     },
                 ],
                 'floor',

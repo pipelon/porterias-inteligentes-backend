@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'maxSize' => 100, //100KB
     'sex' => [
         1 => 'Masculino',
         2 => 'Femenino',

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id ID
  * @property int $apartment_id Apartamento
- * @property string $name Nombre
+ * @property string $name Nombre de la mascota
  * @property string $description Descripción
  * @property string $photo Foto 
  * @property int $type Tipo
@@ -21,7 +21,7 @@ use Yii;
  * @property Apartments $apartment
  */
 class Pets extends BeforeModel {
-
+    
     public $file;
 
     /**
@@ -41,15 +41,15 @@ class Pets extends BeforeModel {
             [['apartment_id', 'type'], 'integer'],
             [['description'], 'string'],
             [['created', 'modified'], 'safe'],
+            [['name', 'photo'], 'string', 'max' => 255],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
-            [['name'], 'string', 'max' => 255],
-            [['photo'], 'string', 'max' => 100],
             //file
             [
                 ['file'], 'file',
                 'mimeTypes' => [
                     'image/*'
-                ]
+                ],
+                'maxSize' => Yii::$app->params['maxSize'] * 1024
             ],
             [['apartment_id'], 'exist', 'skipOnError' => true, 'targetClass' => Apartments::className(), 'targetAttribute' => ['apartment_id' => 'id']],
         ];
@@ -62,7 +62,7 @@ class Pets extends BeforeModel {
         return [
             'id' => 'ID',
             'apartment_id' => 'Apartamento',
-            'name' => 'Nombre',
+            'name' => 'Nombre de la mascota',
             'description' => 'Descripción',
             'photo' => 'Foto',
             'type' => 'Tipo',

@@ -4,21 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Pets */
+/* @var $model app\models\Cities */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Mascotas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Ciudades', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="pets-view box box-primary">
+<div class="cities-view box box-primary">
     <div class="box-header">
-        <?php  if (\Yii::$app->user->can('/pets/index') || \Yii::$app->user->can('/*')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/cities/index') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> '.'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php  endif;  ?> 
-        <?php  if (\Yii::$app->user->can('/pets/update') || \Yii::$app->user->can('/*')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/cities/update') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> '.'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php  endif;  ?> 
-        <?php  if (\Yii::$app->user->can('/pets/delete') || \Yii::$app->user->can('/*')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/cities/delete') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> '.'Borrar', ['delete', 'id' => $model->id], [        
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -33,22 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
-                [
-                    'attribute' => 'apartment_id',
-                    'format' => 'raw',
-                    'value' => function ($data) {
-                        return '<b>' . $data->apartment->housingEstate->name . '</b>'
-                                . ' - ' . $data->apartment->name;
-                    },
-                ],
                 'name',
-                'description:ntext',
-                'photo:image',
                 [
-                    'attribute' => 'type',
+                    'attribute' => 'active',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Yii::$app->params['pet_type'][$data->type];
+                        return Yii::$app->utils->getConditional($data->active);
                     },
                 ],
                 'created:datetime',

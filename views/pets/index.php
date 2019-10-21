@@ -50,19 +50,17 @@ if (\Yii::$app->user->can('/pets/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'apartment_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return '<b>' . $data->apartment->block->housingEstate->name . '</b>'
-                                . ' (' . $data->apartment->block->name . ')'
+                        return '<b>' . $data->apartment->housingEstate->name . '</b>'
                                 . ' - ' . $data->apartment->name;
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Apartments::find()
                                     ->select([
                                         "id" => "apartments.id",
-                                        "unidad" => "CONCAT(housing_estate.name, ' (', blocks.name, ')')",
+                                        "unidad" => "housing_estate.name",
                                         "name" => "apartments.name"
                                     ])
-                                    ->joinWith('block')
-                                    ->join('LEFT JOIN', 'housing_estate', 'blocks.housing_estate_id = housing_estate.id')
+                                    ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
                                     ->all()
                             , 'id', 'name', 'unidad')
                 ],

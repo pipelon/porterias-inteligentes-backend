@@ -39,8 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'name',
                 'description',
                 'address',
-                'location',
-                'city',
+                [
+                    'attribute' => 'city_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->city->name;
+                    },
+                ],
                 'neighborhood',
                 [
                     'attribute' => 'active',

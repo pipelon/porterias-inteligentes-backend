@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id ID
  * @property int $housing_estate_id Unidad residencial
- * @property string $name Nombres
+ * @property string $name Nombres completos del administrador
  * @property string $cellphone Número de celular
  * @property string $email Correo electrónico
  * @property string $startdate Fecha de inicio
@@ -42,18 +42,21 @@ class Administrators extends BeforeModel {
             [['housing_estate_id', 'name', 'cellphone', 'email', 'photo'], 'required'],
             [['housing_estate_id', 'active'], 'integer'],
             [['file'], 'required', 'on' => 'create'],
-            [['startdate', 'enddate', 'created', 'modified',], 'safe'],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
+            [['startdate', 'enddate', 'created', 'modified'], 'safe'],
+            [['name', 'photo'], 'string', 'max' => 255],
             [['cellphone'], 'string', 'max' => 15],
             [['email'], 'string', 'max' => 100],
-            [['photo', 'name'], 'string', 'max' => 255],
+            [['email'], 'email'],
+            [['created_by', 'modified_by'], 'string', 'max' => 45],
             //file
             [
                 ['file'], 'file',
                 'mimeTypes' => [
                     'image/*'
-                ]
+                ],
+                'maxSize' => Yii::$app->params['maxSize'] * 1024
             ],
+            [['name'], 'filter', 'filter' => 'ucwords'],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
     }
@@ -65,7 +68,7 @@ class Administrators extends BeforeModel {
         return [
             'id' => 'ID',
             'housing_estate_id' => 'Unidad residencial',
-            'name' => 'Nombres',
+            'name' => 'Nombres completos del administrador',
             'cellphone' => 'Número de celular',
             'email' => 'Correo electrónico',
             'startdate' => 'Fecha de inicio',

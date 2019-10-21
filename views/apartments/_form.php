@@ -38,37 +38,34 @@ use yii\bootstrap\ActiveForm;
             <div class="row-field">
                 <?php
                 $dataList = yii\helpers\ArrayHelper::map(
-                                \app\models\Blocks::find()
-                                        ->joinWith('housingEstate')
-                                        ->select([
-                                            "id" => "blocks.id",
-                                            "unidad" => "housing_estate.name",
-                                            "bloque" => "blocks.name"
-                                        ])
-                                        ->where(['housing_estate.active' => 1])
+                                \app\models\HousingEstate::find()
+                                        ->where(['active' => 1])
                                         ->all()
-                                , 'id', 'bloque', 'unidad');
+                                , 'id', 'name');
                 ?>
-                <?= $form->field($model, 'block_id')->dropDownList($dataList, ['prompt' => '- Seleccione un bloque -']) ?>
+                <?= $form->field($model, 'housing_estate_id')->dropDownList($dataList, ['prompt' => '- Seleccione un bloque -']) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
+                <?= $form->field($model, 'block')->textInput() ?>
+                
                 <?= $form->field($model, 'floor')->textInput() ?>
-
+                
+            </div>
+            <div class="row-field">
                 <?= $form->field($model, 'phone_number_1')->textInput(['maxlength' => true]) ?>
+                
+                <?= $form->field($model, 'phone_number_2')->textInput(['maxlength' => true]) ?>                
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'phone_number_2')->textInput(['maxlength' => true]) ?>
-
                 <?= $form->field($model, 'cellphone_number_1')->textInput(['maxlength' => true]) ?>
+                
+                <?= $form->field($model, 'cellphone_number_2')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'cellphone_number_2')->textInput(['maxlength' => true]) ?>
-
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
             </div>
-
 
         </div>
     </div>
