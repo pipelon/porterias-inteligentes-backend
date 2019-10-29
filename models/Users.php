@@ -18,7 +18,7 @@ use Yii;
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  */
-class Users extends \yii\db\ActiveRecord {
+class Users extends BeforeModel {
 
     public $password_repeat;
 

@@ -19,42 +19,70 @@ class ApiController extends ActiveController {
 
     public $modelClass = "app\models\HousingEstate";
 
+    public function behaviors() {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => \yii\filters\auth\HttpBasicAuth::className(),
+            'auth' => [$this, 'auth']
+        ];
+        return $behaviors;
+    }
+
+    public function auth($username, $password) {
+        $user = \app\models\User::findByUsername($username);
+
+        //Si usuario y contraseña no es correcto
+        if (!$user || $user->password !== md5($password)) {
+            throw new \yii\web\HttpException(401);
+        }
+        //Verifico la autorizacion
+        $request = \Yii::$app->request;
+        $idUnidadResidencial = $request->get('idUnidadResidencial');
+        $authorization = \app\models\Authorizations::find()
+                ->where([
+                    'user_id' => $user->id,
+                    'housing_estate_id' => $idUnidadResidencial
+                ])
+                ->all();
+        if (!$authorization) {
+            throw new \yii\web\HttpException(401);
+        }
+        
+        return $user;
+    }
+
     public function actions() {
         $actions = parent::actions();
-        unset($actions['create'], $actions['update'], $actions['delete']);
-        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        $actions['view'] = [
-            'class' => 'yii\rest\ViewAction',
-            'modelClass' => $this->modelClass,
-            'findModel' => [$this, 'findModel']
-        ];
+        unset($actions['index'], $actions['view'],
+                $actions['create'], $actions['update'],
+                $actions['delete']);
         return $actions;
     }
 
-    public function findModel($id) {
+    public function actionIndex() {
+        return \app\models\HousingEstate::find()
+                        ->joinWith('city')
+                        ->where(['housing_estate.active' => 1])
+                        ->asArray()
+                        ->all();
+    }
+
+    public function actionView($idUnidadResidencial) {
         $model = \app\models\HousingEstate::find()
                 ->joinWith('apartments')
                 ->joinWith('gates')
                 ->joinWith('administrators')
                 ->joinWith('city')
                 ->where([
-                    'housing_estate.id' => (int) $id, 
+                    'housing_estate.id' => (int) $idUnidadResidencial,
                     'housing_estate.active' => 1
                 ])
                 ->asArray()
                 ->one();
         if (!$model) {
-            throw new HttpException(404);
+            throw new \yii\web\HttpException(404);
         }
         return $model;
-    }
-
-    public function prepareDataProvider() {
-        return \app\models\HousingEstate::find()
-                        ->joinWith('city')
-                        ->where(['housing_estate.active' => 1])
-                        ->asArray()
-                        ->all();
     }
 
 }

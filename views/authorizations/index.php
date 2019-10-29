@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\UsersSearch */
+/* @var $searchModel app\models\AuthorizationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Usuarios';
+$this->title = 'Autorizaciones';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/users/view')) {
+if (\Yii::$app->user->can('/authorizations/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/users/update')) {
+if (\Yii::$app->user->can('/authorizations/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/users/delete')) {
+if (\Yii::$app->user->can('/authorizations/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/users/*')|| \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/authorizations/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="users-index box box-primary">
+<div class="authorizations-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/users/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear usuario', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/authorizations/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear autorización', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -38,9 +38,32 @@ if (\Yii::$app->user->can('/users/*')|| \Yii::$app->user->can('/*')) {
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
-                'id',
-                'name',
-                'username',
+                [
+                    'attribute' => 'housing_estate_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->housingEstate->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\HousingEstate::find()
+                                    ->where(['active' => 1])
+                                    ->all()
+                            , 'id', 'name')
+                ],
+                [
+                    'attribute' => 'user_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->user->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                                \app\models\Users::find()
+                                        ->join('INNER JOIN', 'auth_assignment'
+                                                , 'auth_assignment.user_id = users.id')
+                                        ->where(['active' => 1, 'auth_assignment.item_name' => 'ClienteAPI'])
+                                        ->all()
+                            , 'id', 'name')
+                ],
                 [
                     'attribute' => 'active',
                     'format' => 'raw',

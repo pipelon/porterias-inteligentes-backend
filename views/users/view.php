@@ -7,18 +7,18 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Users */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="users-view box box-primary">
     <div class="box-header">
-        <?php  if (\Yii::$app->user->can('/users/index')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/users/index') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> '.'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php  endif;  ?> 
-        <?php  if (\Yii::$app->user->can('/users/update')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/users/update') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> '.'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php  endif;  ?> 
-        <?php  if (\Yii::$app->user->can('/users/delete')) :  ?>        
+        <?php  if (\Yii::$app->user->can('/users/delete') || \Yii::$app->user->can('/*')) :  ?>        
             <?= Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> '.'Borrar', ['delete', 'id' => $model->id], [        
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -37,10 +37,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'username',
                 'password',
                 'mail',
-                'active',
-                'created',
+                [
+                    'attribute' => 'active',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->getConditional($data->active);
+                    },
+                ],
+                'created:datetime',
                 'created_by',
-                'modified',
+                'modified:datetime',
                 'modified_by',
             ],
         ]) ?>

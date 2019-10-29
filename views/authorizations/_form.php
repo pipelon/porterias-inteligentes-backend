@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Apartments */
+/* @var $model app\models\Authorizations */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="apartments-form box box-primary">
+<div class="authorizations-form box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/apartments/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if (\Yii::$app->user->can('/authorizations/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
@@ -36,6 +36,7 @@ use yii\bootstrap\ActiveForm;
         <div class="form-row">
 
             <div class="row-field">
+
                 <?php
                 $dataList = yii\helpers\ArrayHelper::map(
                                 \app\models\HousingEstate::find()
@@ -45,26 +46,23 @@ use yii\bootstrap\ActiveForm;
                 ?>
                 <?= $form->field($model, 'housing_estate_id')->dropDownList($dataList, ['prompt' => '- Seleccione una unidad residencial -']) ?>
 
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+                <?php
+                $usersList = yii\helpers\ArrayHelper::map(
+                                \app\models\Users::find()
+                                        ->join('INNER JOIN', 'auth_assignment'
+                                                , 'auth_assignment.user_id = users.id')
+                                        ->where(['active' => 1, 'auth_assignment.item_name' => 'ClienteAPI'])
+                                        ->all()
+                                , 'id', 'name');
+                ?>
+                <?= $form->field($model, 'user_id')->dropDownList($usersList, ['prompt' => '- Seleccione un usuario -']) ?>
+
             </div>
-            <div class="row-field">
-                <?= $form->field($model, 'block')->textInput() ?>
-                
-                <?= $form->field($model, 'floor')->textInput() ?>
-                
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'phone_number_1')->textInput(['maxlength' => true]) ?>
-                
-                <?= $form->field($model, 'phone_number_2')->textInput(['maxlength' => true]) ?>                
-            </div>
-            <div class="row-field">
-                <?= $form->field($model, 'cellphone_number_1')->textInput(['maxlength' => true]) ?>
-                
-                <?= $form->field($model, 'cellphone_number_2')->textInput(['maxlength' => true]) ?>
-            </div>
+
             <div class="row-field">
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
+
             </div>
 
         </div>
