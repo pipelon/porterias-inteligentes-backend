@@ -79,14 +79,13 @@ $config = [
                 ],
             ],
         ],
-    /*
-      'urlManager' => [
-      'enablePrettyUrl' => true,
-      'showScriptName' => false,
-      'rules' => [
-      ],
-      ],
-     */
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api'],
+            ],
+        ],
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
@@ -96,6 +95,7 @@ $config = [
             'site/logout',
             'gii/*',
             'debug/*',
+            'api/*'
         //'some-controller/some-action',
         // The actions listed here will be allowed to everyone including guests.
         // So, 'admin/*' should not appear here in the production, of course.
