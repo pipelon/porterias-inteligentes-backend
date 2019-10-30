@@ -21,6 +21,17 @@ class ApiController extends ActiveController {
 
     public function behaviors() {
         $behaviors = parent::behaviors();
+        $auth = $behaviors['authenticator'];
+        unset($behaviors['authenticator']);
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'HEAD', 'OPTIONS'],
+                'Access-Control-Request-Headers' => ['*'],
+                'Access-Control-Allow-Credentials' => false,
+            ],
+        ];        
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBasicAuth::className(),
             'auth' => [$this, 'auth']
@@ -28,7 +39,13 @@ class ApiController extends ActiveController {
         return $behaviors;
     }
 
-    public function auth($username, $password) {
+    protected function verbs() {
+        return [            
+            'view' => ['GET', 'HEAD', 'OPTIONS']
+        ];
+    }
+
+    public function auth($username, $password) {        
         $user = \app\models\User::findByUsername($username);
 
         //Si usuario y contraseña no es correcto
@@ -47,7 +64,7 @@ class ApiController extends ActiveController {
         if (!$authorization) {
             throw new \yii\web\HttpException(401);
         }
-        
+
         return $user;
     }
 
