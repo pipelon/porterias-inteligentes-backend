@@ -12,6 +12,8 @@ use Yii;
  * @property string $name Nombre
  * @property string $location Ubicación
  * @property int $active Activo
+ * @property int $state Estado
+ * @property string $state_description Descripción de estado
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
@@ -37,9 +39,10 @@ class Gates extends BeforeModel {
     public function rules() {
         return [
             [['housing_estate_id', 'name', 'location'], 'required'],
-            [['housing_estate_id', 'active'], 'integer'],
+            [['housing_estate_id', 'active', 'state'], 'integer'],
             [['created', 'modified'], 'safe'],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
+            [['state_description'], 'string'],
             [['name', 'location'], 'string', 'max' => 255],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
@@ -54,6 +57,8 @@ class Gates extends BeforeModel {
             'housing_estate_id' => 'Unidad residencial',
             'name' => 'Nombre',
             'location' => 'Ubicación',
+            'state' => 'Estado',
+            'state_description' => 'Descripción de estado',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',

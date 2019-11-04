@@ -59,6 +59,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Yii::$app->utils->getConditional($data->active);
                     },
                 ],
+                [
+                    'label'  => 'Residentes',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->getResidentesByApto($data->residents);
+                    },
+                ],
+                [
+                    'label'  => 'Mascotas',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->getPetsByApto($data->pets);
+                    },
+                ],
+                [
+                    'label'  => 'Vehículos',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->getVehiclesByApto($data->vehicles);
+                    },
+                ],
                 'created:datetime',
                 'created_by',
                 'modified:datetime',

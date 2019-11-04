@@ -40,5 +40,86 @@ class Utils extends Component {
             '0' => 'NO',
         ];
     }
+    
+    /**
+     * Funcion que retorna todos los residentes de un apartamento
+     * 
+     * @author Felipe Echeverri <felipe.echeverri@ingeneo.com.co>
+     * @copyright 2019 INGENEO S.A.S.
+     * @link http://www.ingeneo.com.co 
+     * @return array
+     */
+    public function getResidentesByApto($residents){
+        if(!isset($residents) || count($residents) <= 0){
+            return;
+        }
+        
+        $output = "<ul>";
+        foreach ($residents as $resident) {
+            $output .= "<li style='list-style: none; margin-bottom: 10px;'>";
+            $output .= \yii\bootstrap\Html::img("@web/" . $resident->photo, ['style' => 'width: 30px; height: 30px']);
+            $output .= " <i class='fa fa-user'></i> ". $resident->name;
+            $output .= " <i class='fa fa-phone'></i> ". $resident->phone;
+            
+            $output .= "</li>";
+        }
+        $output .= "</ul>";
+        
+        return $output;
+        
+    }
+    
+    /**
+     * Funcion que retorna todos las mascotas de un apartamento
+     * 
+     * @author Felipe Echeverri <felipe.echeverri@ingeneo.com.co>
+     * @copyright 2019 INGENEO S.A.S.
+     * @link http://www.ingeneo.com.co 
+     * @return array
+     */
+    public function getPetsByApto($pets){
+        if(!isset($pets) || count($pets) <= 0){
+            return;
+        }
+        
+        $output = "<ul>";
+        foreach ($pets as $pet) {
+            $output .= "<li style='list-style: none; margin-bottom: 10px;'>";
+            $output .= \yii\bootstrap\Html::img("@web/" . $pet->photo, ['style' => 'width: 30px; height: 30px']);
+            $output .= " <i class='fa fa- fa-paw'></i> ". $pet->name;
+            $output .= " (". \Yii::$app->params['pet_type'][$pet->type] . ")";            
+            $output .= "</li>";
+        }
+        $output .= "</ul>";
+        
+        return $output;
+    }
+    
+    /**
+     * Funcion que retorna todos los vehiculos de un apartamento
+     * 
+     * @author Felipe Echeverri <felipe.echeverri@ingeneo.com.co>
+     * @copyright 2019 INGENEO S.A.S.
+     * @link http://www.ingeneo.com.co 
+     * @return array
+     */
+    public function getVehiclesByApto($vehicles){
+        if(!isset($vehicles) || count($vehicles) <= 0){
+            return;
+        }
+        
+        $output = "<ul>";
+        foreach ($vehicles as $vehicle) {
+            $output .= "<li style='list-style: none; margin-bottom: 10px;'>";
+            $output .= \yii\bootstrap\Html::img("@web/" . $vehicle->photo, ['style' => 'width: 30px; height: 30px']);
+            $output .= " <i class='fa fa-car'></i> ". $vehicle->license_plate;
+            $output .= " (". \Yii::$app->params['vehicle_type'][$vehicle->type] . ")";            
+            $output .= "</li>";
+        }
+        $output .= "</ul>";
+        
+        return $output;
+        
+    }
 
 }

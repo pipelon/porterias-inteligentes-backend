@@ -13,6 +13,8 @@ use Yii;
  * @property int $city_id Ciudad
  * @property string $location Ubicación
  * @property string $address Dirección
+ * @property string $phone_number Teléfono portería
+ * @property string $police_phone_number Número del cuadrante
  * @property string $neighborhood Barrio
  * @property int $active Activo
  * @property string $created Creado
@@ -44,8 +46,9 @@ class HousingEstate extends BeforeModel {
             [['city_id', 'active'], 'integer'],
             [['created', 'modified'], 'safe'],
             [['name'], 'string', 'max' => 200],
-            [['name', 'description'], 'filter', 'filter'=>'ucfirst'],
+            [['name', 'description'], 'filter', 'filter' => 'ucfirst'],
             [['description', 'address'], 'string', 'max' => 255],
+            [['phone_number', 'police_phone_number'], 'string', 'max' => 15],
             [['location', 'neighborhood'], 'string', 'max' => 100],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
@@ -63,6 +66,8 @@ class HousingEstate extends BeforeModel {
             'city_id' => 'Ciudad',
             'location' => 'Ubicación',
             'address' => 'Dirección',
+            'phone_number' => 'Teléfono portería',
+            'police_phone_number' => 'Número del cuadrante',
             'neighborhood' => 'Barrio',
             'active' => 'Activo',
             'created' => 'Creado',
@@ -76,21 +81,24 @@ class HousingEstate extends BeforeModel {
      * @return \yii\db\ActiveQuery
      */
     public function getAdministrators() {
-        return $this->hasMany(Administrators::className(), ['housing_estate_id' => 'id']);
+        return $this->hasMany(Administrators::className(), ['housing_estate_id' => 'id'])
+                        ->andOnCondition(['administrators.active' => 1]);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getApartments() {
-        return $this->hasMany(Apartments::className(), ['housing_estate_id' => 'id']);
+        return $this->hasMany(Apartments::className(), ['housing_estate_id' => 'id'])
+                ->andOnCondition(['apartments.active' => 1]);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getGates() {
-        return $this->hasMany(Gates::className(), ['housing_estate_id' => 'id']);
+        return $this->hasMany(Gates::className(), ['housing_estate_id' => 'id'])
+                ->andOnCondition(['gates.active' => 1]);
     }
 
     /**

@@ -43,7 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'name',
                 'description:ntext',
-                'photo:image',
+                [
+                    'attribute' => 'photo',
+                    'format' => 'html',
+                    'value' => function($data) {
+                        return Html::img('@web/' . $data->photo, ['style' => 'width:50px']);
+                    },
+                    'filter' => false,
+                ],
                 [
                     'attribute' => 'type',
                     'format' => 'raw',

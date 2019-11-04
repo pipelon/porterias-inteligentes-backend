@@ -63,7 +63,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'document:integer',
                 'email:email',
                 'phone',
-                'photo:image',
+                [
+                    'attribute' => 'photo',
+                    'format' => 'html',
+                    'value' => function($data) {
+                        return Html::img('@web/' . $data->photo, ['style' => 'width:50px']);
+                    },
+                    'filter' => false,
+                ],
                 'tags:ntext',
                 [
                     'attribute' => 'active',

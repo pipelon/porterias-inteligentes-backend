@@ -42,7 +42,7 @@ if (\Yii::$app->user->can('/administrators/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'photo',
                     'format' => 'html',
                     'value' => function($data) {
-                        return Html::img($data->photo, ['style' => 'width:50px']);
+                        return Html::img('@web/' . $data->photo, ['style' => 'width:50px']);
                     },
                     'filter' => false,
                 ],

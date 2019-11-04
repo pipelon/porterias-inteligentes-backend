@@ -39,6 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'name',
                 'description',
                 'address',
+                'phone_number',
+                'police_phone_number',
                 [
                     'attribute' => 'city_id',
                     'format' => 'raw',

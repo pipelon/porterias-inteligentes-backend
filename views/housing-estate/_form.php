@@ -63,6 +63,12 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'city_id')->dropDownList($dataList, ['prompt' => '- Seleccione una ciudad -']) ?>
             </div>
             <div class="row-field">
+                <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'police_phone_number')->textInput(['maxlength' => true]) ?>              
+
+            </div>
+            <div class="row-field">
                 <?= $form->field($model, 'neighborhood')->textInput(['maxlength' => true]) ?>
 
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>                

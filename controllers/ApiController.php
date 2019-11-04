@@ -21,7 +21,6 @@ class ApiController extends ActiveController {
 
     public function behaviors() {
         $behaviors = parent::behaviors();
-        $auth = $behaviors['authenticator'];
         unset($behaviors['authenticator']);
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
@@ -31,7 +30,7 @@ class ApiController extends ActiveController {
                 'Access-Control-Request-Headers' => ['*'],
                 'Access-Control-Allow-Credentials' => false,
             ],
-        ];        
+        ];
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBasicAuth::className(),
             'auth' => [$this, 'auth']
@@ -40,12 +39,13 @@ class ApiController extends ActiveController {
     }
 
     protected function verbs() {
-        return [            
-            'view' => ['GET', 'HEAD', 'OPTIONS']
+        return [
+            'view' => ['GET', 'HEAD', 'OPTIONS'],
+            'searchapartment' => ['POST', 'OPTIONS']
         ];
     }
 
-    public function auth($username, $password) {        
+    public function auth($username, $password) {
         $user = \app\models\User::findByUsername($username);
 
         //Si usuario y contraseña no es correcto
@@ -96,6 +96,36 @@ class ApiController extends ActiveController {
                 ])
                 ->asArray()
                 ->one();
+        if (!$model) {
+            throw new \yii\web\HttpException(404);
+        }
+        return $model;
+    }
+
+    public function actionSearchapartment() {
+        $request = \Yii::$app->request;
+        $idUnidadResidencial = $request->get('idUnidadResidencial');
+        $search = \Yii::$app->request->getBodyParam('search');
+
+        if (empty($idUnidadResidencial) || empty($search)) {
+            throw new \yii\web\HttpException(400);
+        }
+
+        $model = \app\models\Apartments::find()
+                ->joinWith("residents")
+                ->joinWith("pets")
+                ->orWhere("MATCH (residents.name, residents.tags, residents.phone) "
+                        . "AGAINST ('" . trim($search) . "')")
+                ->orWhere("MATCH (pets.name, pets.description) "
+                        . "AGAINST ('" . trim($search) . "')")
+                ->orWhere("MATCH (apartments.name, apartments.phone_number_1, "
+                        . "apartments.phone_number_2, apartments.cellphone_number_1, "
+                        . "apartments.cellphone_number_2) AGAINST ('" . trim($search) . "')")
+                ->andWhere("apartments.housing_estate_id = " . $idUnidadResidencial)
+                ->groupBy(["apartments.id"])
+                ->asArray()
+                ->all();
+
         if (!$model) {
             throw new \yii\web\HttpException(404);
         }

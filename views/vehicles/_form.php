@@ -80,7 +80,7 @@ use kartik\file\FileInput;
                 ?>
                 <?php if (!empty($model->photo)): ?>
                     <div class="form-group col-md-6">
-                        <?= yii\bootstrap\Html::img($model->photo, ['style' => 'width:100px;']); ?>
+                        <?= yii\bootstrap\Html::img('@web/' . $model->photo, ['style' => 'width:100px;']); ?>
                     </div>
                 <?php endif; ?>
             </div>
