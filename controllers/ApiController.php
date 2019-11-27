@@ -85,17 +85,18 @@ class ApiController extends ActiveController {
     }
 
     public function actionView($idUnidadResidencial) {
+        $idUnidad = explode(",", $idUnidadResidencial);
         $model = \app\models\HousingEstate::find()
                 ->joinWith('apartments')
                 ->joinWith('gates')
                 ->joinWith('administrators')
                 ->joinWith('city')
                 ->where([
-                    'housing_estate.id' => (int) $idUnidadResidencial,
                     'housing_estate.active' => 1
                 ])
+                ->andWhere(['in', 'housing_estate.id', $idUnidad])
                 ->asArray()
-                ->one();
+                ->all();
         if (!$model) {
             throw new \yii\web\HttpException(404);
         }
