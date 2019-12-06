@@ -70,7 +70,7 @@ CREATE TABLE `apartments` (
 
 /*Data for the table `apartments` */
 
-insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:32:26','admin','2019-10-21 14:32:26','admin'),(2,1,'1',2,'Apto 220','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2019-11-03 18:20:25','admin');
+insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','4446665','','','',1,'2019-10-21 14:32:26','admin','2019-10-21 14:32:26','admin'),(2,1,'1',2,'Apto 220','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2019-11-03 18:20:25','admin');
 
 /*Table structure for table `auth_assignment` */
 
@@ -225,11 +225,11 @@ CREATE TABLE `gates` (
   PRIMARY KEY (`id`),
   KEY `fk_gates_housing_estate1_idx` (`housing_estate_id`),
   CONSTRAINT `fk_gates_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `gates` */
 
-insert  into `gates`(`id`,`housing_estate_id`,`name`,`location`,`state`,`state_description`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Puerta principal','Ubicada en la portería principal',1,NULL,1,'2019-10-29 09:49:49','admin','2019-10-29 09:49:49','admin'),(2,1,'Puerta norte','Ubicada en la zona norte',2,NULL,1,'2019-10-29 09:50:07','admin','2019-10-31 11:39:53','admin'),(3,1,'Puerta sur','Ubicada en la zona sur',1,NULL,1,'2019-10-31 11:40:21','admin','2019-10-31 11:40:21','admin'),(4,1,'Puerta parqueadero','Ubicada en la zona parqueadero',3,'No hay comunicación con el sensor',1,'2019-10-31 11:40:41','admin','2019-10-31 11:40:41','admin');
+insert  into `gates`(`id`,`housing_estate_id`,`name`,`location`,`state`,`state_description`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Puerta principal','Ubicada en la portería principal',1,NULL,1,'2019-10-29 09:49:49','admin','2019-10-29 09:49:49','admin'),(2,1,'Puerta norte','Ubicada en la zona norte',2,NULL,1,'2019-10-29 09:50:07','admin','2019-10-31 11:39:53','admin'),(3,1,'Puerta sur','Ubicada en la zona sur',1,NULL,1,'2019-10-31 11:40:21','admin','2019-10-31 11:40:21','admin'),(4,1,'Puerta parqueadero','Ubicada en la zona parqueadero',3,'No hay comunicación con el sensor',1,'2019-10-31 11:40:41','admin','2019-10-31 11:40:41','admin'),(5,2,'Puerta principal','Ubicada en la portería principal',1,NULL,1,'2019-11-27 16:02:03','admin','2019-11-27 16:02:03','admin');
 
 /*Table structure for table `housing_estate` */
 
@@ -257,7 +257,7 @@ CREATE TABLE `housing_estate` (
 
 /*Data for the table `housing_estate` */
 
-insert  into `housing_estate`(`id`,`name`,`description`,`city_id`,`location`,`address`,`phone_number`,`police_phone_number`,`neighborhood`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Arroyo de los bernal','Unidad arroyo de los bernal',1,'6.242643999175641,-75.59213759988955','Calle 40 A sur # 24 B - 105','4446556','2134321','Poblado',1,'2019-10-21 12:09:48','admin','2019-10-31 10:59:37','admin'),(2,'Palmeras etapa 3','Urbanización palmeras etapa 3',3,'6.2313449417161895,-75.58900804760742','Calle 40 A sur # 24 B - 105','4446556','2134321','La Mina',1,'2019-10-29 09:20:14','admin','2019-10-31 10:28:32','admin');
+insert  into `housing_estate`(`id`,`name`,`description`,`city_id`,`location`,`address`,`phone_number`,`police_phone_number`,`neighborhood`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Arroyo de los bernal','Unidad arroyo de los bernal',1,'6.242643999175641,-75.59213759988955','Calle 40 A sur # 24 B - 105','4446556','2134321','Poblado',1,'2019-10-21 12:09:48','admin','2019-10-31 10:59:37','admin'),(2,'Palmeras etapa 3','Urbanización palmeras etapa 3',3,'7.0824931301000955,-73.84767503979492','Calle 40 A sur # 24 B - 105','4446556','2134321','La Mina',1,'2019-10-29 09:20:14','admin','2019-11-27 16:02:59','admin');
 
 /*Table structure for table `menu` */
 
