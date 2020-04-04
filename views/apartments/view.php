@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (\Yii::$app->user->can('/apartments/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/administrators/create') || \Yii::$app->user->can('/*')) : ?> 
+        <?php if (\Yii::$app->user->can('/apartments/create') || \Yii::$app->user->can('/*')) : ?> 
             <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear apartamento', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
         <?php if (\Yii::$app->user->can('/apartments/update') || \Yii::$app->user->can('/*')) : ?>        

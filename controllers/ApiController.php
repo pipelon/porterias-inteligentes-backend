@@ -91,6 +91,7 @@ class ApiController extends ActiveController {
                 ->joinWith('gates')
                 ->joinWith('administrators')
                 ->joinWith('city')
+                ->joinWith('securityCameras')
                 ->where([
                     'housing_estate.active' => 1
                 ])

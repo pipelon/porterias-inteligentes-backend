@@ -1,6 +1,6 @@
 /*
 SQLyog Community v8.71 
-MySQL - 5.7.26 : Database - porterias_inteligentes
+MySQL - 5.5.5-10.4.10-MariaDB : Database - porterias_inteligentes
 *********************************************************************
 */
 
@@ -12,10 +12,6 @@ MySQL - 5.7.26 : Database - porterias_inteligentes
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`porterias_inteligentes` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `porterias_inteligentes`;
-
 /*Table structure for table `administrators` */
 
 DROP TABLE IF EXISTS `administrators`;
@@ -29,7 +25,7 @@ CREATE TABLE `administrators` (
   `startdate` date DEFAULT NULL COMMENT 'Fecha de inicio',
   `enddate` date DEFAULT NULL COMMENT 'Fecha fin',
   `photo` varchar(255) NOT NULL COMMENT 'Foto',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -57,7 +53,7 @@ CREATE TABLE `apartments` (
   `phone_number_2` varchar(15) DEFAULT NULL COMMENT 'Teléfono #2',
   `cellphone_number_1` varchar(15) DEFAULT NULL COMMENT 'Celular #1',
   `cellphone_number_2` varchar(15) DEFAULT NULL COMMENT 'Celular #2',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -70,7 +66,7 @@ CREATE TABLE `apartments` (
 
 /*Data for the table `apartments` */
 
-insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','4446665','','','',1,'2019-10-21 14:32:26','admin','2019-10-21 14:32:26','admin'),(2,1,'1',2,'Apto 220','4446665','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2019-11-03 18:20:25','admin');
+insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','3136600674','3136600674','3136600674','3136600674',1,'2019-10-21 14:32:26','admin','2020-02-09 16:14:07','admin'),(2,1,'1',2,'Apto 220','3136600674','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2020-02-09 16:09:56','admin');
 
 /*Table structure for table `auth_assignment` */
 
@@ -96,9 +92,9 @@ DROP TABLE IF EXISTS `auth_item`;
 CREATE TABLE `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci,
+  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `data` blob,
+  `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`),
@@ -109,7 +105,7 @@ CREATE TABLE `auth_item` (
 
 /*Data for the table `auth_item` */
 
-insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/assignment/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/revoke',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/default/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/default/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/refresh',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/user/activate',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/change-password',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/login',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/logout',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/reset-password',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/signup',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/view',2,NULL,NULL,NULL,1570722004,1570722004),('/administrators/*',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/create',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/delete',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/index',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/update',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/view',2,NULL,NULL,NULL,1571248460,1571248460),('/apartments/*',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/create',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/delete',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/index',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/update',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/view',2,NULL,NULL,NULL,1571143686,1571143686),('/api/*',2,NULL,NULL,NULL,1572363665,1572363665),('/api/index',2,NULL,NULL,NULL,1572363665,1572363665),('/api/options',2,NULL,NULL,NULL,1572363665,1572363665),('/api/view',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/*',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/create',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/delete',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/index',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/update',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/view',2,NULL,NULL,NULL,1572363665,1572363665),('/blocks/*',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/create',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/delete',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/index',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/update',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/view',2,NULL,NULL,NULL,1570724410,1570724410),('/cities/*',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/create',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/delete',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/index',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/update',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/view',2,NULL,NULL,NULL,1572363665,1572363665),('/debug/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/db-explain',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/download-mail',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/index',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/toolbar',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/view',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/reset-identity',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/set-identity',2,NULL,NULL,NULL,1570722005,1570722005),('/gates/*',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/create',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/delete',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/index',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/update',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/view',2,NULL,NULL,NULL,1571249918,1571249918),('/gii/*',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/*',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/action',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/diff',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/index',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/preview',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/view',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/*',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/create',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/delete',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/index',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/update',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/view',2,NULL,NULL,NULL,1570722005,1570722005),('/pets/*',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/create',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/delete',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/index',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/update',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/view',2,NULL,NULL,NULL,1571175515,1571175515),('/residents/*',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/create',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/delete',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/index',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/update',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/view',2,NULL,NULL,NULL,1571150683,1571150683),('/site/*',2,NULL,NULL,NULL,1570722005,1570722005),('/site/about',2,NULL,NULL,NULL,1570722005,1570722005),('/site/captcha',2,NULL,NULL,NULL,1570722005,1570722005),('/site/contact',2,NULL,NULL,NULL,1570722005,1570722005),('/site/error',2,NULL,NULL,NULL,1570722005,1570722005),('/site/index',2,NULL,NULL,NULL,1570722005,1570722005),('/site/login',2,NULL,NULL,NULL,1570722005,1570722005),('/site/logout',2,NULL,NULL,NULL,1570722005,1570722005),('/users/*',2,NULL,NULL,NULL,1570722005,1570722005),('/users/create',2,NULL,NULL,NULL,1570722005,1570722005),('/users/delete',2,NULL,NULL,NULL,1570722005,1570722005),('/users/index',2,NULL,NULL,NULL,1570722005,1570722005),('/users/update',2,NULL,NULL,NULL,1570722005,1570722005),('/users/view',2,NULL,NULL,NULL,1570722005,1570722005),('/vehicles/*',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/create',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/delete',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/index',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/update',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/view',2,NULL,NULL,NULL,1571244290,1571244290),('ApiClient',2,'Este Permiso puede acceder a todas las accions del Api',NULL,NULL,1572374386,1572374386),('ClienteAPI',1,'Este rol puede acceder a las APIs del sistema',NULL,NULL,1572374340,1572375367),('fullPermission',2,'Permiso a todas las rutas',NULL,NULL,1570722030,1570722030),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1570722062,1570722062);
+insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/assignment/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/revoke',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/assignment/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/default/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/default/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/menu/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/permission/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/role/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/assign',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/refresh',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/route/remove',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/*',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/create',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/update',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/rule/view',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/*',2,NULL,NULL,NULL,1570722005,1570722005),('/admin/user/activate',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/change-password',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/delete',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/index',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/login',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/logout',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/reset-password',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/signup',2,NULL,NULL,NULL,1570722004,1570722004),('/admin/user/view',2,NULL,NULL,NULL,1570722004,1570722004),('/administrators/*',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/create',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/delete',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/index',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/update',2,NULL,NULL,NULL,1571248460,1571248460),('/administrators/view',2,NULL,NULL,NULL,1571248460,1571248460),('/apartments/*',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/create',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/delete',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/index',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/update',2,NULL,NULL,NULL,1571143686,1571143686),('/apartments/view',2,NULL,NULL,NULL,1571143686,1571143686),('/api/*',2,NULL,NULL,NULL,1572363665,1572363665),('/api/index',2,NULL,NULL,NULL,1572363665,1572363665),('/api/options',2,NULL,NULL,NULL,1572363665,1572363665),('/api/searchapartment',2,NULL,NULL,NULL,1586034174,1586034174),('/api/view',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/*',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/create',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/delete',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/index',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/update',2,NULL,NULL,NULL,1572363665,1572363665),('/authorizations/view',2,NULL,NULL,NULL,1572363665,1572363665),('/blocks/*',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/create',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/delete',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/index',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/update',2,NULL,NULL,NULL,1570724410,1570724410),('/blocks/view',2,NULL,NULL,NULL,1570724410,1570724410),('/cities/*',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/create',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/delete',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/index',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/update',2,NULL,NULL,NULL,1572363665,1572363665),('/cities/view',2,NULL,NULL,NULL,1572363665,1572363665),('/debug/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/db-explain',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/download-mail',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/index',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/toolbar',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/default/view',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/*',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/reset-identity',2,NULL,NULL,NULL,1570722005,1570722005),('/debug/user/set-identity',2,NULL,NULL,NULL,1570722005,1570722005),('/gates/*',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/create',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/delete',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/index',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/update',2,NULL,NULL,NULL,1571249918,1571249918),('/gates/view',2,NULL,NULL,NULL,1571249918,1571249918),('/gii/*',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/*',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/action',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/diff',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/index',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/preview',2,NULL,NULL,NULL,1570722005,1570722005),('/gii/default/view',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/*',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/create',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/delete',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/index',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/update',2,NULL,NULL,NULL,1570722005,1570722005),('/housing-estate/view',2,NULL,NULL,NULL,1570722005,1570722005),('/pets/*',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/create',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/delete',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/index',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/update',2,NULL,NULL,NULL,1571175515,1571175515),('/pets/view',2,NULL,NULL,NULL,1571175515,1571175515),('/residents/*',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/create',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/delete',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/index',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/update',2,NULL,NULL,NULL,1571150683,1571150683),('/residents/view',2,NULL,NULL,NULL,1571150683,1571150683),('/security-cameras/*',2,NULL,NULL,NULL,1586034175,1586034175),('/security-cameras/create',2,NULL,NULL,NULL,1586034175,1586034175),('/security-cameras/delete',2,NULL,NULL,NULL,1586034175,1586034175),('/security-cameras/index',2,NULL,NULL,NULL,1586034175,1586034175),('/security-cameras/update',2,NULL,NULL,NULL,1586034175,1586034175),('/security-cameras/view',2,NULL,NULL,NULL,1586034175,1586034175),('/site/*',2,NULL,NULL,NULL,1570722005,1570722005),('/site/about',2,NULL,NULL,NULL,1570722005,1570722005),('/site/captcha',2,NULL,NULL,NULL,1570722005,1570722005),('/site/contact',2,NULL,NULL,NULL,1570722005,1570722005),('/site/error',2,NULL,NULL,NULL,1570722005,1570722005),('/site/index',2,NULL,NULL,NULL,1570722005,1570722005),('/site/login',2,NULL,NULL,NULL,1570722005,1570722005),('/site/logout',2,NULL,NULL,NULL,1570722005,1570722005),('/users/*',2,NULL,NULL,NULL,1570722005,1570722005),('/users/create',2,NULL,NULL,NULL,1570722005,1570722005),('/users/delete',2,NULL,NULL,NULL,1570722005,1570722005),('/users/index',2,NULL,NULL,NULL,1570722005,1570722005),('/users/update',2,NULL,NULL,NULL,1570722005,1570722005),('/users/view',2,NULL,NULL,NULL,1570722005,1570722005),('/vehicles/*',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/create',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/delete',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/index',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/update',2,NULL,NULL,NULL,1571244290,1571244290),('/vehicles/view',2,NULL,NULL,NULL,1571244290,1571244290),('ApiClient',2,'Este Permiso puede acceder a todas las accions del Api',NULL,NULL,1572374386,1572374386),('ClienteAPI',1,'Este rol puede acceder a las APIs del sistema',NULL,NULL,1572374340,1572375367),('fullPermission',2,'Permiso a todas las rutas',NULL,NULL,1570722030,1570722030),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1570722062,1570722062);
 
 /*Table structure for table `auth_item_child` */
 
@@ -126,7 +122,7 @@ CREATE TABLE `auth_item_child` (
 
 /*Data for the table `auth_item_child` */
 
-insert  into `auth_item_child`(`parent`,`child`) values ('fullPermission','/*'),('ApiClient','/api/*'),('ApiClient','/api/index'),('ApiClient','/api/options'),('ApiClient','/api/view'),('ClienteAPI','ApiClient'),('SuperAdministrador','fullPermission');
+insert  into `auth_item_child`(`parent`,`child`) values ('ApiClient','/api/*'),('ApiClient','/api/index'),('ApiClient','/api/options'),('ApiClient','/api/view'),('ClienteAPI','ApiClient'),('fullPermission','/*'),('SuperAdministrador','fullPermission');
 
 /*Table structure for table `auth_rule` */
 
@@ -134,7 +130,7 @@ DROP TABLE IF EXISTS `auth_rule`;
 
 CREATE TABLE `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `data` blob,
+  `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`)
@@ -150,7 +146,7 @@ CREATE TABLE `authorizations` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad Residencial',
   `user_id` int(11) NOT NULL COMMENT 'Usuario',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -158,8 +154,7 @@ CREATE TABLE `authorizations` (
   PRIMARY KEY (`id`),
   KEY `fk_authorizations_housing_estate1_idx` (`housing_estate_id`),
   KEY `fk_authorizations_users1_idx` (`user_id`),
-  CONSTRAINT `fk_authorizations_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_authorizations_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_authorizations_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `authorizations` */
@@ -173,7 +168,7 @@ DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(100) NOT NULL COMMENT 'Ciudad',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime DEFAULT NULL COMMENT 'Creado',
   `created_by` varchar(45) DEFAULT NULL COMMENT 'Creado por',
   `modified` datetime DEFAULT NULL COMMENT 'Modificado',
@@ -194,7 +189,7 @@ CREATE TABLE `fly_pass` (
   `gate_id` int(11) NOT NULL COMMENT 'Puerta',
   `name` varchar(255) NOT NULL COMMENT 'Nombre del video portero',
   `code` varchar(45) NOT NULL COMMENT 'Código',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime DEFAULT NULL COMMENT 'Creado',
   `created_by` varchar(45) DEFAULT NULL COMMENT 'Creado por',
   `modified` datetime DEFAULT NULL COMMENT 'Modificado',
@@ -215,9 +210,9 @@ CREATE TABLE `gates` (
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
   `name` varchar(255) NOT NULL COMMENT 'Puerta',
   `location` varchar(255) NOT NULL COMMENT 'Ubicación',
-  `state` tinyint(4) DEFAULT '1' COMMENT 'Estado',
-  `state_description` text COMMENT 'Descripción de estado',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `state` tinyint(4) DEFAULT 1 COMMENT 'Estado',
+  `state_description` text DEFAULT NULL COMMENT 'Descripción de estado',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -245,14 +240,13 @@ CREATE TABLE `housing_estate` (
   `phone_number` varchar(15) DEFAULT NULL COMMENT 'Teléfono portería',
   `police_phone_number` varchar(15) DEFAULT NULL COMMENT 'Número del cuadrante',
   `neighborhood` varchar(100) NOT NULL COMMENT 'Barrio',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`),
-  KEY `fk_housing_estate_cities1_idx` (`city_id`),
-  CONSTRAINT `fk_housing_estate_cities1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_housing_estate_cities1_idx` (`city_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `housing_estate` */
@@ -269,15 +263,15 @@ CREATE TABLE `menu` (
   `parent` int(11) DEFAULT NULL,
   `route` varchar(255) DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
-  `data` blob,
+  `data` blob DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'U. residenciales',NULL,'/housing-estate/index',1,' flaticon-map-location'),(2,'Ciudades',9,'/cities/index',3,' flaticon-placeholder-2'),(3,'Apartamentos',NULL,'/apartments/index',2,' fa-building'),(4,'Residentes',NULL,'/residents/index',3,' flaticon-users'),(5,'Mascotas',NULL,'/pets/index',4,' fa-paw\r\n'),(6,'Vehículos',NULL,'/vehicles/index',5,' fa-car'),(7,'Administradores',NULL,'/administrators/index',6,' flaticon-profile'),(8,'Puertas',NULL,'/gates/index',7,' flaticon-interface'),(9,'Configuración',NULL,NULL,8,' flaticon-cogwheel'),(10,'Usuarios',9,'/users/index',1,' flaticon-users'),(11,'Asignaciones',9,'/admin/assignment/index',3,' flaticon-user-ok'),(12,'Autorización de acceso',9,'/authorizations/index',4,' flaticon-lock-1');
+insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'U. residenciales',NULL,'/housing-estate/index',1,' flaticon-map-location'),(2,'Ciudades',9,'/cities/index',3,' flaticon-placeholder-2'),(3,'Apartamentos',NULL,'/apartments/index',2,' fa-building'),(4,'Residentes',NULL,'/residents/index',3,' flaticon-users'),(5,'Mascotas',NULL,'/pets/index',4,' fa-paw\r\n'),(6,'Vehículos',NULL,'/vehicles/index',5,' fa-car'),(7,'Administradores',NULL,'/administrators/index',6,' flaticon-profile'),(8,'Puertas',NULL,'/gates/index',7,' flaticon-interface'),(9,'Configuración',NULL,NULL,8,' flaticon-cogwheel'),(10,'Usuarios',9,'/users/index',1,' flaticon-users'),(11,'Asignaciones',9,'/admin/assignment/index',3,' flaticon-user-ok'),(12,'Autorización de acceso',9,'/authorizations/index',4,' flaticon-lock-1'),(13,'Cámaras',NULL,'/security-cameras/index',8,' fa-camera');
 
 /*Table structure for table `migration` */
 
@@ -301,7 +295,7 @@ CREATE TABLE `opening_sensors` (
   `name` varchar(255) NOT NULL COMMENT 'Nombre',
   `description` varchar(255) NOT NULL COMMENT 'Descripción',
   `code` varchar(45) NOT NULL COMMENT 'Código',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -321,7 +315,7 @@ CREATE TABLE `pets` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `apartment_id` int(11) NOT NULL COMMENT 'Apartamento',
   `name` varchar(255) NOT NULL COMMENT 'Nombre de la mascota',
-  `description` text COMMENT 'Descripción',
+  `description` text DEFAULT NULL COMMENT 'Descripción',
   `photo` varchar(255) DEFAULT NULL COMMENT 'Foto\n',
   `type` tinyint(4) NOT NULL COMMENT 'Tipo',
   `created` datetime NOT NULL COMMENT 'Creado',
@@ -353,7 +347,7 @@ CREATE TABLE `residents` (
   `phone` varchar(45) DEFAULT NULL COMMENT 'Celular',
   `photo` varchar(255) NOT NULL COMMENT 'Foto',
   `tags` text NOT NULL COMMENT 'Etiquetas',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -377,8 +371,9 @@ CREATE TABLE `security_cameras` (
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
   `name` varchar(255) NOT NULL COMMENT 'Nombre de la cámara',
   `description` varchar(255) NOT NULL COMMENT 'Descripción',
+  `camera_ip` varchar(45) NOT NULL,
   `code` varchar(45) NOT NULL COMMENT 'Código',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -386,9 +381,11 @@ CREATE TABLE `security_cameras` (
   PRIMARY KEY (`id`),
   KEY `fk_security_cameras_housing_estate1_idx` (`housing_estate_id`),
   CONSTRAINT `fk_security_cameras_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `security_cameras` */
+
+insert  into `security_cameras`(`id`,`housing_estate_id`,`name`,`description`,`camera_ip`,`code`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Cámara de prueba','Esta es la cámara de prueba de Dany','http://179.13.146.31','4',1,'2020-04-04 16:18:56','admin','2020-04-04 16:21:19','admin'),(2,1,'Cámara de prueba2','Esta es la cámara de prueba de Dany 2','http://179.13.146.31','4',1,'2020-04-04 16:39:30','admin','2020-04-04 16:39:56','admin');
 
 /*Table structure for table `users` */
 
@@ -400,7 +397,7 @@ CREATE TABLE `users` (
   `username` varchar(45) NOT NULL COMMENT 'Nombre de usuario',
   `password` varchar(100) NOT NULL COMMENT 'Contraseña',
   `mail` varchar(45) NOT NULL COMMENT 'Correo Electrónico',
-  `active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(150) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -422,7 +419,7 @@ CREATE TABLE `vehicles` (
   `photo` varchar(255) NOT NULL COMMENT 'Foto',
   `license_plate` varchar(10) NOT NULL COMMENT 'Placa',
   `type` tinyint(4) NOT NULL COMMENT 'Tipo',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -445,7 +442,7 @@ CREATE TABLE `video_doorman` (
   `gate_id` int(11) NOT NULL COMMENT 'Prueta',
   `name` varchar(255) NOT NULL COMMENT 'Nombre',
   `code` varchar(45) NOT NULL COMMENT 'Código',
-  `active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Activo',
+  `active` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',

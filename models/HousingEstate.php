@@ -112,7 +112,8 @@ class HousingEstate extends BeforeModel {
      * @return \yii\db\ActiveQuery
      */
     public function getSecurityCameras() {
-        return $this->hasMany(SecurityCameras::className(), ['housing_estate_id' => 'id']);
+        return $this->hasMany(SecurityCameras::className(), ['housing_estate_id' => 'id'])
+                ->andOnCondition(['security_cameras.active' => 1]);
     }
 
 }
