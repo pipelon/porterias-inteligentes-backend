@@ -65,6 +65,7 @@ class Vehicles extends BeforeModel {
             'photo' => 'Foto',
             'license_plate' => 'Placa',
             'type' => 'Tipo',
+            'file' => 'Imagen',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',

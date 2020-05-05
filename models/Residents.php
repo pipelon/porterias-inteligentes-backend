@@ -41,8 +41,8 @@ class Residents extends BeforeModel {
      */
     public function rules() {
         return [
-            [['apartment_id', 'name', 'sex', 'document_type', 'document', 'email', 'tags'], 'required'],
-            [['file'], 'required', 'on' => 'create'],
+            [['apartment_id', 'name', 'sex', 'document_type', 'document', 'tags'], 'required'],
+            //[['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
             [['tags'], 'string'],
             [['created', 'modified'], 'safe'],
@@ -76,6 +76,7 @@ class Residents extends BeforeModel {
             'document' => 'Documento',
             'email' => 'Correo electrónico',
             'phone' => 'Celular',
+            'file' => 'Imagen',
             'photo' => 'Foto',
             'tags' => 'Etiquetas',
             'active' => 'Activo',

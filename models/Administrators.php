@@ -74,6 +74,7 @@ class Administrators extends BeforeModel {
             'startdate' => 'Fecha de inicio',
             'enddate' => 'Fecha fin',
             'photo' => 'Foto',
+            'file' => 'Imagen',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',

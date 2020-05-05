@@ -37,7 +37,7 @@ class Pets extends BeforeModel {
     public function rules() {
         return [
             [['apartment_id', 'name', 'type'], 'required'],
-            [['file'], 'required', 'on' => 'create'],
+            //[['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'type'], 'integer'],
             [['description'], 'string'],
             [['created', 'modified'], 'safe'],
@@ -65,6 +65,7 @@ class Pets extends BeforeModel {
             'name' => 'Nombre de la mascota',
             'description' => 'Descripción',
             'photo' => 'Foto',
+            'file' => 'Imagen',
             'type' => 'Tipo',
             'created' => 'Creado',
             'created_by' => 'Creado por',

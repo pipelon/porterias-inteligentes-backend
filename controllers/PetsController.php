@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
  * PetsController implements the CRUD actions for Pets model.
  */
 class PetsController extends Controller {
-    
+
     public $especial = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", "ñ", "Ñ", " ");
     public $wespecial = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", "n", "N", "-");
 
@@ -63,29 +63,35 @@ class PetsController extends Controller {
      */
     public function actionCreate() {
         $model = new Pets();
-        $model->scenario = 'create';
+        //$model->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post())) {
 
-            //INSTACIO EL ARCHIVO CARGADO
-            if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
-                Yii::$app->session->setFlash('error', "El archivo no pudo "
-                        . "ser cargado. Inténtelo de nuevo.");
-                return $this->redirect(['index']);
+            if ($model->file) {
+
+                //INSTACIO EL ARCHIVO CARGADO
+                if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
+                    Yii::$app->session->setFlash('error', "El archivo no pudo "
+                            . "ser cargado. Inténtelo de nuevo.");
+                    return $this->redirect(['index']);
+                }
+
+                //RUTA DE ALMACENAJE LOCAL Y NOMBRE
+                $ruta = 'archivos/' . date('YmdHis') . '-'
+                        . strtolower(trim(str_replace($this->especial, $this->wespecial, $model->file->baseName))) . '.'
+                        . strtolower(trim($model->file->extension));
+                if (!@$model->file->saveAs($ruta, false)) {
+                    Yii::$app->session->setFlash('error', "El archivo no pudo "
+                            . "ser guardado. Inténtelo de nuevo.");
+                    return $this->redirect(['index']);
+                }
+                //GUARDO LOS DATOS
+                $model->photo = $ruta;
+            } else {
+                $model->photo = "";
             }
 
-            //RUTA DE ALMACENAJE LOCAL Y NOMBRE
-            $ruta = 'archivos/' . date('YmdHis') . '-'
-                    . strtolower(trim(str_replace($this->especial, $this->wespecial, $model->file->baseName))) . '.'
-                    . strtolower(trim($model->file->extension));
-            if (!@$model->file->saveAs($ruta, false)) {
-                Yii::$app->session->setFlash('error', "El archivo no pudo "
-                        . "ser guardado. Inténtelo de nuevo.");
-                return $this->redirect(['index']);
-            }
 
-            //GUARDO LOS DATOS
-            $model->photo = $ruta;
             if (!$model->save()) {
                 unlink($model->photo);
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
@@ -124,11 +130,13 @@ class PetsController extends Controller {
                     return $this->redirect(['index']);
                 }
                 //GUARDO LOS DATOS
-                unlink($model->photo);
+                if(file_exists($model->photo)){
+                    unlink($model->photo);
+                }
                 $model->photo = $ruta;
             }
 
-            if (!$model->save()) {                
+            if (!$model->save()) {
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
