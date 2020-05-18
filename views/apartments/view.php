@@ -60,21 +60,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
-                    'label'  => 'Residentes',
+                    'label' => 'Residentes',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Yii::$app->utils->getResidentesByApto($data->residents);
                     },
                 ],
                 [
-                    'label'  => 'Mascotas',
+                    'label' => 'Mascotas',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Yii::$app->utils->getPetsByApto($data->pets);
                     },
                 ],
                 [
-                    'label'  => 'Vehículos',
+                    'label' => 'Vehículos',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Yii::$app->utils->getVehiclesByApto($data->vehicles);
