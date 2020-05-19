@@ -61,19 +61,27 @@ class SecurityGuardsController extends Controller {
     public function actionCreate() {
         $model = new SecurityGuards();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
-            //Ingreso las unidades residenciales
-            $this->setUserxHousingEstate($model);
-            
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            //BUSCO SI EL USUARIO YA EXISTE
+            $isExiste = $model->find()->where(['user_id' => $model->user_id])->count();
+            if ((int) $isExiste <= 0) {
+                
+                $model->save();
+                //Ingreso las unidades residenciales
+                $this->setUserxHousingEstate($model);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $existe = $model->find()->where(['user_id' => $model->user_id])->one();
+                return $this->redirect(['view', 'id' => $existe->id]);
+            }            
         } else {
             return $this->render('create', [
                         'model' => $model,
             ]);
         }
     }
-    
+
     /**
      * Funcion para crear los jefes y analistas de un area
      * 
@@ -100,7 +108,7 @@ class SecurityGuardsController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        
+
         //Busco las unidades asociadas
         $model->housing_estates = $beforehousing_estates = array_column(\app\models\HousingEstateSecurityGuard::find()
                         ->select(['housing_estate_id'])
@@ -109,7 +117,7 @@ class SecurityGuardsController extends Controller {
                         ->all(), 'housing_estate_id');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+
             //si hubo cambios de unidades
             if ($beforehousing_estates != $model->housing_estates) {
                 //elimino los jefes actuales
@@ -118,8 +126,8 @@ class SecurityGuardsController extends Controller {
                 ]);
                 //creo de nuevo los jefes
                 $this->setUserxHousingEstate($model);
-            }            
-            
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -135,7 +143,10 @@ class SecurityGuardsController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        
+        if($this->findModel($id)->delete()){
+            \app\models\HousingEstateSecurityGuard::deleteAll(['security_guard_id' => $id]);
+        }
 
         return $this->redirect(['index']);
     }

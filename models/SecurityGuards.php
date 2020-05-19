@@ -33,7 +33,7 @@ class SecurityGuards extends BeforeModel {
      */
     public function rules() {
         return [
-            [['active', 'user_id'], 'required'],
+            [['active', 'user_id', 'housing_estates'], 'required'],
             [['active', 'user_id'], 'integer'],
             [['created', 'modified', 'housing_estates'], 'safe'],
             [['created_by', 'modified_by'], 'string', 'max' => 50],
