@@ -41,7 +41,7 @@ class Residents extends BeforeModel {
      */
     public function rules() {
         return [
-            [['apartment_id', 'name', 'sex', 'document_type', 'document', 'tags'], 'required'],
+            [['apartment_id', 'name', 'sex', 'document_type', 'document'], 'required'],
             //[['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
             [['tags'], 'string'],

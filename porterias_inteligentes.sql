@@ -264,11 +264,11 @@ CREATE TABLE `housing_estate_security_guard` (
   PRIMARY KEY (`id`),
   KEY `FK_housing_estate_security_guard_housing_estate` (`housing_estate_id`),
   CONSTRAINT `FK_housing_estate_security_guard_housing_estate` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 /*Data for the table `housing_estate_security_guard` */
 
-insert  into `housing_estate_security_guard`(`id`,`housing_estate_id`,`security_guard_id`) values (31,1,15),(32,2,15);
+insert  into `housing_estate_security_guard`(`id`,`housing_estate_id`,`security_guard_id`) values (31,1,15),(32,2,15),(35,1,18),(36,2,18);
 
 /*Table structure for table `menu` */
 
@@ -398,11 +398,11 @@ CREATE TABLE `security_cameras` (
   PRIMARY KEY (`id`),
   KEY `fk_security_cameras_housing_estate1_idx` (`housing_estate_id`),
   CONSTRAINT `fk_security_cameras_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `security_cameras` */
 
-insert  into `security_cameras`(`id`,`housing_estate_id`,`name`,`description`,`camera_ip`,`code`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Cámara de prueba','Esta es la cámara de prueba de Dany','http://179.13.146.31','4',1,'2020-04-04 16:18:56','admin','2020-04-04 16:21:19','admin'),(2,1,'Cámara de prueba2','Esta es la cámara de prueba de Dany 2','http://179.13.146.31','4',1,'2020-04-04 16:39:30','admin','2020-04-04 16:39:56','admin'),(3,1,'Cámara de prueba3','Esta es la cámara de prueba de Dany 3','http://179.13.146.31','4',1,'2020-04-26 09:58:04','admin','2020-04-26 09:58:04','admin'),(4,1,'Cámara de prueba4','Esta es la cámara de prueba de Dany 4','http://179.13.146.31','4',1,'2020-04-26 09:58:23','admin','2020-04-26 09:58:23','admin');
+insert  into `security_cameras`(`id`,`housing_estate_id`,`name`,`description`,`camera_ip`,`code`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (4,1,'Cámara de prueba4','Esta es la cámara de prueba de Dany 4','http://179.13.146.31','4',1,'2020-04-26 09:58:23','admin','2020-05-19 16:30:20','admin'),(5,1,'Cámara de prueba2','Esta es la cámara de prueba de Dany 2','http://179.13.146.31','4',1,'2020-05-20 16:17:03','admin','2020-05-20 16:17:03','admin'),(6,1,'Cámara de prueba3','Esta es la cámara de prueba de Dany 3','http://179.13.146.31','4',1,'2020-05-20 16:17:15','admin','2020-05-20 16:17:15','admin'),(7,1,'Cámara de prueba4','Esta es la cámara de prueba de Dany 4','http://179.13.146.31','4',1,'2020-05-20 16:17:28','admin','2020-05-20 16:17:28','admin'),(8,2,'Cámara de prueba','Esta es la cámara de prueba de Dany','http://179.13.146.31','4',1,'2020-05-20 16:17:39','admin','2020-05-20 16:17:39','admin');
 
 /*Table structure for table `security_guards` */
 
@@ -419,11 +419,11 @@ CREATE TABLE `security_guards` (
   PRIMARY KEY (`id`),
   KEY `FK_security_guards` (`user_id`),
   CONSTRAINT `FK_security_guards` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `security_guards` */
 
-insert  into `security_guards`(`id`,`active`,`created`,`created_by`,`modified`,`modified_by`,`user_id`) values (15,1,'2020-05-19 15:38:55','supervisor','2020-05-19 15:38:55','supervisor',3);
+insert  into `security_guards`(`id`,`active`,`created`,`created_by`,`modified`,`modified_by`,`user_id`) values (15,1,'2020-05-19 15:38:55','supervisor','2020-05-19 15:38:55','supervisor',3),(18,1,'2020-05-19 16:29:31','admin','2020-05-19 16:29:31','admin',4);
 
 /*Table structure for table `users` */
 
