@@ -192,14 +192,15 @@ CREATE TABLE `cards_log` (
   `state` tinyint(1) NOT NULL COMMENT 'Estado',
   `state_description` text NOT NULL COMMENT 'Descripción',
   `created` datetime NOT NULL COMMENT 'Fecha',
-  `code` varchar(45) NOT NULL,
   `card_code` varchar(20) NOT NULL COMMENT 'Código tarjeta',
   PRIMARY KEY (`id`),
   KEY `fk_cards_log_cards1_idx` (`card_code`),
   CONSTRAINT `fk_cards_log_cards1` FOREIGN KEY (`card_code`) REFERENCES `cards` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `cards_log` */
+
+insert  into `cards_log`(`id`,`state`,`state_description`,`created`,`card_code`) values (1,1,'hola','2020-06-01 18:25:34','abc123'),(2,1,'hola2','2020-06-01 18:25:46','abc123'),(3,1,'hola3','2020-06-01 18:25:49','abc123');
 
 /*Table structure for table `cities` */
 
@@ -279,9 +280,11 @@ CREATE TABLE `gates_logs` (
   PRIMARY KEY (`id`),
   KEY `fk_gates_logs_gates1_idx` (`gate_id`),
   CONSTRAINT `fk_gates_logs_gates1` FOREIGN KEY (`gate_id`) REFERENCES `gates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `gates_logs` */
+
+insert  into `gates_logs`(`id`,`gate_id`,`state`,`state_description`,`created`) values (1,1,2,'Desc','2020-06-01 16:29:40'),(2,1,1,'1','2020-06-01 17:35:55'),(3,1,1,'1','2020-06-01 17:56:13'),(4,2,1,'hola','2020-06-01 18:16:47');
 
 /*Table structure for table `housing_estate` */
 

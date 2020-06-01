@@ -15,21 +15,19 @@ use Yii;
  *
  * @property Gates $gate
  */
-class GatesLogs extends \yii\db\ActiveRecord
-{
+class GatesLogs extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'gates_logs';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['gate_id', 'state', 'state_description', 'created'], 'required'],
             [['gate_id', 'state'], 'integer'],
@@ -42,11 +40,10 @@ class GatesLogs extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
-            'gate_id' => 'Portería ID',
+            'gate_id' => 'Portería',
             'state' => 'Estado',
             'state_description' => 'Descripción',
             'created' => 'Fecha',
@@ -56,8 +53,8 @@ class GatesLogs extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGate()
-    {
+    public function getGate() {
         return $this->hasOne(Gates::className(), ['id' => 'gate_id']);
     }
+
 }

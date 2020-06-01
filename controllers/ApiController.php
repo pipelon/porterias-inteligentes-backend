@@ -42,6 +42,8 @@ class ApiController extends ActiveController {
         return [
             'view' => ['GET', 'HEAD', 'OPTIONS'],
             'searchapartment' => ['POST', 'OPTIONS'],
+            'gates' => ['GET', 'OPTIONS'],
+            'accesscard' => ['GET', 'OPTIONS'],
             'login' => ['POST', 'OPTIONS'],
             'logout' => ['POST', 'OPTIONS']
         ];
@@ -106,9 +108,9 @@ class ApiController extends ActiveController {
                 ->all();
         $idUnidadResidencial = [];
         foreach ($model as $m) {
-            $idUnidadResidencial[] = $m['housing_estate_id']; 
+            $idUnidadResidencial[] = $m['housing_estate_id'];
         }
-        
+
         $model = \app\models\HousingEstate::find()
                 ->joinWith('apartments')
                 ->joinWith('gates')
@@ -176,6 +178,58 @@ class ApiController extends ActiveController {
             throw new \yii\web\HttpException(404);
         }
         return $model;
+    }
+
+    public function actionGates() {
+        $request = \Yii::$app->request;        
+        $gate_id = $request->get('gate_id');
+        $state = $request->get('state');
+        $state_description = $request->get('state_description');
+        
+        if(!isset($gate_id) || !isset($state) || !isset($state_description)){
+            throw new \yii\web\HttpException(400);
+        }
+        
+        if($state != 0 && $state != 1){
+            throw new \yii\web\HttpException(400);
+        }
+        
+        $model = new \app\models\GatesLogs();
+        $model->gate_id = $gate_id;
+        $model->state = $state;
+        $model->state_description = $state_description;
+        $model->created = date('Y-m-d H:i:s');
+        if(!$model->save()){
+            throw new \yii\web\HttpException(500);
+        }
+        
+        throw new \yii\web\HttpException(200);
+    }
+
+    public function actionAccesscard() {        
+        $request = \Yii::$app->request;        
+        $state = $request->get('state');
+        $state_description = $request->get('state_description');
+        $card_code = $request->get('card_code');
+        
+        if(!isset($card_code) || !isset($state) || !isset($state_description)){
+            throw new \yii\web\HttpException(400);
+        }
+        
+        if($state != 0 && $state != 1){
+            throw new \yii\web\HttpException(400);
+        }
+        
+        $model = new \app\models\CardsLog();
+        $model->card_code = $card_code;
+        $model->state = $state;
+        $model->state_description = $state_description;
+        $model->created = date('Y-m-d H:i:s');
+        if(!$model->save()){
+            throw new \yii\web\HttpException(500);
+        }
+        
+        throw new \yii\web\HttpException(200);
     }
 
 }

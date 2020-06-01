@@ -1,72 +1,125 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\GatesLogsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Gates Logs';
+$this->title = 'Logs Porterias';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/gates-logs/view')) {
-    $template .= '{view} ';
-}
-if (\Yii::$app->user->can('/gates-logs/update')) {
-    $template .= '{update} ';
-}
-if (\Yii::$app->user->can('/gates-logs/delete')) {
-    $template .= '{delete} ';
-}
-if (\Yii::$app->user->can('/gates-logs/*') || \Yii::$app->user->can('/*')) {
-    $template = '{view}  {update}  {delete}';
-}
 ?>
-<div class="gates-logs-index box box-primary">
-    <div class="box-header with-border">
-    <?php  if (\Yii::$app->user->can('/gates-logs/create') || \Yii::$app->user->can('/*')) :  ?> 
-        <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> '.'Crear Gates Logs', ['create'], ['class' => 'btn btn-primary']) ?>
-    <?php  endif;  ?> 
-    </div>
+<div class="gates-logs-index box box-primary">    
     <div class="box-body table-responsive">
-        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-        <?= GridView::widget([
+        <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+        <?php
+        //COLUMNAS PRELIMINARES DEL REPORTE TAR CON FILTROS
+        $gridColumns = [
+            [
+                'attribute' => 'gate_id',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return '<b>' . $data->gate->housingEstate->name . ' </b>'
+                            . ' - ' . $data->gate->name;
+                },
+                'filter' => yii\helpers\ArrayHelper::map(
+                        \app\models\Gates::find()
+                                ->select([
+                                    "id" => "gates.id",
+                                    "housing_estate" => "housing_estate.name",
+                                    "name" => "gates.name"
+                                ])
+                                ->join('LEFT JOIN', 'housing_estate', 'gates.housing_estate_id = housing_estate.id')
+                                ->all()
+                        , 'id', 'name', 'housing_estate')
+            ],
+            [
+                'attribute' => 'state',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Yii::$app->utils->getStategate($data->state);
+                },
+                'filter' => Yii::$app->utils->getFilterStategate()
+            ],
+            'state_description',
+            [
+                'attribute' => 'created',
+                'format' => 'date',
+                'filter' => false
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => $template,
+            ],
+        ];
+        //COLUMNAS PARA EL EXPORTABLE DEL TAR EN EXCEL
+        $exportColumns = [
+            [
+                'attribute' => 'gate_id',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return '<b>' . $data->gate->housingEstate->name . ' </b>'
+                            . ' - ' . $data->gate->name;
+                }
+            ],
+            [
+                'attribute' => 'state',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Yii::$app->utils->getStategate($data->state);
+                }
+            ],
+            'state_description',
+            [
+                'attribute' => 'created',
+                'format' => 'date',
+            ],
+        ];
+        //TIPOS DE EXPORTACION
+        $exportConfig = [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_PDF => false
+        ];
+        //MENU DE EXPORTACION
+        $fullExportMenu = ExportMenu::widget(
+                        [
+                            'dataProvider' => $dataProvider,
+                            'filterModel' => $searchModel,
+                            'columns' => $exportColumns,
+                            'showConfirmAlert' => false,
+                            'fontAwesome' => true,
+                            'target' => '_blank',
+                            'filename' => "LogsGates_" . date('Y-m-d-H-i-s'),
+                            'exportConfig' => $exportConfig,
+                            'dropdownOptions' => [
+                                'label' => 'Exportar',
+                                'class' => 'btn btn-secondary'
+                            ]
+                        ]
+        );
+        ?>
+        <?=
+        GridView::widget([
+            'id' => 'insured-values-roofs-table',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-            'layout' => "{items}\n{summary}\n{pager}",
-            'columns' => [
-                'id',
-                'gate_id',
-                'state',
-                'state_description',
-                'created',
-
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => $template,
-                    'buttons' => [
-                        'view' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-search-magnifier-interface-symbol" style="font-size: 20px"></span>', $url, [
-                                        'title' => 'Ver',
-                            ]);
-                        },
-                        'update' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-edit-1" style="font-size: 20px"></span>', $url, [
-                                        'title' => 'Editar',
-                            ]);
-                        },
-                        'delete' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-circle" style="font-size: 20px"></span>', $url, [
-                                        'data-confirm' => '¿Está seguro que desea eliminar este ítem?',
-					'data-method' => 'post',
-                                        'title' => 'Borrar',
-                            ]);
-                        }
-                    ]
-                ],
+            'layout' => "{toolbar}{items}\n{summary}\n{pager}",
+            'columns' => $gridColumns,
+            'toolbar' => [
+                $fullExportMenu,                
             ],
-        ]); ?>
+            'bordered' => true,
+            'striped' => true,
+            'condensed' => true,
+            'responsive' => true,
+            'persistResize' => false
+        ]);
+        ?>
     </div>
 </div>

@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'state',
                 'state_description:ntext',
                 'created',
-                'code',
                 'card_code',
             ],
         ]) ?>

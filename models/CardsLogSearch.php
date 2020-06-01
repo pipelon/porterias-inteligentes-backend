@@ -19,7 +19,7 @@ class CardsLogSearch extends CardsLog
     {
         return [
             [['id', 'state'], 'integer'],
-            [['state_description', 'created', 'code', 'card_code'], 'safe'],
+            [['state_description', 'created', 'card_code'], 'safe'],
         ];
     }
 
@@ -66,7 +66,6 @@ class CardsLogSearch extends CardsLog
         ]);
 
         $query->andFilterWhere(['like', 'state_description', $this->state_description])
-            ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'card_code', $this->card_code]);
 
         return $dataProvider;

@@ -1,13 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CardsLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cards Logs';
+$this->title = 'Logs Accesos';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
@@ -26,48 +27,88 @@ if (\Yii::$app->user->can('/cards-log/*') || \Yii::$app->user->can('/*')) {
 ?>
 <div class="cards-log-index box box-primary">
     <div class="box-header with-border">
-    <?php  if (\Yii::$app->user->can('/cards-log/create') || \Yii::$app->user->can('/*')) :  ?> 
-        <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> '.'Crear Cards Log', ['create'], ['class' => 'btn btn-primary']) ?>
-    <?php  endif;  ?> 
+         
     </div>
     <div class="box-body table-responsive">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-        <?= GridView::widget([
+        <?php
+        //COLUMNAS PRELIMINARES DEL REPORTE TAR CON FILTROS
+        $gridColumns = [
+            'card_code',
+            [
+                'attribute' => 'state',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Yii::$app->utils->getStateCard($data->state);
+                },
+                'filter' => Yii::$app->utils->getFilterStateCard()
+            ],
+            'state_description:ntext',
+            [
+                'attribute' => 'created',
+                'format' => 'date',
+                'filter' => false
+            ]                        
+        ];
+        //COLUMNAS PARA EL EXPORTABLE DEL TAR EN EXCEL
+        $exportColumns = [
+            [
+                'attribute' => 'state',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Yii::$app->utils->getStateCard($data->state);
+                },
+                'filter' => Yii::$app->utils->getFilterStateCard()
+            ],
+            'state_description:ntext',
+            [
+                'attribute' => 'created',
+                'format' => 'date',
+                'filter' => false
+            ],
+            'card_code'  
+        ];
+        //TIPOS DE EXPORTACION
+        $exportConfig = [
+            ExportMenu::FORMAT_TEXT => false,
+            ExportMenu::FORMAT_CSV => false,
+            ExportMenu::FORMAT_HTML => false,
+            ExportMenu::FORMAT_PDF => false
+        ];
+        //MENU DE EXPORTACION
+        $fullExportMenu = ExportMenu::widget(
+                        [
+                            'dataProvider' => $dataProvider,
+                            'filterModel' => $searchModel,
+                            'columns' => $exportColumns,
+                            'showConfirmAlert' => false,
+                            'fontAwesome' => true,
+                            'target' => '_blank',
+                            'filename' => "LogsTarjetas_" . date('Y-m-d-H-i-s'),
+                            'exportConfig' => $exportConfig,
+                            'dropdownOptions' => [
+                                'label' => 'Exportar',
+                                'class' => 'btn btn-secondary'
+                            ]
+                        ]
+        );
+        ?>
+        <?=
+        GridView::widget([
+            'id' => 'insured-values-roofs-table',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-            'layout' => "{items}\n{summary}\n{pager}",
-            'columns' => [
-                'id',
-                'state',
-                'state_description:ntext',
-                'created',
-                'code',
-                // 'card_code',
-
-                [
-                    'class' => 'yii\grid\ActionColumn',
-                    'template' => $template,
-                    'buttons' => [
-                        'view' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-search-magnifier-interface-symbol" style="font-size: 20px"></span>', $url, [
-                                        'title' => 'Ver',
-                            ]);
-                        },
-                        'update' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-edit-1" style="font-size: 20px"></span>', $url, [
-                                        'title' => 'Editar',
-                            ]);
-                        },
-                        'delete' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-circle" style="font-size: 20px"></span>', $url, [
-                                        'data-confirm' => '¿Está seguro que desea eliminar este ítem?',
-					'data-method' => 'post',
-                                        'title' => 'Borrar',
-                            ]);
-                        }
-                    ]
-                ],
+            'layout' => "{toolbar}{items}\n{summary}\n{pager}",
+            'columns' => $gridColumns,
+            'toolbar' => [
+                $fullExportMenu,                
             ],
-        ]); ?>
+            'bordered' => true,
+            'striped' => true,
+            'condensed' => true,
+            'responsive' => true,
+            'persistResize' => false
+        ]);
+        ?>
     </div>
 </div>

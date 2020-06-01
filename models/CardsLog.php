@@ -32,11 +32,10 @@ class CardsLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['state', 'state_description', 'created', 'code', 'card_code'], 'required'],
+            [['state', 'state_description', 'created', 'card_code'], 'required'],
             [['state'], 'integer'],
             [['state_description'], 'string'],
             [['created'], 'safe'],
-            [['code'], 'string', 'max' => 45],
             [['card_code'], 'string', 'max' => 20],
             [['card_code'], 'exist', 'skipOnError' => true, 'targetClass' => Cards::className(), 'targetAttribute' => ['card_code' => 'code']],
         ];
@@ -52,7 +51,6 @@ class CardsLog extends \yii\db\ActiveRecord
             'state' => 'Estado',
             'state_description' => 'Descripción',
             'created' => 'Fecha',
-            'code' => 'Code',
             'card_code' => 'Código tarjeta',
         ];
     }
