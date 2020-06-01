@@ -28,6 +28,7 @@ use Yii;
 class Residents extends BeforeModel {
 
     public $file;
+    public $apartmentname;
 
     /**
      * {@inheritdoc}
@@ -45,7 +46,7 @@ class Residents extends BeforeModel {
             //[['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
             [['tags'], 'string'],
-            [['created', 'modified'], 'safe'],
+            [['created', 'modified', 'apartmentname'], 'safe'],
             [['name', 'photo'], 'string', 'max' => 255],
             [['document'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
