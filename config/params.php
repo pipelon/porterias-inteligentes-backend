@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'urlServiceSocket' => 'http://localhost:25003',
     'maxSize' => 100, //100KB
     'sex' => [
         1 => 'Masculino',

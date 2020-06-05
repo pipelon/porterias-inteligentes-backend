@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use yii\rest\ActiveController;
+use yii\httpclient\Client;
 
 /**
  * Description of ApiController
@@ -181,54 +182,121 @@ class ApiController extends ActiveController {
     }
 
     public function actionGates() {
-        $request = \Yii::$app->request;        
+        $request = \Yii::$app->request;
         $gate_id = $request->get('gate_id');
         $state = $request->get('state');
         $state_description = $request->get('state_description');
-        
-        if(!isset($gate_id) || !isset($state) || !isset($state_description)){
+
+        if (!isset($gate_id) || !isset($state) || !isset($state_description)) {
             throw new \yii\web\HttpException(400);
         }
-        
-        if($state != 0 && $state != 1){
+
+        if ($state != 0 && $state != 1) {
             throw new \yii\web\HttpException(400);
         }
-        
+
         $model = new \app\models\GatesLogs();
         $model->gate_id = $gate_id;
         $model->state = $state;
         $model->state_description = $state_description;
         $model->created = date('Y-m-d H:i:s');
-        if(!$model->save()){
+        if (!$model->save()) {
             throw new \yii\web\HttpException(500);
         }
+
+        //OBTENGO LA INFO DE LA UNIDAD, LA PUERTA Y EL USUARIO
+        $sql = "SELECT gates_logs.state_description, `gates`.`name` as gate, 
+            `housing_estate`.`name` as housing_state, security_guards.user_id,
+            gates_logs.created
+            FROM `gates_logs` LEFT JOIN `gates` ON gates.id = gates_logs.gate_id 
+            LEFT JOIN `housing_estate` ON housing_estate.id = gates.housing_estate_id 
+            LEFT JOIN `housing_estate_security_guard` ON housing_estate_security_guard.housing_estate_id = housing_estate.id
+            LEFT JOIN `security_guards` ON security_guards.id = housing_estate_security_guard.security_guard_id
+            WHERE `gates_logs`.`id`=" . $model->id;
+        $command = \Yii::$app->db->createCommand($sql);
+        $result = $command->queryOne();
+
+        //ENVIO EL MENSAJE AL CLIENTE
+        $client = new Client();
+        $response = $client->createRequest()
+                ->setMethod("POST")
+                ->setUrl(\Yii::$app->params['urlServiceSocket'] . '/alertas_generales')
+                ->setHeaders([
+                    "Content-Type" => "application/json"
+                ])
+                ->setData([
+                    "userId" => $result["user_id"],
+                    "housingEstate" => $result["housing_state"],
+                    "message" => "(" . $result["gate"] . "): " . $result["state_description"],
+                    "date" => $result["created"]
+                ])
+                ->send();
         
+        if (!$response->isOk) {
+            throw new \yii\web\HttpException(500);
+        }
+
         throw new \yii\web\HttpException(200);
     }
 
-    public function actionAccesscard() {        
-        $request = \Yii::$app->request;        
+    public function actionAccesscard() {
+        $request = \Yii::$app->request;
         $state = $request->get('state');
         $state_description = $request->get('state_description');
         $card_code = $request->get('card_code');
-        
-        if(!isset($card_code) || !isset($state) || !isset($state_description)){
+
+        if (!isset($card_code) || !isset($state) || !isset($state_description)) {
             throw new \yii\web\HttpException(400);
         }
-        
-        if($state != 0 && $state != 1){
+
+        if ($state != 0 && $state != 1) {
             throw new \yii\web\HttpException(400);
         }
-        
+
         $model = new \app\models\CardsLog();
         $model->card_code = $card_code;
         $model->state = $state;
         $model->state_description = $state_description;
         $model->created = date('Y-m-d H:i:s');
-        if(!$model->save()){
+        if (!$model->save()) {
             throw new \yii\web\HttpException(500);
         }
         
+         //OBTENGO LA INFO DE LA UNIDAD, LA PUERTA Y EL USUARIO
+        $sql = "SELECT residents.NAME resident, apartments.NAME as apto, housing_estate.NAME as housing_state, 
+                cards.CODE as code, cards_log.state_description, cards_log.created,
+                security_guards.user_id
+                FROM cards_log 
+                LEFT JOIN cards ON cards.CODE = cards_log.card_code 
+                LEFT JOIN residents ON residents.id = cards.resident_id 
+                LEFT JOIN apartments ON apartments.id = residents.apartment_id
+                LEFT JOIN housing_estate ON housing_estate.id = apartments.housing_estate_id
+                LEFT JOIN `housing_estate_security_guard` ON housing_estate_security_guard.housing_estate_id = housing_estate.id
+                LEFT JOIN `security_guards` ON security_guards.id = housing_estate_security_guard.security_guard_id
+                WHERE cards_log.id =" . $model->id;
+        $command = \Yii::$app->db->createCommand($sql);
+        $result = $command->queryOne();
+
+        //ENVIO EL MENSAJE AL CLIENTE
+        $client = new Client();
+        $response = $client->createRequest()
+                ->setMethod("POST")
+                ->setUrl(\Yii::$app->params['urlServiceSocket'] . '/alertas_generales')
+                ->setHeaders([
+                    "Content-Type" => "application/json"
+                ])
+                ->setData([
+                    "userId" => $result["user_id"],
+                    "housingEstate" => $result["housing_state"],
+                    "message" => "(" . $result["apto"] . " - " . $result["resident"] . " - " . $result["code"] . "): " . $result["state_description"],
+                    "date" => $result["created"]
+                ])
+                ->send();
+        
+        if (!$response->isOk) {
+            throw new \yii\web\HttpException(500);
+        }
+
         throw new \yii\web\HttpException(200);
     }
 
