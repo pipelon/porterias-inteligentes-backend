@@ -67,6 +67,7 @@ class ResidentsController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
 
+            $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
             if ($model->file) {
                 //INSTACIO EL ARCHIVO CARGADO
                 if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
@@ -130,9 +131,9 @@ class ResidentsController extends Controller {
                     return $this->redirect(['index']);
                 }
                 //GUARDO LOS DATOS
-                if(file_exists($model->photo)){
+                if (file_exists($model->photo)) {
                     unlink($model->photo);
-                }                
+                }
                 $model->photo = $ruta;
             }
 
@@ -158,7 +159,9 @@ class ResidentsController extends Controller {
      */
     public function actionDelete($id) {
         $photo = $this->findModel($id);
-        unlink($photo->photo);
+        if (is_dir($photo->photo)) {
+            unlink($photo->photo);
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

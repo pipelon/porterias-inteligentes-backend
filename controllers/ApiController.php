@@ -141,6 +141,17 @@ class ApiController extends ActiveController {
             throw new \yii\web\HttpException(401);
         }
 
+        //BUSCO QUE EL USUARIO SEA UN PORTERO Y ESTÉ ACTIVO
+        $isPorteroActivo = \app\models\Users::find()
+                ->innerJoin('auth_assignment', 'auth_assignment.user_id = users.id')
+                ->innerJoin('security_guards', 'security_guards.user_id = users.id')
+                ->where(['users.active' => 1, 'auth_assignment.item_name' => 'Portero', 'users.id' => $user->id, 'security_guards.active' => 1])
+                ->all();
+        
+       if(empty($isPorteroActivo)){
+           throw new \yii\web\HttpException(401);
+       }
+
         return $user;
     }
 
@@ -231,7 +242,7 @@ class ApiController extends ActiveController {
                     "date" => $result["created"]
                 ])
                 ->send();
-        
+
         if (!$response->isOk) {
             throw new \yii\web\HttpException(500);
         }
@@ -261,8 +272,8 @@ class ApiController extends ActiveController {
         if (!$model->save()) {
             throw new \yii\web\HttpException(500);
         }
-        
-         //OBTENGO LA INFO DE LA UNIDAD, LA PUERTA Y EL USUARIO
+
+        //OBTENGO LA INFO DE LA UNIDAD, LA PUERTA Y EL USUARIO
         $sql = "SELECT residents.NAME resident, apartments.NAME as apto, housing_estate.NAME as housing_state, 
                 cards.CODE as code, cards_log.state_description, cards_log.created,
                 security_guards.user_id
@@ -292,7 +303,7 @@ class ApiController extends ActiveController {
                     "date" => $result["created"]
                 ])
                 ->send();
-        
+
         if (!$response->isOk) {
             throw new \yii\web\HttpException(500);
         }

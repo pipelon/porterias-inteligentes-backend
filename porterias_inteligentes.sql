@@ -62,11 +62,11 @@ CREATE TABLE `apartments` (
   KEY `fk_apartments_housing_estate1_idx` (`housing_estate_id`),
   FULLTEXT KEY `name` (`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`),
   CONSTRAINT `fk_apartments_housing_estate1` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `apartments` */
 
-insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','3136600674','3136600674','3136600674','3136600674',1,'2019-10-21 14:32:26','admin','2020-02-09 16:14:07','admin'),(2,1,'1',2,'Apto 220','3136600674','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2020-02-09 16:09:56','admin');
+insert  into `apartments`(`id`,`housing_estate_id`,`block`,`floor`,`name`,`phone_number_1`,`phone_number_2`,`cellphone_number_1`,`cellphone_number_2`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'15',8,'Apto 817','3136600674','3136600674','3136600674','3136600674',1,'2019-10-21 14:32:26','admin','2020-02-09 16:14:07','admin'),(2,1,'1',2,'Apto 220','3136600674','3243234','3136606074','3122346074',1,'2019-10-21 14:35:49','admin','2020-02-09 16:09:56','admin'),(3,3,'1',1,'101','3136600674','3136600674','3136600674','3136600674',1,'2020-06-08 11:10:12','admin','2020-06-08 11:10:12','admin');
 
 /*Table structure for table `auth_assignment` */
 
@@ -196,11 +196,11 @@ CREATE TABLE `cards_log` (
   PRIMARY KEY (`id`),
   KEY `fk_cards_log_cards1_idx` (`card_code`),
   CONSTRAINT `fk_cards_log_cards1` FOREIGN KEY (`card_code`) REFERENCES `cards` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `cards_log` */
 
-insert  into `cards_log`(`id`,`state`,`state_description`,`created`,`card_code`) values (1,1,'hola','2020-06-01 18:25:34','abc123'),(2,1,'hola2','2020-06-01 18:25:46','abc123'),(3,1,'hola3','2020-06-01 18:25:49','abc123');
+insert  into `cards_log`(`id`,`state`,`state_description`,`created`,`card_code`) values (1,1,'hola','2020-06-01 18:25:34','abc123'),(2,1,'hola2','2020-06-01 18:25:46','abc123'),(3,1,'hola3','2020-06-01 18:25:49','abc123'),(4,1,'hola3','2020-06-05 16:24:50','abc123'),(5,1,'hola3','2020-06-05 16:25:15','abc123'),(6,1,'Acceso a porteria','2020-06-05 16:25:33','abc123'),(7,1,'Acceso a porteria','2020-06-05 16:25:58','abc123'),(8,1,'Acceso a porteria','2020-06-05 16:26:41','abc123'),(9,1,'Acceso a porteria','2020-06-05 22:02:16','abc123'),(10,1,'Acceso a porteria','2020-06-05 22:02:45','abc123'),(11,1,'Acceso a porteria','2020-06-05 22:12:39','abc123'),(12,1,'Acceso a porteria','2020-06-05 22:12:49','abc123'),(13,1,'Acceso a porteria','2020-06-05 22:13:55','abc123'),(14,1,'Acceso a porteria','2020-06-05 22:13:57','abc123'),(15,1,'Acceso a porteria 222','2020-06-05 22:14:01','abc123'),(16,1,'Acceso a porteria 222','2020-06-05 22:21:45','abc123');
 
 /*Table structure for table `cities` */
 
@@ -280,11 +280,11 @@ CREATE TABLE `gates_logs` (
   PRIMARY KEY (`id`),
   KEY `fk_gates_logs_gates1_idx` (`gate_id`),
   CONSTRAINT `fk_gates_logs_gates1` FOREIGN KEY (`gate_id`) REFERENCES `gates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 
 /*Data for the table `gates_logs` */
 
-insert  into `gates_logs`(`id`,`gate_id`,`state`,`state_description`,`created`) values (1,1,2,'Desc','2020-06-01 16:29:40'),(2,1,1,'1','2020-06-01 17:35:55'),(3,1,1,'1','2020-06-01 17:56:13'),(4,2,1,'hola','2020-06-01 18:16:47');
+insert  into `gates_logs`(`id`,`gate_id`,`state`,`state_description`,`created`) values (1,1,2,'Desc','2020-06-01 16:29:40'),(2,1,1,'1','2020-06-01 17:35:55'),(3,1,1,'1','2020-06-01 17:56:13'),(4,2,1,'hola','2020-06-01 18:16:47'),(5,1,1,'1','2020-06-05 14:29:22'),(6,1,1,'1','2020-06-05 14:31:46'),(7,1,1,'1','2020-06-05 14:33:00'),(8,1,1,'1','2020-06-05 14:33:23'),(9,1,1,'1','2020-06-05 14:34:22'),(10,1,1,'1','2020-06-05 14:34:56'),(11,1,1,'1','2020-06-05 14:35:34'),(12,1,1,'1','2020-06-05 14:36:53'),(13,1,1,'1','2020-06-05 14:38:55'),(14,1,1,'1','2020-06-05 14:40:17'),(15,1,1,'1','2020-06-05 14:40:38'),(16,1,1,'1','2020-06-05 14:41:03'),(17,1,1,'1','2020-06-05 14:41:20'),(18,1,1,'1','2020-06-05 14:44:22'),(19,1,1,'1','2020-06-05 14:47:33'),(20,1,1,'Cerrar puerta','2020-06-05 14:49:01'),(21,1,1,'Cerrar puerta','2020-06-05 14:54:06'),(22,1,1,'Cerrar puerta','2020-06-05 14:54:55'),(23,1,1,'Cerrar puerta','2020-06-05 15:04:07'),(24,1,1,'Cerrar puerta','2020-06-05 15:05:20'),(25,1,1,'Cerrar puerta','2020-06-05 15:05:34'),(26,1,1,'Cerrar puerta','2020-06-05 15:07:50'),(27,1,1,'Cerrar puerta','2020-06-05 15:08:36'),(28,1,1,'Cerrar puerta','2020-06-05 15:10:27'),(29,1,1,'Cerrar puerta','2020-06-05 15:11:10'),(30,1,1,'Cerrar puerta','2020-06-05 15:13:55'),(31,1,1,'Cerrar puerta','2020-06-05 15:18:14'),(32,1,1,'Cerrar puerta 2','2020-06-05 15:18:37'),(33,1,1,'Cerrar puerta 2','2020-06-05 15:19:11'),(34,1,1,'Cerrar puerta 2','2020-06-05 15:20:29'),(35,1,1,'Cerrar puerta 2','2020-06-05 15:27:07'),(36,1,1,'Cerrar puerta 2','2020-06-05 15:33:33'),(37,1,1,'Cerrar puerta 3','2020-06-05 15:35:44'),(38,1,1,'Cerrar puerta 3','2020-06-05 15:40:47'),(39,1,1,'Cerrar puerta 3','2020-06-05 15:41:10'),(40,1,1,'Cerrar puerta 3','2020-06-05 15:41:37'),(41,1,1,'Cerrar puerta 3','2020-06-05 15:43:50'),(42,1,1,'Cerrar puerta 3','2020-06-05 15:44:16'),(43,1,1,'Cerrar puerta 3','2020-06-05 15:46:25'),(44,1,1,'Cerrar puerta 3','2020-06-05 15:47:42'),(45,1,1,'Cerrar puerta 3','2020-06-05 15:48:43'),(46,1,1,'Cerrar puerta 3','2020-06-05 15:49:21'),(47,1,1,'Cerrar puerta 3','2020-06-05 15:49:40'),(48,1,1,'Cerrar puerta 3','2020-06-05 15:49:45'),(49,1,1,'Cerrar puerta 3','2020-06-05 15:50:26'),(50,1,1,'Cerrar puerta 3','2020-06-05 16:25:59'),(51,1,1,'Cerrar puerta 3','2020-06-05 16:26:22');
 
 /*Table structure for table `housing_estate` */
 
@@ -307,11 +307,11 @@ CREATE TABLE `housing_estate` (
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`),
   KEY `fk_housing_estate_cities1_idx` (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `housing_estate` */
 
-insert  into `housing_estate`(`id`,`name`,`description`,`city_id`,`location`,`address`,`phone_number`,`police_phone_number`,`neighborhood`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Arroyo de los bernal','Unidad arroyo de los bernal',1,'6.242643999175641,-75.59213759988955','Calle 40 A sur # 24 B - 105','4446556','2134321','Poblado',1,'2019-10-21 12:09:48','admin','2019-10-31 10:59:37','admin'),(2,'Palmeras etapa 3','Urbanización palmeras etapa 3',3,'7.0824931301000955,-73.84767503979492','Calle 40 A sur # 24 B - 105','4446556','2134321','La Mina',1,'2019-10-29 09:20:14','admin','2019-11-27 16:02:59','admin');
+insert  into `housing_estate`(`id`,`name`,`description`,`city_id`,`location`,`address`,`phone_number`,`police_phone_number`,`neighborhood`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Arroyo de los bernal','Unidad arroyo de los bernal',1,'6.242643999175641,-75.59213759988955','Calle 40 A sur # 24 B - 105','4446556','2134321','Poblado',1,'2019-10-21 12:09:48','admin','2019-10-31 10:59:37','admin'),(2,'Palmeras etapa 3','Urbanización palmeras etapa 3',3,'7.0824931301000955,-73.84767503979492','Calle 40 A sur # 24 B - 105','4446556','2134321','La Mina',1,'2019-10-29 09:20:14','admin','2019-11-27 16:02:59','admin'),(3,'Mirador Del Sur Apartamentos','Mirador Del Sur Apartamentos',6,'6.1511346751312574,-75.63158006909181','Carrera 59 # 82-sur 31','3152499418','123','Parque la estrella',1,'2020-06-08 11:09:30','admin','2020-06-08 11:27:12','admin');
 
 /*Table structure for table `housing_estate_security_guard` */
 
@@ -324,11 +324,11 @@ CREATE TABLE `housing_estate_security_guard` (
   PRIMARY KEY (`id`),
   KEY `FK_housing_estate_security_guard_housing_estate` (`housing_estate_id`),
   CONSTRAINT `FK_housing_estate_security_guard_housing_estate` FOREIGN KEY (`housing_estate_id`) REFERENCES `housing_estate` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 /*Data for the table `housing_estate_security_guard` */
 
-insert  into `housing_estate_security_guard`(`id`,`housing_estate_id`,`security_guard_id`) values (31,1,15),(32,2,15),(35,1,18),(36,2,18);
+insert  into `housing_estate_security_guard`(`id`,`housing_estate_id`,`security_guard_id`) values (41,2,22),(42,1,23),(43,3,23);
 
 /*Table structure for table `menu` */
 
@@ -433,11 +433,11 @@ CREATE TABLE `residents` (
   KEY `fk_residents_apartments1_idx` (`apartment_id`),
   FULLTEXT KEY `name` (`name`,`tags`,`phone`),
   CONSTRAINT `fk_residents_apartments1` FOREIGN KEY (`apartment_id`) REFERENCES `apartments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `residents` */
 
-insert  into `residents`(`id`,`apartment_id`,`name`,`sex`,`document_type`,`document`,`email`,`phone`,`photo`,`tags`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Felipe Echeverri',1,1,'98766496','pipe.echeverri.1@gmail.com','3136600674','archivos/20191021194039-descarga.jpg','hola,bien,o ,no',1,'2019-10-21 14:40:39','admin','2019-10-21 14:40:39','admin'),(2,1,'Maria Martinez',2,1,'12343212','maria.martinez@gmail.com','323432321','archivos/20191103221432-descarga.jpg','Esposa felipe',1,'2019-11-03 17:14:32','admin','2019-11-03 17:14:32','admin'),(3,2,'henry Echeverri',1,1,'34567890','henry@gmail.com','3124567667','archivos/20191103231946-descarga.jpg','henry',1,'2019-11-03 18:19:46','admin','2019-11-03 18:19:46','admin');
+insert  into `residents`(`id`,`apartment_id`,`name`,`sex`,`document_type`,`document`,`email`,`phone`,`photo`,`tags`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,1,'Felipe Echeverri',1,1,'98766496','pipe.echeverri.1@gmail.com','3136600674','archivos/20191021194039-descarga.jpg','hola,bien,o ,no',1,'2019-10-21 14:40:39','admin','2019-10-21 14:40:39','admin'),(2,1,'Maria Martinez',2,1,'12343212','maria.martinez@gmail.com','323432321','archivos/20191103221432-descarga.jpg','Esposa felipe',1,'2019-11-03 17:14:32','admin','2019-11-03 17:14:32','admin'),(3,2,'henry Echeverri',1,1,'34567890','henry@gmail.com','3124567667','archivos/20191103231946-descarga.jpg','henry',1,'2019-11-03 18:19:46','admin','2019-11-03 18:19:46','admin'),(5,3,'Juan Gonzalez',1,1,'123456','jan@gmail.com','123456','archivos/20200608161136-foto.jpg','',1,'2020-06-08 11:11:03','admin','2020-06-08 11:11:36','admin');
 
 /*Table structure for table `security_cameras` */
 
@@ -479,11 +479,11 @@ CREATE TABLE `security_guards` (
   PRIMARY KEY (`id`),
   KEY `FK_security_guards` (`user_id`),
   CONSTRAINT `FK_security_guards` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `security_guards` */
 
-insert  into `security_guards`(`id`,`active`,`created`,`created_by`,`modified`,`modified_by`,`user_id`) values (15,1,'2020-05-19 15:38:55','supervisor','2020-05-19 15:38:55','supervisor',3),(18,1,'2020-05-19 16:29:31','admin','2020-05-19 16:29:31','admin',4);
+insert  into `security_guards`(`id`,`active`,`created`,`created_by`,`modified`,`modified_by`,`user_id`) values (22,1,'2020-06-08 11:40:32','admin','2020-06-08 11:40:32','admin',4),(23,1,'2020-06-08 11:57:51','admin','2020-06-08 11:57:51','admin',3);
 
 /*Table structure for table `users` */
 

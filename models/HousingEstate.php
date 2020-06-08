@@ -24,8 +24,9 @@ use Yii;
  *
  * @property Administrators[] $administrators
  * @property Apartments[] $apartments
+ * @property Authorizations[] $authorizations
  * @property Gates[] $gates
- * @property Cities $city
+ * @property HousingEstateSecurityGuard[] $housingEstateSecurityGuards
  * @property SecurityCameras[] $securityCameras
  */
 class HousingEstate extends BeforeModel {
@@ -90,7 +91,14 @@ class HousingEstate extends BeforeModel {
      */
     public function getApartments() {
         return $this->hasMany(Apartments::className(), ['housing_estate_id' => 'id'])
-                ->andOnCondition(['apartments.active' => 1]);
+                        ->andOnCondition(['apartments.active' => 1]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthorizations() {
+        return $this->hasMany(Authorizations::className(), ['housing_estate_id' => 'id']);
     }
 
     /**
@@ -98,14 +106,14 @@ class HousingEstate extends BeforeModel {
      */
     public function getGates() {
         return $this->hasMany(Gates::className(), ['housing_estate_id' => 'id'])
-                ->andOnCondition(['gates.active' => 1]);
+                        ->andOnCondition(['gates.active' => 1]);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCity() {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    public function getHousingEstateSecurityGuards() {
+        return $this->hasMany(HousingEstateSecurityGuard::className(), ['housing_estate_id' => 'id']);
     }
 
     /**
@@ -113,7 +121,14 @@ class HousingEstate extends BeforeModel {
      */
     public function getSecurityCameras() {
         return $this->hasMany(SecurityCameras::className(), ['housing_estate_id' => 'id'])
-                ->andOnCondition(['security_cameras.active' => 1]);
+                        ->andOnCondition(['security_cameras.active' => 1]);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity() {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
 
 }

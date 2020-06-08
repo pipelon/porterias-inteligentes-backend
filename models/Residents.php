@@ -44,7 +44,7 @@ class Residents extends BeforeModel {
         return [
             [['apartment_id', 'name', 'sex', 'document_type', 'document'], 'required'],
             //[['file'], 'required', 'on' => 'create'],
-            [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
+            [['apartment_id', 'sex', 'document_type', 'active', 'phone'], 'integer'],
             [['tags'], 'string'],
             [['created', 'modified', 'apartmentname'], 'safe'],
             [['name', 'photo'], 'string', 'max' => 255],

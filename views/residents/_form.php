@@ -21,7 +21,7 @@ use kartik\file\FileInput;
                     [
                         'fieldConfig' => [
                             'template' => "{label}\n{input}\n{hint}\n{error}\n",
-                            'options' => ['class' => 'form-group col-md-6'],
+                            'options' => ['class' => 'form-group col-md-6', 'enctype' => 'multipart/form-data'],
                             'horizontalCssClasses' => [
                                 'label' => '',
                                 'offset' => '',
