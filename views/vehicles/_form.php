@@ -40,14 +40,8 @@ use kartik\file\FileInput;
                 <?php
                 $dataList = yii\helpers\ArrayHelper::map(
                                 \app\models\Apartments::find()
-                                        ->select([
-                                            "id" => "apartments.id",
-                                            "unidad" => "housing_estate.name",
-                                            "name" => "apartments.name"
-                                        ])
-                                        ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
                                         ->all()
-                                , 'id', 'name', 'unidad');
+                                , 'id', 'name', 'housingEstate.name')
                 ?>
 
                 <?=
@@ -64,11 +58,7 @@ use kartik\file\FileInput;
             </div>   
             <div class="row-field">
                 <?= $form->field($model, 'license_plate')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
-
-            </div>
-            <div class="row-field">
+            
                 <?=
                 $form->field($model, 'file')->widget(FileInput::classname(), [
                     'pluginOptions' => [

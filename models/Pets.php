@@ -11,7 +11,7 @@ use Yii;
  * @property int $apartment_id Apartamento
  * @property string $name Nombre de la mascota
  * @property string $description Descripción
- * @property string $photo Foto 
+ * @property string $photo Foto\n
  * @property int $type Tipo
  * @property string $created Creado
  * @property string $created_by Creado por
@@ -37,7 +37,6 @@ class Pets extends BeforeModel {
     public function rules() {
         return [
             [['apartment_id', 'name', 'type'], 'required'],
-            //[['file'], 'required', 'on' => 'create'],
             [['apartment_id', 'type'], 'integer'],
             [['description'], 'string'],
             [['created', 'modified'], 'safe'],

@@ -26,13 +26,14 @@ if (\Yii::$app->user->can('/vehicles/*') || \Yii::$app->user->can('/*')) {
 ?>
 <div class="vehicles-index box box-primary">
     <div class="box-header with-border">
-    <?php  if (\Yii::$app->user->can('/vehicles/create') || \Yii::$app->user->can('/*')) :  ?> 
-        <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> '.'Crear vehículo', ['create'], ['class' => 'btn btn-primary']) ?>
-    <?php  endif;  ?> 
+        <?php if (\Yii::$app->user->can('/vehicles/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear vehículo', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-        <?= GridView::widget([
+        <?=
+        GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
@@ -54,14 +55,8 @@ if (\Yii::$app->user->can('/vehicles/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Apartments::find()
-                                    ->select([
-                                        "id" => "apartments.id",
-                                        "unidad" => "housing_estate.name",
-                                        "name" => "apartments.name"
-                                    ])
-                                    ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
                                     ->all()
-                            , 'id', 'name', 'unidad')
+                            , 'id', 'name', 'housingEstate.name')
                 ],
                 'license_plate',
                 [
@@ -89,13 +84,14 @@ if (\Yii::$app->user->can('/vehicles/*') || \Yii::$app->user->can('/*')) {
                         'delete' => function ($url, $model) {
                             return Html::a('<span class="flaticon-circle" style="font-size: 20px"></span>', $url, [
                                         'data-confirm' => '¿Está seguro que desea eliminar este ítem?',
-					'data-method' => 'post',
+                                        'data-method' => 'post',
                                         'title' => 'Borrar',
                             ]);
                         }
                     ]
                 ],
             ],
-        ]); ?>
+        ]);
+        ?>
     </div>
 </div>

@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
  * VehiclesController implements the CRUD actions for Vehicles model.
  */
 class VehiclesController extends Controller {
-    
+
     public $especial = array("á", "é", "í", "ó", "ú", "Á", "É", "Í", "Ó", "Ú", "ñ", "Ñ", " ");
     public $wespecial = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", "n", "N", "-");
 
@@ -63,31 +63,38 @@ class VehiclesController extends Controller {
      */
     public function actionCreate() {
         $model = new Vehicles();
-        $model->scenario = 'create';
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             //INSTACIO EL ARCHIVO CARGADO
-            if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
-                Yii::$app->session->setFlash('error', "El archivo no pudo "
-                        . "ser cargado. Inténtelo de nuevo.");
-                return $this->redirect(['index']);
+            $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+            if (!is_null($model->file)) {
+                if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
+                    Yii::$app->session->setFlash('error', "El archivo no pudo "
+                            . "ser cargado. Inténtelo de nuevo.");
+                    return $this->redirect(['index']);
+                }
+
+                //RUTA DE ALMACENAJE LOCAL Y NOMBRE
+                $ruta = 'archivos/' . date('YmdHis') . '-'
+                        . strtolower(trim(str_replace($this->especial, $this->wespecial, $model->file->baseName))) . '.'
+                        . strtolower(trim($model->file->extension));
+                if (!@$model->file->saveAs($ruta, false)) {
+                    Yii::$app->session->setFlash('error', "El archivo no pudo "
+                            . "ser guardado. Inténtelo de nuevo.");
+                    return $this->redirect(['index']);
+                }
+
+                //GUARDO LOS DATOS
+                $model->photo = $ruta;
+            } else {
+                $model->photo = "";
             }
 
-            //RUTA DE ALMACENAJE LOCAL Y NOMBRE
-            $ruta = 'archivos/' . date('YmdHis') . '-'
-                    . strtolower(trim(str_replace($this->especial, $this->wespecial, $model->file->baseName))) . '.'
-                    . strtolower(trim($model->file->extension));
-            if (!@$model->file->saveAs($ruta, false)) {
-                Yii::$app->session->setFlash('error', "El archivo no pudo "
-                        . "ser guardado. Inténtelo de nuevo.");
-                return $this->redirect(['index']);
-            }
-
-            //GUARDO LOS DATOS
-            $model->photo = $ruta;
             if (!$model->save()) {
-                unlink($model->photo);
+                if(file_exists($model->photo)){
+                    unlink($model->photo);
+                }
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
@@ -111,6 +118,7 @@ class VehiclesController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             //INSTACIO EL ARCHIVO CARGADO
             $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
             if (!is_null($model->file)) {
@@ -124,11 +132,13 @@ class VehiclesController extends Controller {
                     return $this->redirect(['index']);
                 }
                 //GUARDO LOS DATOS
-                unlink($model->photo);
+                if (file_exists($model->photo)) {
+                    unlink($model->photo);
+                }
                 $model->photo = $ruta;
             }
 
-            if (!$model->save()) {                
+            if (!$model->save()) {
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
@@ -149,8 +159,10 @@ class VehiclesController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $photo = $this->findModel($id);
-        unlink($photo->photo);
+        $model = $this->findModel($id);
+        if (file_exists($model->photo)) {
+            unlink($model->photo);
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

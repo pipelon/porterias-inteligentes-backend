@@ -50,6 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'neighborhood',
                 [
+                    'attribute' => 'security_guard_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->securityGuard->name;
+                    },
+                ],
+                [
                     'attribute' => 'active',
                     'format' => 'raw',
                     'value' => function ($data) {

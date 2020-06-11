@@ -206,13 +206,13 @@ $this->title = 'Te cuido';
                     <!-- /.info-box -->
                 </div>
             <?php endif; ?>
-            <?php if (\Yii::$app->user->can('/cards/index') || \Yii::$app->user->can('/*')) : ?>
+            <?php if (\Yii::$app->user->can('/accesscards/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box bg-aqua">
                         <span class="info-box-icon"><i class="flaticon-lock"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Tarjetas de acceso</span>
+                            <span class="info-box-text">Tarjetas de acceso peatonal</span>
                             <span class="info-box-number">&nbsp;</span>
 
                             <div class="progress">
@@ -220,7 +220,7 @@ $this->title = 'Te cuido';
                             </div>
                             <span class="progress-description">
                                 <i class="fa fa-arrow-circle-right"></i>                            
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/cards/index'], ['style' => 'color: white']); ?>
+                                <?= \yii\bootstrap\Html::a('Ver más', ['/accesscards/index'], ['style' => 'color: white']); ?>
                             </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -228,13 +228,13 @@ $this->title = 'Te cuido';
                     <!-- /.info-box -->
                 </div>
             <?php endif; ?>
-            <?php if (\Yii::$app->user->can('/cards-log/index') || \Yii::$app->user->can('/*')) : ?>
+            <?php if (\Yii::$app->user->can('/accesscards-vehicles/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box bg-aqua">
-                        <span class="info-box-icon"><i class="flaticon-clipboard"></i></span>
+                        <span class="info-box-icon"><i class="flaticon-lock"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">LOG Tarjetas de acceso</span>
+                            <span class="info-box-text">Tarjetas de acceso vehicular</span>
                             <span class="info-box-number">&nbsp;</span>
 
                             <div class="progress">
@@ -242,7 +242,51 @@ $this->title = 'Te cuido';
                             </div>
                             <span class="progress-description">
                                 <i class="fa fa-arrow-circle-right"></i>                            
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/cards-log/index'], ['style' => 'color: white']); ?>
+                                <?= \yii\bootstrap\Html::a('Ver más', ['/accesscards-vehicles/index'], ['style' => 'color: white']); ?>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            <?php endif; ?>
+            <?php if (\Yii::$app->user->can('/accesscards-log/index') || \Yii::$app->user->can('/*')) : ?>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon"><i class="flaticon-clipboard"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">LOG T. de acceso peatonal</span>
+                            <span class="info-box-number">&nbsp;</span>
+
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                            <span class="progress-description">
+                                <i class="fa fa-arrow-circle-right"></i>                            
+                                <?= \yii\bootstrap\Html::a('Ver más', ['/accesscards-log/index'], ['style' => 'color: white']); ?>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            <?php endif; ?>
+            <?php if (\Yii::$app->user->can('/accesscardsvehicles-log/index') || \Yii::$app->user->can('/*')) : ?>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon"><i class="flaticon-clipboard"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">LOG T. de acceso vehicular</span>
+                            <span class="info-box-number">&nbsp;</span>
+
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                            <span class="progress-description">
+                                <i class="fa fa-arrow-circle-right"></i>                            
+                                <?= \yii\bootstrap\Html::a('Ver más', ['/accesscardsvehicles-log/index'], ['style' => 'color: white']); ?>
                             </span>
                         </div>
                         <!-- /.info-box-content -->

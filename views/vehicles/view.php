@@ -56,14 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($data) {
                         return Yii::$app->params['vehicle_type'][$data->type];
                     },
-                ],
-                [
-                    'attribute' => 'active',
-                    'format' => 'raw',
-                    'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->active);
-                    },
-                ],
+                ],                
                 'created:datetime',
                 'created_by',
                 'modified:datetime',

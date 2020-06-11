@@ -55,14 +55,8 @@ if (\Yii::$app->user->can('/pets/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Apartments::find()
-                                    ->select([
-                                        "id" => "apartments.id",
-                                        "unidad" => "housing_estate.name",
-                                        "name" => "apartments.name"
-                                    ])
-                                    ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
                                     ->all()
-                            , 'id', 'name', 'unidad')
+                            , 'id', 'name', 'housingEstate.name')
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',

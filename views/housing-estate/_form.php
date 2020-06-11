@@ -51,28 +51,40 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
+
                 <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'police_phone_number')->textInput(['maxlength' => true]) ?>
 
                 <?php
                 $dataList = yii\helpers\ArrayHelper::map(
                                 \app\models\Cities::find()
                                         ->where(['active' => 1])
+                                        ->orderBy('name ASC')
                                         ->all()
                                 , 'id', 'name');
                 ?>
                 <?= $form->field($model, 'city_id')->dropDownList($dataList, ['prompt' => '- Seleccione una ciudad -']) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'phone_number')->textInput(['maxlength' => true]) ?>
-
-                <?= $form->field($model, 'police_phone_number')->textInput(['maxlength' => true]) ?>              
-
-            </div>
-            <div class="row-field">
                 <?= $form->field($model, 'neighborhood')->textInput(['maxlength' => true]) ?>
 
-                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>                
-
+                <?php
+                $dataList2 = yii\helpers\ArrayHelper::map(
+                                \app\models\Users::find()
+                                        ->innerJoin('auth_assignment', 'auth_assignment.user_id = users.id')
+                                        ->where(['users.active' => 1, 'auth_assignment.item_name' => 'Portero'])
+                                        ->orderBy('name ASC')
+                                        ->all()
+                                , 'id', 'name');
+                ?>
+                <?= $form->field($model, 'security_guard_id')->dropDownList($dataList2, ['prompt' => '- Seleccione un portero -']) ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>   
             </div>
             <div class="row-field">
                 <?= $form->field($model, 'location')->hiddenInput(['maxlength' => true, 'id' => 'location']) ?>
@@ -80,8 +92,9 @@ use yii\bootstrap\ActiveForm;
                     <div id="map"></div>
                 </div>
             </div>
-        </div>
 
+
+        </div>
     </div>
     <div class="box-footer">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
@@ -158,5 +171,7 @@ if (isset($model->location)) {
         }
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT8zGRY3VHICCuxEetWXc_F-50-o8Vo2Y&callback=initMap"
+<script async 
+        defer 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT8zGRY3VHICCuxEetWXc_F-50-o8Vo2Y&callback=initMap"
 type="text/javascript"></script>

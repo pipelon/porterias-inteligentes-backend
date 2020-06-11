@@ -21,13 +21,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'address') ?>
-
     <?= $form->field($model, 'location') ?>
 
-    <?php // echo $form->field($model, 'city') ?>
+    <?= $form->field($model, 'address') ?>
+
+    <?php // echo $form->field($model, 'phone_number') ?>
+
+    <?php // echo $form->field($model, 'police_phone_number') ?>
+
+    <?php // echo $form->field($model, 'city_id') ?>
 
     <?php // echo $form->field($model, 'neighborhood') ?>
+
+    <?php // echo $form->field($model, 'security_guard_id') ?>
 
     <?php // echo $form->field($model, 'active') ?>
 

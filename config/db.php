@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=porterias_inteligentes',
+    'dsn' => 'mysql:host=localhost;dbname=tecuido',
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',

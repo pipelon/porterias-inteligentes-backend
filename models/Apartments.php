@@ -28,8 +28,6 @@ use Yii;
  * @property Vehicles[] $vehicles
  */
 class Apartments extends BeforeModel {
-    
-    public $unidad;
 
     /**
      * {@inheritdoc}
@@ -45,7 +43,7 @@ class Apartments extends BeforeModel {
         return [
             [['housing_estate_id', 'floor', 'name', 'phone_number_1'], 'required'],
             [['housing_estate_id', 'floor', 'active'], 'integer'],
-            [['created', 'modified', 'unidad'], 'safe'],
+            [['created', 'modified'], 'safe'],
             [['block', 'created_by', 'modified_by'], 'string', 'max' => 45],
             [['name'], 'string', 'max' => 20],
             [['phone_number_1', 'phone_number_2', 'cellphone_number_1', 'cellphone_number_2'], 'string', 'max' => 15],

@@ -10,12 +10,13 @@ use Yii;
  * @property int $id ID
  * @property string $name Nombre unidad residencial
  * @property string $description Descripción
- * @property int $city_id Ciudad
  * @property string $location Ubicación
  * @property string $address Dirección
  * @property string $phone_number Teléfono portería
  * @property string $police_phone_number Número del cuadrante
+ * @property int $city_id
  * @property string $neighborhood Barrio
+ * @property int $security_guard_id Portero
  * @property int $active Activo
  * @property string $created Creado
  * @property string $created_by Creado por
@@ -24,9 +25,9 @@ use Yii;
  *
  * @property Administrators[] $administrators
  * @property Apartments[] $apartments
- * @property Authorizations[] $authorizations
  * @property Gates[] $gates
- * @property HousingEstateSecurityGuard[] $housingEstateSecurityGuards
+ * @property Cities $city
+ * @property Users $securityGuard
  * @property SecurityCameras[] $securityCameras
  */
 class HousingEstate extends BeforeModel {
@@ -43,16 +44,15 @@ class HousingEstate extends BeforeModel {
      */
     public function rules() {
         return [
-            [['name', 'description', 'city_id', 'location', 'address', 'neighborhood'], 'required'],
-            [['city_id', 'active'], 'integer'],
+            [['name', 'description', 'location', 'address', 'city_id', 'neighborhood', 'security_guard_id'], 'required'],
+            [['city_id', 'security_guard_id', 'active'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['name'], 'string', 'max' => 200],
-            [['name', 'description'], 'filter', 'filter' => 'ucfirst'],
+            [['name', 'location', 'neighborhood'], 'string', 'max' => 100],
             [['description', 'address'], 'string', 'max' => 255],
             [['phone_number', 'police_phone_number'], 'string', 'max' => 15],
-            [['location', 'neighborhood'], 'string', 'max' => 100],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['security_guard_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['security_guard_id' => 'id']],
         ];
     }
 
@@ -64,12 +64,13 @@ class HousingEstate extends BeforeModel {
             'id' => 'ID',
             'name' => 'Nombre unidad residencial',
             'description' => 'Descripción',
-            'city_id' => 'Ciudad',
             'location' => 'Ubicación',
             'address' => 'Dirección',
             'phone_number' => 'Teléfono portería',
             'police_phone_number' => 'Número del cuadrante',
+            'city_id' => 'Ciudad',
             'neighborhood' => 'Barrio',
+            'security_guard_id' => 'Portero',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',
@@ -97,13 +98,6 @@ class HousingEstate extends BeforeModel {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAuthorizations() {
-        return $this->hasMany(Authorizations::className(), ['housing_estate_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getGates() {
         return $this->hasMany(Gates::className(), ['housing_estate_id' => 'id'])
                         ->andOnCondition(['gates.active' => 1]);
@@ -112,8 +106,15 @@ class HousingEstate extends BeforeModel {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getHousingEstateSecurityGuards() {
-        return $this->hasMany(HousingEstateSecurityGuard::className(), ['housing_estate_id' => 'id']);
+    public function getCity() {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSecurityGuard() {
+        return $this->hasOne(Users::className(), ['id' => 'security_guard_id']);
     }
 
     /**
@@ -122,13 +123,6 @@ class HousingEstate extends BeforeModel {
     public function getSecurityCameras() {
         return $this->hasMany(SecurityCameras::className(), ['housing_estate_id' => 'id'])
                         ->andOnCondition(['security_cameras.active' => 1]);
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCity() {
-        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
     }
 
 }

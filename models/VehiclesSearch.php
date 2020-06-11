@@ -18,7 +18,7 @@ class VehiclesSearch extends Vehicles
     public function rules()
     {
         return [
-            [['id', 'apartment_id', 'type', 'active'], 'integer'],
+            [['id', 'apartment_id', 'type'], 'integer'],
             [['photo', 'license_plate', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
@@ -63,7 +63,6 @@ class VehiclesSearch extends Vehicles
             'id' => $this->id,
             'apartment_id' => $this->apartment_id,
             'type' => $this->type,
-            'active' => $this->active,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id ID
  * @property int $housing_estate_id Unidad residencial
- * @property string $name Nombres completos del administrador
+ * @property string $name Nombre administrador/a
  * @property string $cellphone Número de celular
  * @property string $email Correo electrónico
  * @property string $startdate Fecha de inicio
@@ -24,7 +24,7 @@ use Yii;
  * @property HousingEstate $housingEstate
  */
 class Administrators extends BeforeModel {
-
+    
     public $file;
 
     /**
@@ -39,15 +39,12 @@ class Administrators extends BeforeModel {
      */
     public function rules() {
         return [
-            [['housing_estate_id', 'name', 'cellphone', 'email', 'photo'], 'required'],
+            [['housing_estate_id', 'name', 'cellphone'], 'required'],
             [['housing_estate_id', 'active'], 'integer'],
-            [['file'], 'required', 'on' => 'create'],
             [['startdate', 'enddate', 'created', 'modified'], 'safe'],
             [['name', 'photo'], 'string', 'max' => 255],
             [['cellphone'], 'string', 'max' => 15],
             [['email'], 'string', 'max' => 100],
-            [['email'], 'email'],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
             //file
             [
                 ['file'], 'file',
@@ -56,7 +53,7 @@ class Administrators extends BeforeModel {
                 ],
                 'maxSize' => Yii::$app->params['maxSize'] * 1024
             ],
-            [['name'], 'filter', 'filter' => 'ucwords'],
+            [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
     }
@@ -68,14 +65,14 @@ class Administrators extends BeforeModel {
         return [
             'id' => 'ID',
             'housing_estate_id' => 'Unidad residencial',
-            'name' => 'Nombres completos del administrador',
+            'name' => 'Nombre administrador/a',
             'cellphone' => 'Número de celular',
             'email' => 'Correo electrónico',
             'startdate' => 'Fecha de inicio',
             'enddate' => 'Fecha fin',
             'photo' => 'Foto',
-            'file' => 'Imagen',
             'active' => 'Activo',
+            'file' => 'Imagen',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

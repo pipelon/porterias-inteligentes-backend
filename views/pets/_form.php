@@ -40,14 +40,8 @@ use kartik\file\FileInput;
                 <?php
                 $dataList = yii\helpers\ArrayHelper::map(
                                 \app\models\Apartments::find()
-                                        ->select([
-                                            "id" => "apartments.id",
-                                            "unidad" => "housing_estate.name",
-                                            "name" => "apartments.name"
-                                        ])
-                                        ->join('LEFT JOIN', 'housing_estate', 'housing_estate_id = housing_estate.id')
-                                        ->all()
-                                , 'id', 'name', 'unidad');
+                                    ->all()
+                            , 'id', 'name', 'housingEstate.name');
                 ?>
 
                 <?=

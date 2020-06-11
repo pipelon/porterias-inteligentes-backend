@@ -12,12 +12,12 @@ use Yii;
  * @property string $photo Foto
  * @property string $license_plate Placa
  * @property int $type Tipo
- * @property int $active Activo
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  *
+ * @property AccesscardsVehicles[] $accesscardsVehicles
  * @property Apartments $apartment
  */
 class Vehicles extends BeforeModel {
@@ -37,8 +37,7 @@ class Vehicles extends BeforeModel {
     public function rules() {
         return [
             [['apartment_id', 'license_plate', 'type'], 'required'],
-            [['file'], 'required', 'on' => 'create'],
-            [['apartment_id', 'type', 'active'], 'integer'],
+            [['apartment_id', 'type'], 'integer'],
             [['created', 'modified'], 'safe'],
             [['photo'], 'string', 'max' => 255],
             [['license_plate'], 'string', 'max' => 10],
@@ -66,12 +65,18 @@ class Vehicles extends BeforeModel {
             'license_plate' => 'Placa',
             'type' => 'Tipo',
             'file' => 'Imagen',
-            'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',
             'modified_by' => 'Modificado por',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccesscardsVehicles() {
+        return $this->hasMany(AccesscardsVehicles::className(), ['vehicle_id' => 'id']);
     }
 
     /**

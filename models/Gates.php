@@ -26,8 +26,6 @@ use Yii;
  * @property VideoDoorman[] $videoDoormen
  */
 class Gates extends \yii\db\ActiveRecord {
-    
-    public $housing_estate;
 
     /**
      * {@inheritdoc}
@@ -44,7 +42,7 @@ class Gates extends \yii\db\ActiveRecord {
             [['housing_estate_id', 'name', 'location', 'created', 'created_by', 'modified', 'modified_by'], 'required'],
             [['housing_estate_id', 'state', 'active'], 'integer'],
             [['state_description'], 'string'],
-            [['created', 'modified', 'housing_estate'], 'safe'],
+            [['created', 'modified'], 'safe'],
             [['name', 'location'], 'string', 'max' => 255],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],

@@ -27,7 +27,7 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
 <div class="housing-estate-index box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/housing-estate/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear unidad residencial', ['create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Nueva unidad residencial', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -55,13 +55,29 @@ if (\Yii::$app->user->can('/housing-estate/*') || \Yii::$app->user->can('/*')) {
                 'address',
                 'neighborhood',
                 [
-                    'attribute' => 'active',
+                    'attribute' => 'security_guard_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->active);
+                        return $data->securityGuard->name;
                     },
-                    'filter' => Yii::$app->utils->getFilterConditional()
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\Users::find()
+                                    ->innerJoin('auth_assignment', 'auth_assignment.user_id = users.id')
+                                    ->where(['users.active' => 1, 'auth_assignment.item_name' => 'Portero'])
+                                    ->orderBy('name ASC')
+                                    ->all()
+                            , 'id', 'name')
                 ],
+                // 'phone_number',
+                // 'police_phone_number',
+                // 'city_id',
+                // 'neighborhood',
+                // 'security_guard_id',
+                // 'active',
+                // 'created',
+                // 'created_by',
+                // 'modified',
+                // 'modified_by',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

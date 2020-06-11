@@ -23,13 +23,13 @@ use Yii;
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  *
+ * @property Accesscards[] $accesscards
  * @property Apartments $apartment
  */
 class Residents extends BeforeModel {
 
     public $file;
-    public $apartmentname;
-
+    
     /**
      * {@inheritdoc}
      */
@@ -43,10 +43,9 @@ class Residents extends BeforeModel {
     public function rules() {
         return [
             [['apartment_id', 'name', 'sex', 'document_type', 'document'], 'required'],
-            //[['file'], 'required', 'on' => 'create'],
-            [['apartment_id', 'sex', 'document_type', 'active', 'phone'], 'integer'],
+            [['apartment_id', 'sex', 'document_type', 'active'], 'integer'],
             [['tags'], 'string'],
-            [['created', 'modified', 'apartmentname'], 'safe'],
+            [['created', 'modified'], 'safe'],
             [['name', 'photo'], 'string', 'max' => 255],
             [['document'], 'string', 'max' => 20],
             [['email'], 'string', 'max' => 100],
@@ -71,7 +70,7 @@ class Residents extends BeforeModel {
         return [
             'id' => 'ID',
             'apartment_id' => 'Apartamento',
-            'name' => 'Nombres completos',
+            'name' => 'Nombre completo',
             'sex' => 'Sexo',
             'document_type' => 'Tipo de documento',
             'document' => 'Documento',
@@ -86,6 +85,13 @@ class Residents extends BeforeModel {
             'modified' => 'Modificado',
             'modified_by' => 'Modificado por',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccesscards() {
+        return $this->hasMany(Accesscards::className(), ['resident_id' => 'id']);
     }
 
     /**

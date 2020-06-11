@@ -18,8 +18,8 @@ class HousingEstateSearch extends HousingEstate
     public function rules()
     {
         return [
-            [['id', 'city_id', 'active'], 'integer'],
-            [['name', 'description', 'location', 'address', 'neighborhood', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'city_id', 'security_guard_id', 'active'], 'integer'],
+            [['name', 'description', 'location', 'address', 'phone_number', 'police_phone_number', 'neighborhood', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class HousingEstateSearch extends HousingEstate
         $query->andFilterWhere([
             'id' => $this->id,
             'city_id' => $this->city_id,
+            'security_guard_id' => $this->security_guard_id,
             'active' => $this->active,
             'created' => $this->created,
             'modified' => $this->modified,
@@ -71,6 +72,8 @@ class HousingEstateSearch extends HousingEstate
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'location', $this->location])
             ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'phone_number', $this->phone_number])
+            ->andFilterWhere(['like', 'police_phone_number', $this->police_phone_number])
             ->andFilterWhere(['like', 'neighborhood', $this->neighborhood])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);

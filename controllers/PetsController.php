@@ -65,9 +65,10 @@ class PetsController extends Controller {
         $model = new Pets();
         //$model->scenario = 'create';
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            if ($model->file) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //INSTACIO EL ARCHIVO CARGADO
+            $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+            if (!is_null($model->file)) {
 
                 //INSTACIO EL ARCHIVO CARGADO
                 if (!$model->file = \yii\web\UploadedFile::getInstance($model, 'file')) {
@@ -93,7 +94,9 @@ class PetsController extends Controller {
 
 
             if (!$model->save()) {
-                unlink($model->photo);
+                if(file_exists($model->photo)){
+                    unlink($model->photo);
+                }
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
@@ -158,7 +161,9 @@ class PetsController extends Controller {
      */
     public function actionDelete($id) {
         $photo = $this->findModel($id);
-        unlink($photo->photo);
+        if (is_dir($photo->photo)) {
+            unlink($photo->photo);
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

@@ -94,7 +94,9 @@ class ResidentsController extends Controller {
             }
 
             if (!$model->save()) {
-                unlink($model->photo);
+                if (file_exists($model->photo)) {
+                    unlink($model->photo);
+                }
                 Yii::$app->session->setFlash('error', "El archivo no pudo "
                         . "ser cargado. Inténtelo de nuevo.");
                 return $this->redirect(['index']);
