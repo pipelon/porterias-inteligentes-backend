@@ -29,7 +29,7 @@ class AccesscardsLog extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['card_code', 'state', 'state_description', 'created'], 'required'],
+            [['state', 'state_description', 'created'], 'required'],
             [['state'], 'integer'],
             [['state_description'], 'string'],
             [['created'], 'safe'],

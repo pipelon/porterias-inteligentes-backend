@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\AccesscardsLog;
-use app\modelsAccesscardsLogSearch;
+use app\models\AccesscardsLogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class AccesscardsLogController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new modelsAccesscardsLogSearch();
+        $searchModel = new AccesscardsLogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

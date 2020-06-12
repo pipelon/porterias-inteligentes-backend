@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\SecurityGuards;
+use app\models\AccesscardsLog;
 
 /**
- * SecurityGuardsSearch represents the model behind the search form of `app\models\SecurityGuards`.
+ * AccesscardsLogSearch represents the model behind the search form of `app\models\AccesscardsLog`.
  */
-class SecurityGuardsSearch extends SecurityGuards
+class AccesscardsLogSearch extends AccesscardsLog
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SecurityGuardsSearch extends SecurityGuards
     public function rules()
     {
         return [
-            [['id', 'active', 'user_id'], 'integer'],
-            [['created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'state'], 'integer'],
+            [['card_code', 'state_description', 'created'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SecurityGuardsSearch extends SecurityGuards
      */
     public function search($params)
     {
-        $query = SecurityGuards::find();
+        $query = AccesscardsLog::find();
 
         // add conditions that should always apply here
 
@@ -61,14 +61,12 @@ class SecurityGuardsSearch extends SecurityGuards
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'active' => $this->active,
+            'state' => $this->state,
             'created' => $this->created,
-            'modified' => $this->modified,
-            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+        $query->andFilterWhere(['like', 'card_code', $this->card_code])
+            ->andFilterWhere(['like', 'state_description', $this->state_description]);
 
         return $dataProvider;
     }

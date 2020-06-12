@@ -27,15 +27,9 @@ $template = '';
                             . ' - ' . $data->gate->name;
                 },
                 'filter' => yii\helpers\ArrayHelper::map(
-                        \app\models\Gates::find()
-                                ->select([
-                                    "id" => "gates.id",
-                                    "housing_estate" => "housing_estate.name",
-                                    "name" => "gates.name"
-                                ])
-                                ->join('LEFT JOIN', 'housing_estate', 'gates.housing_estate_id = housing_estate.id')
+                        \app\models\Gates::find()                                
                                 ->all()
-                        , 'id', 'name', 'housing_estate')
+                        , 'id', 'name', 'housingEstate.name')
             ],
             [
                 'attribute' => 'state',

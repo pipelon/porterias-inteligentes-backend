@@ -25,7 +25,7 @@ use Yii;
  * @property OpeningSensors[] $openingSensors
  * @property VideoDoorman[] $videoDoormen
  */
-class Gates extends \yii\db\ActiveRecord {
+class Gates extends BeforeModel {
 
     /**
      * {@inheritdoc}
@@ -39,7 +39,7 @@ class Gates extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['housing_estate_id', 'name', 'location', 'created', 'created_by', 'modified', 'modified_by'], 'required'],
+            [['housing_estate_id', 'name', 'location'], 'required'],
             [['housing_estate_id', 'state', 'active'], 'integer'],
             [['state_description'], 'string'],
             [['created', 'modified'], 'safe'],
