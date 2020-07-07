@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Gates */
 
 $this->title = 'Actualizar puerta: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'puertas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Puertas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'actualizar';
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="gates-update">
 

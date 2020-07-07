@@ -267,10 +267,9 @@ DROP TABLE IF EXISTS `gates`;
 CREATE TABLE `gates` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `housing_estate_id` int(11) NOT NULL COMMENT 'Unidad residencial',
-  `name` varchar(255) NOT NULL COMMENT 'Puerta',
-  `location` varchar(255) NOT NULL COMMENT 'Ubicación',
-  `state` tinyint(4) DEFAULT 1 COMMENT 'Estado',
-  `state_description` text DEFAULT NULL COMMENT 'Descripción de estado',
+  `name` varchar(255) NOT NULL COMMENT 'Nombre',
+  `open_script` text NOT NULL COMMENT 'Script apertura de puerta',
+  `close_script` text NOT NULL COMMENT 'Script cerrado de puerta',
   `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Activo',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
@@ -283,7 +282,7 @@ CREATE TABLE `gates` (
 
 /*Data for the table `gates` */
 
-insert  into `gates`(`id`,`housing_estate_id`,`name`,`location`,`state`,`state_description`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (6,1,'Puerta principal','Ubicada al lado de la portería',1,NULL,1,'2020-06-12 08:29:03','admin','2020-06-12 08:29:03','admin'),(7,1,'Puerta parqueadero','Ubicada en la entrada del parqueadero',1,NULL,1,'2020-06-12 08:29:47','admin','2020-06-12 08:29:47','admin');
+insert  into `gates`(`id`,`housing_estate_id`,`name`,`open_script`,`close_script`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (6,1,'Puerta principal','http://192.168.1.70/?DOOR2=T','http://192.168.1.70/?DOOR2=T',1,'2020-06-12 08:29:03','admin','2020-07-07 11:39:15','admin'),(7,1,'Puerta parqueadero','http://192.168.1.70/?DOOR2=T','http://192.168.1.70/?DOOR2=T',1,'2020-06-12 08:29:47','admin','2020-07-07 11:39:06','admin');
 
 /*Table structure for table `gates_logs` */
 
@@ -293,16 +292,16 @@ CREATE TABLE `gates_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `gate_id` int(11) NOT NULL COMMENT 'Portería ID',
   `state` tinyint(4) NOT NULL COMMENT 'Estado',
-  `state_description` varchar(45) NOT NULL COMMENT 'Descripción',
+  `state_description` text NOT NULL COMMENT 'Descripción',
   `created` datetime NOT NULL COMMENT 'Fecha',
   PRIMARY KEY (`id`),
   KEY `fk_gates_logs_gates1_idx` (`gate_id`),
   CONSTRAINT `fk_gates_logs_gates1` FOREIGN KEY (`gate_id`) REFERENCES `gates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
 
 /*Data for the table `gates_logs` */
 
-insert  into `gates_logs`(`id`,`gate_id`,`state`,`state_description`,`created`) values (52,6,1,'d','0000-00-00 00:00:00');
+insert  into `gates_logs`(`id`,`gate_id`,`state`,`state_description`,`created`) values (52,6,1,'d','0000-00-00 00:00:00'),(53,6,1,'Abriendo','2020-07-07 14:46:16'),(54,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:53:27'),(55,6,1,'Abriendo Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:53:36'),(56,6,1,'Abriendo Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:56:41'),(57,6,1,'Abriendo Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:57:14'),(58,6,1,'Abriendo Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:57:37'),(59,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 14:57:46'),(60,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:05:44'),(61,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:05:50'),(62,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:06:10'),(63,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:06:11'),(64,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:06:30'),(65,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:06:42'),(66,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:07:53'),(67,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:08:24'),(68,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:10:06'),(69,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:10:49'),(70,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:11:13'),(71,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:11:22'),(72,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:11:59'),(73,6,1,'Cerrando Porteria: \'Puerta principal\', Unidad: \'Mirador Del Sur Apartamentos\'.','2020-07-07 21:12:55');
 
 /*Table structure for table `housing_estate` */
 

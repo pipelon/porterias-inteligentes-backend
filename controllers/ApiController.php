@@ -241,58 +241,32 @@ class ApiController extends ActiveController {
         $request = \Yii::$app->request;
         $gate_id = $request->get('gate_id');
         $state = $request->get('state');
-        $state_description = $request->get('state_description');
 
-        if (!isset($gate_id) || !isset($state) || !isset($state_description)) {
+        if (!isset($gate_id) || !isset($state)) {
             throw new \yii\web\HttpException(400);
         }
 
-        if ($state != 0 && $state != 1) {
-            throw new \yii\web\HttpException(400);
-        }
+        //OBTENGO LA INFORMACIÓN COMPLETA DE LA UNIDAD, APARTAMENTO, USUARIO        
+        $info = \app\models\Gates::findOne($gate_id);
+        
+        $stateI = $state == 1 ? "Abriendo" : "Cerrando";
+        $msg = $stateI . " Porteria: '" . $info->name . "'"
+                . ", Unidad: '" . $info->housingEstate->name . "'.";
+        $this->setLogGates(1, $msg, $gate_id);
 
-        $model = new \app\models\GatesLogs();
-        $model->gate_id = $gate_id;
-        $model->state = $state;
-        $model->state_description = $state_description;
-        $model->created = date('Y-m-d H:i:s');
-        if (!$model->save()) {
-            throw new \yii\web\HttpException(500);
-        }
-
-        //OBTENGO LA INFO DE LA UNIDAD, LA PUERTA Y EL USUARIO
-        $sql = "SELECT gates_logs.state_description, `gates`.`name` as gate, 
-            `housing_estate`.`name` as housing_state, security_guards.user_id,
-            gates_logs.created
-            FROM `gates_logs` LEFT JOIN `gates` ON gates.id = gates_logs.gate_id 
-            LEFT JOIN `housing_estate` ON housing_estate.id = gates.housing_estate_id 
-            LEFT JOIN `housing_estate_security_guard` ON housing_estate_security_guard.housing_estate_id = housing_estate.id
-            LEFT JOIN `security_guards` ON security_guards.id = housing_estate_security_guard.security_guard_id
-            WHERE `gates_logs`.`id`=" . $model->id;
-        $command = \Yii::$app->db->createCommand($sql);
-        $result = $command->queryOne();
+        //OBTENGO EL ID DEL PORTERO QUE MANEJA LA UNIDAD
+        $unidad = \app\models\HousingEstate::find()
+                ->where(['id' => $info->housingEstate->id])
+                ->one();
 
         //ENVIO EL MENSAJE AL CLIENTE
-        $client = new Client();
-        $response = $client->createRequest()
-                ->setMethod("POST")
-                ->setUrl(\Yii::$app->params['urlServiceSocket'] . '/alertas_generales')
-                ->setHeaders([
-                    "Content-Type" => "application/json"
-                ])
-                ->setData([
-                    "userId" => $result["user_id"],
-                    "housingEstate" => $result["housing_state"],
-                    "message" => "(" . $result["gate"] . "): " . $result["state_description"],
-                    "date" => $result["created"]
-                ])
-                ->send();
+        $response = $this->setAlertSocket($unidad->security_guard_id, $info->housingEstate->name, $msg);
 
         if (!$response->isOk) {
-            throw new \yii\web\HttpException(500);
+            throw new \yii\web\HttpException(500, "No se pudo enviar la alerta al portero.");
         }
 
-        throw new \yii\web\HttpException(200);
+        throw new \yii\web\HttpException(200, $msg);
     }
 
     /**
@@ -363,7 +337,7 @@ class ApiController extends ActiveController {
 
         throw new \yii\web\HttpException(200, $msg);
     }
-    
+
     /**
      * Funcion para validar acceso de tarjeta RFID
      * 
@@ -393,7 +367,7 @@ class ApiController extends ActiveController {
             $msg = "La tarjeta: '" . $card_code . "' no existe o no está activa";
             $this->setLogAccessCardVehicle(2, $msg);
             throw new \yii\web\HttpException(500, $msg);
-        }       
+        }
 
         //OBTENGO LA INFORMACIÓN COMPLETA DE LA UNIDAD, APARTAMENTO, USUARIO        
         $info = \app\models\AccesscardsVehicles::findOne($card_code);
@@ -462,7 +436,7 @@ class ApiController extends ActiveController {
         $model->created = date('Y-m-d H:i:s');
         $model->save();
     }
-    
+
     /**
      * Funcion para guardar en el log de tarjetas de acceso de lo vehiculos
      * 
@@ -481,7 +455,26 @@ class ApiController extends ActiveController {
         $model->created = date('Y-m-d H:i:s');
         $model->save();
     }
-    
+
+    /**
+     * Funcion para guardar en el log de apertura de puertas
+     * 
+     * @author Felipe Echeverri <pipe.echeverri.1@gmail.com.co>
+     * @copyright 2020 ONICSFOT
+     * @link http://www.onicsoft.com.co    
+     * @param int $state
+     * @param string $message
+     * @param string $gate_id
+     */
+    private function setLogGates($state, $message, $gate_id) {
+        $model = new \app\models\GatesLogs();
+        $model->gate_id = $gate_id;
+        $model->state = $state;
+        $model->state_description = $message;
+        $model->created = date('Y-m-d H:i:s');
+        $model->save();
+    }
+
     /**
      * Funcion para enviar la alerta al portero por socket
      * 

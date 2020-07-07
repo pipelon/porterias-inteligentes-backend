@@ -19,7 +19,7 @@ class GatesSearch extends Gates
     {
         return [
             [['id', 'housing_estate_id', 'active'], 'integer'],
-            [['name', 'location', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['name', 'open_script', 'close_script', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -68,7 +68,8 @@ class GatesSearch extends Gates
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'location', $this->location])
+            ->andFilterWhere(['like', 'open_script', $this->open_script])
+            ->andFilterWhere(['like', 'close_script', $this->close_script])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 

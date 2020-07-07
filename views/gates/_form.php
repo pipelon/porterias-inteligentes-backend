@@ -36,19 +36,23 @@ use yii\bootstrap\ActiveForm;
         <div class="form-row">
             <div class="row-field">
                 <?php
-                $dataList = yii\helpers\ArrayHelper::map(\app\models\HousingEstate::find()->orderBy('name ASC')->where(['housing_estate.active' => 1])->all(), 'id', 'name');
+                $dataList = yii\helpers\ArrayHelper::map(
+                                \app\models\HousingEstate::find()
+                                        ->where(['active' => 1])
+                                        ->all()
+                                , 'id', 'name');
                 ?>
-                <?=
-                $form->field($model, 'housing_estate_id')->dropDownList($dataList,
-                        ['prompt' => '- Seleccione una unidad residencial -']);
-                ?>
+                <?= $form->field($model, 'housing_estate_id')->dropDownList($dataList, ['prompt' => '- Seleccione una unidad residencial -']) ?>
 
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
-                <?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'open_script')->textarea(['rows' => 6]) ?>
 
-                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
+                <?= $form->field($model, 'close_script')->textarea(['rows' => 6]) ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
             </div>
         </div>
     </div>

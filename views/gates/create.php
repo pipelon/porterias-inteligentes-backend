@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Gates */
 
-$this->title = 'Crear puerta';
+$this->title = 'Crear puertas';
 $this->params['breadcrumbs'][] = ['label' => 'Puertas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -32,7 +32,7 @@ class GatesLogs extends \yii\db\ActiveRecord {
             [['gate_id', 'state', 'state_description', 'created'], 'required'],
             [['gate_id', 'state'], 'integer'],
             [['created'], 'safe'],
-            [['state_description'], 'string', 'max' => 45],
+            [['state_description'], 'string'],
             [['gate_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gates::className(), 'targetAttribute' => ['gate_id' => 'id']],
         ];
     }

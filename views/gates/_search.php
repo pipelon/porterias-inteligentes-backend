@@ -21,9 +21,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'location') ?>
+    <?= $form->field($model, 'open_script') ?>
 
-    <?= $form->field($model, 'active') ?>
+    <?= $form->field($model, 'close_script') ?>
+
+    <?php // echo $form->field($model, 'active') ?>
 
     <?php // echo $form->field($model, 'created') ?>
 

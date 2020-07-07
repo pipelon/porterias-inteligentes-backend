@@ -9,10 +9,9 @@ use Yii;
  *
  * @property int $id ID
  * @property int $housing_estate_id Unidad residencial
- * @property string $name Puerta
- * @property string $location Ubicación
- * @property int $state Estado
- * @property string $state_description Descripción de estado
+ * @property string $name Nombre
+ * @property string $open_script Script apertura de puerta
+ * @property string $close_script Script cerrado de puerta
  * @property int $active Activo
  * @property string $created Creado
  * @property string $created_by Creado por
@@ -39,11 +38,11 @@ class Gates extends BeforeModel {
      */
     public function rules() {
         return [
-            [['housing_estate_id', 'name', 'location'], 'required'],
-            [['housing_estate_id', 'state', 'active'], 'integer'],
-            [['state_description'], 'string'],
+            [['housing_estate_id', 'name', 'open_script', 'close_script'], 'required'],
+            [['housing_estate_id', 'active'], 'integer'],
+            [['open_script', 'close_script'], 'string'],
             [['created', 'modified'], 'safe'],
-            [['name', 'location'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
             [['housing_estate_id'], 'exist', 'skipOnError' => true, 'targetClass' => HousingEstate::className(), 'targetAttribute' => ['housing_estate_id' => 'id']],
         ];
@@ -56,10 +55,9 @@ class Gates extends BeforeModel {
         return [
             'id' => 'ID',
             'housing_estate_id' => 'Unidad residencial',
-            'name' => 'Puerta',
-            'location' => 'Ubicación',
-            'state' => 'Estado',
-            'state_description' => 'Descripción de estado',
+            'name' => 'Nombre',
+            'open_script' => 'Script apertura de puerta',
+            'close_script' => 'Script cerrado de puerta',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',

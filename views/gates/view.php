@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Gates */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Gates', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Puertas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="gates-view box box-primary">
@@ -36,12 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'housing_estate_id',
                     'format' => 'raw',
-                    'value' => function ($data) {            
+                    'value' => function ($data) {
                         return $data->housingEstate->name;
                     },
                 ],
                 'name',
-                'location',
+                'open_script:ntext',
+                'close_script:ntext',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',
